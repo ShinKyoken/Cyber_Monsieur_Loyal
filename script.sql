@@ -89,8 +89,8 @@ create table APPARTENIR (
 
 create table INSCRIRE (
   idT int,
-  idP int,
-  primary key(idT,idP),
+  idE int,
+  primary key(idT,idE),
   foreign key (idE) references EQUIPE(idE),
   foreign key (idT) references TOURNOI(idT)
 )
