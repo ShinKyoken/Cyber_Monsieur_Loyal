@@ -4,8 +4,8 @@ drop table CONSTITUER;
 drop table APPARTENIR;
 drop table PARTIE;
 drop table PHOTO;
-drop table ADMIN;
 drop table TOURNOI;
+drop table ADMIN;
 drop table EQUIPE;
 drop table PARTICIPANT;
 
@@ -22,8 +22,9 @@ create table ADMIN (
 
 create table TOURNOI (
   idT int primary key,
+  idAdmin int,
   regleT varchar(200),
-  dateT date,
+  dateT datetime,
   dureeT varchar(5),
   intituleT varchar(20),
   descT varchar(200),
@@ -33,7 +34,10 @@ create table TOURNOI (
   lienT varchar(20),
   nbParticipantsMax int,
   disciplineT varchar(20),
-  lieuT varchar(100)
+  lieuT varchar(100),
+  foreign key (idAdmin) references ADMIN(idAdmin)
+
+
 );
 
 create table PARTICIPANT (
@@ -92,7 +96,9 @@ create table PARTIE (
 create table PARTICIPERPARTIE (
   idE int,
   idPartie int,
-  primary key(idE,idPartie),
+  idT int,
+  primary key(idE,idPartie,idT),
   foreign key (idE) references EQUIPE(idE),
-  foreign key (idPartie) references PARTIE(idPartie)
+  foreign key (idPartie) references PARTIE(idPartie),
+  foreign key (idT) references TOURNOI(idT)
 );
