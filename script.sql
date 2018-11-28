@@ -23,15 +23,15 @@ create table TOURNOI (
   regleT varchar(200),
   dateT date,
   dureeT varchar(5),
-  nomT varchar(20),
+  intituleT varchar(20),
   descT varchar(200),
   typeT varchar(20),
   etatT int,
   nbEquipe int,
   lienT varchar(20),
   nbParticipantsMax int,
-  lieuT varchar(100),
-  discipline varchar(20)
+  disciplineT varchar(20),
+  lieuT varchar(100)
 );
 
 create table PARTICIPANT (
@@ -43,16 +43,16 @@ create table PARTICIPANT (
 
 create table EQUIPE (
   idE int primary key,
-  nomE varchar(20),
   etatE number(1),
   nbParticipant int,
   idChefE int unique,
+  nomE varchar(20),
   foreign key (idChefE) references PARTICIPANT(idP)
 );
 
 create table PHOTO (
   idPhoto int primary key,
-  Photo blob,
+  Photo varchar(40),
   descPhoto varchar(20),
   datePhoto date
 );
