@@ -1,8 +1,8 @@
-drop table PARTICIPERMATCH;
+drop table PARTICIPERPARTIE;
 drop table INSCRIRE;
 drop table CONSTITUER;
 drop table APPARTENIR;
-drop table MATCH;
+drop table PARTIE;
 drop table PHOTO;
 drop table ADMIN;
 drop table TOURNOI;
@@ -18,6 +18,7 @@ create table ADMIN (
   mailAdmin varchar(100),
   dateInsc date
 );
+
 
 create table TOURNOI (
   idT int primary key,
@@ -44,7 +45,7 @@ create table PARTICIPANT (
 
 create table EQUIPE (
   idE int primary key,
-  etatE number(1),
+  etatE int,
   nbParticipant int,
   idChefE int unique,
   nomE varchar(20),
@@ -66,19 +67,6 @@ create table CONSTITUER (
   foreign key (idP) references PARTICIPANT(idP)
 );
 
-create table MATCH (
-  idMatch int primary key,
-  carteMatch varchar(20)
-);
-
-create table PARTICIPERMATCH (
-  idE int,
-  idMatch int,
-  primary key(idE,idMatch),
-  foreign key (idE) references EQUIPE(idE),
-  foreign key (idMatch) references MATCH(idMatch)
-);
-
 create table APPARTENIR (
   idPhoto int,
   idT int,
@@ -93,4 +81,18 @@ create table INSCRIRE (
   primary key(idT,idE),
   foreign key (idE) references EQUIPE(idE),
   foreign key (idT) references TOURNOI(idT)
-)
+);
+
+
+create table PARTIE (
+  idPartie int primary key,
+  cartePartie varchar(20)
+);
+
+create table PARTICIPERPARTIE (
+  idE int,
+  idPartie int,
+  primary key(idE,idPartie),
+  foreign key (idE) references EQUIPE(idE),
+  foreign key (idPartie) references PARTIE(idPartie)
+);
