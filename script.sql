@@ -1,4 +1,5 @@
 drop table PARTICIPERMATCH;
+drop table INSCRIRE;
 drop table CONSTITUER;
 drop table APPARTENIR;
 drop table MATCH;
@@ -85,3 +86,11 @@ create table APPARTENIR (
   foreign key (idT) references TOURNOI(idT),
   foreign key (idPhoto) references PHOTO(idPhoto)
 );
+
+create table INSCRIRE (
+  idT int,
+  idP int,
+  primary key(idT,idP),
+  foreign key (idE) references EQUIPE(idE),
+  foreign key (idT) references TOURNOI(idT)
+)
