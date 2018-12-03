@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block main %}
 <div class="sample">
-  <h1>{{ title }}</h1>
-  {% for x in books %}
-  <a class="col-md-3 col-xs-6 col-sm-4" href="{{ x.url }}" target=" blank ">
-    <img src = "{{ url_for('static', filename='images/'+x.img) }}"/>
-  </a>
-  {% endfor %}
+  <div class="container row">
+    <div class="col-md-6">
+      <h1>Créer votre compétition facilement !</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </div>
+    <img src="https://us.123rf.com/450wm/4zevar/4zevar1508/4zevar150800104/44121294-lecteur-vid%C3%A9o.jpg?ver=6" alt="IMAGE">
+  </div>
 </div>
   {% endblock %}

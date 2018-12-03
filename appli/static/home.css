@@ -1,11 +1,10 @@
 h1 {
+  margin-bottom: 1em;
   color:red;
 }
 
 div.sample{
-  text-align: center;
-  /* margin-left: 25%;
-  margin-right: 25; */
+
 }
 
 #main{
@@ -17,5 +16,5 @@ body{
 }
 
 img{
-  padding-bottom: 25%;
+
 }

@@ -1,4 +1,4 @@
 from .app import app, db
-import testAuth.commands
-import testAuth.models
-import testAuth.views
+import appli.commands
+import appli.models
+import appli.views
