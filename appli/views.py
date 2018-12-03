@@ -6,3 +6,8 @@ from flask import render_template, redirect, url_for
 def home():
     return render_template(
         "home.html")
+
+@app.route("/connexion")
+def connect():
+    return render_template(
+        "connexion.html")
