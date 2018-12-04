@@ -15,3 +15,8 @@ def creerCompetition():
 @app.route("/confirmer_tournoi")
 def confirmer_tournoi():
     return render_template("confirmerTournoi.html")
+
+@app.route("/connexion")
+def connect():
+    return render_template(
+        "connexion.html")
