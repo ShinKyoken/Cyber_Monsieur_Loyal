@@ -17,3 +17,8 @@ def creerCompetition():
 def connect():
     return render_template(
         "connexion.html")
+
+@app.route("/voirCompetition")
+def voirCompetition():
+    return render_template(
+        "voirCompetition.html")
