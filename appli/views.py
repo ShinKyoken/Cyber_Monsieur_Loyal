@@ -8,6 +8,12 @@ def home():
         "home.html")
 
 
+
 @app.route("/creerCompetition")
 def creerCompetition():
     return render_template("creerCompetition.html")
+
+@app.route("/connexion")
+def connect():
+    return render_template(
+        "connexion.html")
