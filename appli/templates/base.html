@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 {% endblock %}
 {% block navbar %}
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -20,21 +21,20 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Accueil</a></li>
-        <li><a href="/creerCompetition">Créer compétition</a></li>
-        <li><a href="#">Voir compétitions</a></li>
-        <li><a href="/connexion">Se connecter</a></li>
+        <li class="active"><a href="#">Accueil</a></li>
+        <li><a href="#about">Créer compétition</a></li>
+        <li><a href="#contact">Voir compétitions</a></li>
       </ul>
-      <span class="nav navbar-right">
-        <a href="/connexion">Se connecter</a>
-      </span>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../navbar-fixed-top/">Se connecter</a></li>
+      </ul>
     </div>
   </div>
 </nav>
 
 {% endblock %}
 {% block content %}
-<div id="main" class="container theme-showcase" role="main">
+<div id="main" class="" role="">
   {% block main %}{% endblock %}
 </div>
 {% endblock %}
