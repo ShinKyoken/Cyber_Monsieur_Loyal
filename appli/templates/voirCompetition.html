@@ -5,8 +5,9 @@
 {% endblock %}
 {% block main %}
 <div class="voirCompetition container-fluid">
+  <div class="container"
   <form role="form" method="POST" action="voirCompetition.html">
-    <h1>Voici les compétitions en cours!</h1>
+    <h1 class="text-center">Voici les compétitions en cours!</h1>
     <div class="recherche input-group container">
       <input class="rechercheComp form-control" type="text">
       <div class="input-group-btn">
@@ -14,35 +15,36 @@
           <i class="glyphicon glyphicon-search"></i>
         </button>
       </div>
-
     </div>
   </form>
-
-
-<div>
-  <div class="listeTournois">
-    <div class="album py-5 bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-              <img class="card-img-top" src="https://ccfcquebec.files.wordpress.com/2010/04/image-petanque1.jpg" alt="Card image cap">
-              <div class="card-body">
-                <p class="card-text">Nom : Bizot tournament</p>
-                <p class="card-text">Discipline : Pétanque</p>
-                <p class="card-text">Participants : 18/26</p>
-                <p class="card-text">Mode : Elimination direct</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Détails</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+</div>
+  <div class="container divCartes">
+    <div class="row center-block">
+         <div class="col-md-4 col-sm-6 cartes">
+           <img class="img-circle center-block" src="../static/petanque.png" alt="Generic placeholder image" width="140" height="140">
+           <h2>Bizot Tournament</h2>
+           <p class="text-center">Le tournoi de Bizot à ne pas manquer ! Venez vous inscrire à ce fantastique tournoi de pétanque.</p>
+           <button class="btn btn-default center-block" href="#">Voir les détails </button>
+         </div><!-- /.col-lg-4 -->
+         <div class="col-md-4 col-sm-6 cartes">
+           <img class="img-circle center-block" src="../static/manette.png" alt="Generic placeholder image" width="140" height="140">
+           <h2>G@m3rs Tournament</h2>
+           <p class="text-center">Le tournoi de Bizot à ne pas manquer ! Venez vous inscrire à ce fantastique tournoi de pétanque.</p>
+           <button class="btn btn-default center-block" href="#">Voir les détails </button>
+         </div><!-- /.col-lg-4 -->
+         <div class="col-md-4 col-sm-6 cartes">
+           <img class="img-circle center-block" src="../static/check.png" alt="Generic placeholder image" width="140" height="140">
+           <h2>Tcheks Tournament</h2>
+           <p class="text-center">Le tournoi de Bizot à ne pas manquer ! Venez vous inscrire à ce fantastique tournoi de pétanque.</p>
+           <button class="btn btn-default center-block" href="#">Voir les détails </button>
+         </div><!-- /.col-lg-4 -->
+         <div class="col-md-4 col-sm-6 cartes">
+           <img class="img-circle center-block" src="../static/ski.png" alt="Generic placeholder image" width="140" height="140">
+           <h2>Ski en famille</h2>
+           <p class="text-center">Le tournoi de Bizot à ne pas manquer ! Venez vous inscrire à ce fantastique tournoi de pétanque.</p>
+           <button class="btn btn-default center-block" href="#">Voir les détails </button>
+         </div><!-- /.col-lg-4 -->
+       </div><!-- /.row -->
   </div>
 </div>
 {% endblock %}
