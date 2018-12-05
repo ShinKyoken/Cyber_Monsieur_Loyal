@@ -16,7 +16,7 @@ create table ADMIN (
   dateNaissAdmin date,
   mdpAdmin varchar(20),
   mailAdmin varchar(100),
-  dateInsc date
+  dateInsc date DEFAULT
 );
 
 
@@ -36,8 +36,6 @@ create table TOURNOI (
   disciplineT varchar(20),
   lieuT varchar(100),
   foreign key (idAdmin) references ADMIN(idAdmin)
-
-
 );
 
 create table PARTICIPANT (

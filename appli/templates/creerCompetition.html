@@ -4,74 +4,78 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='creerCompetition.css') }}">
 {% endblock %}
 {% block main %}
+<div class="container-fluid" id="containerCreerCompetFluid">
+<div class="container" id="containerCreerCompet">
 <form method="get" action="/confirmer_tournoi">
     <h1 class="text-center"><strong>Créer votre tournoi !</strong></h1>
     <div>
         <div class="form-group row">
             <div class="col-md-4">
-                <label>Nom du tournoi</label>
-                <input type="text" class="form-control" id="nomTournoi" placeholder="Insérez nom du tournoi">
+                <label class="labelStyle">Nom du tournoi</label>
+                <input type="text" class="form-control inputStyle" id="nomTournoi" placeholder="Insérez nom du tournoi">
             </div>
             <div class="col-md-4">
-                <label>Lieu</label>
-                <input type="text" class="form-control" id="lieu" placeholder="Insérez le lieu">
+                <label class="labelStyle">Lieu</label>
+                <input type="text" class="form-control inputStyle" id="lieu" placeholder="Insérez le lieu">
             </div>
             <div class="col-md-4">
-                <label>Discipline</label>
-                <input type="text" class="form-control" id="discipline" placeholder="Insérez la discipline">
+                <label class="labelStyle">Discipline</label>
+                <input type="text" class="form-control inputStyle" id="discipline" placeholder="Insérez la discipline">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
-                <label>Date de début du tournoi</label>
-                <input class="form-control" type="date" id="dateDebut" value="2011-08-19">
+                <label class="labelStyle">Date du tournoi</label>
+                <input class="form-control inputStyle" type="date" id="dateDebut">
             </div>
             <div class="col-md-6">
-                <label>Durée du tournoi</label>
-                <input type="number" class="form-control" id="DureeTournoi" placeholder="Insérez la durée du tournoi">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label>Nombre d'équipes</label>
-                <input type="number" class="form-control" id="nbEquipe" placeholder="Insérez le nombre d'équipes">
-            </div>
-            <div class="col-md-6">
-                <label>Nombre de membres par équipe</label>
-                <input type="number" class="form-control" id="nbMembre" placeholder="Insérez le nombre de membres par équipe">
+                <label class="labelStyle">Durée du tournoi</label>
+                <input type="number" class="form-control inputStyle" id="DureeTournoi" placeholder="Insérez la durée du tournoi">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
-                <label>Description</label>
-                <input type="textarea" class="form-control" id="description" placeholder="Insérez une description">
+                <label class="labelStyle">Nombre d'équipes</label>
+                <input type="number" class="form-control inputStyle" id="nbEquipe" placeholder="Insérez le nombre d'équipes">
             </div>
             <div class="col-md-6">
-                <label>Réglement</label>
-                <input type="textarea" class="form-control" id="reglement" placeholder="Insérez le réglement">
+                <label class="labelStyle">Nombre de membres par équipe</label>
+                <input type="number" class="form-control inputStyle" id="nbMembre" placeholder="Insérez le nombre de membres par équipe">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
-                <label>Lien du stream</label>
-                <input type="url" class="form-control" id="urlStream" placeholder="Insérez le lien du stream">
+                <label class="labelStyle">Description</label>
+                <input type="textarea" class="form-control inputStyle" id="description" placeholder="Insérez une description">
             </div>
             <div class="col-md-6">
-                <label>Logo</label>
-                <input type="text" class="form-control" id="image" placeholder="Importez une image">
+                <label class="labelStyle">Réglement</label>
+                <input type="textarea" class="form-control inputStyle" id="reglement" placeholder="Insérez le réglement">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label class="labelStyle">Lien du stream</label>
+                <input type="url" class="form-control inputStyle" id="urlStream" placeholder="Insérez le lien du stream">
+            </div>
+            <div class="col-md-6">
+                <label class="labelStyle">Logo</label>
+                <input type="text" class="form-control inputStyle" id="image" placeholder="Importez une image">
             </div>
         </div>
         <div class="form-group" >
-            <label>Type de tournoi : </label>
-            <select class="form-control" id="sel1">
+            <label class="labelStyle">Type de tournoi : </label>
+            <select class="form-control inputStyle" id="sel1">
                 <option>Élimination directe</option>
                 <option>Phase de poule</option>
                 <option>Championnat</option>
             </select>
         </div>
         <div class="form-group text-center">
-            <button class="btn btn-success btn-lg">Créer le tournoi</button>
+            <button class="btn btn-success btn-lg inputStyle">Créer le tournoi</button>
         </div>
     </div>
 </form>
+</div>
+</div>
 {% endblock %}
