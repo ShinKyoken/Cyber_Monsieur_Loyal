@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='tableauDeBord.css') }}">
+{% endblock %} 
+{% block main %}
+<div class="banner" id="container">
+    <h1 class="text-center"><strong>{{tournoi}}</strong></h1>
+    <div class="row">
+        <p class="col-md-3"><strong>Discipline : {{tournoi.disciplineTournoi}}</strong></p>
+        <p class="col-md-3"><strong>Organisateur : </strong></p>
+        <p class="col-md-2"><strong>Début : {{tournoi.dateTournoi}}</strong></p>
+        <p class="col-md-2"><strong>Fin : </strong></p>
+        <p class="col-md-2"><strong>Participants : {{tournoi.nbEquipes}}</strong></p>
+    </div>
+    <div class="row">
+        <button class="btn btn-success btn-lg inputStyle col-md-3">Voir les matchs</button>
+        <button class="btn btn-success btn-lg inputStyle col-md-2">Stream</button>
+        <button class="btn btn-success btn-lg inputStyle col-md-2">Photos</button>
+        <button class="btn btn-success btn-lg inputStyle col-md-2">Equipes</button>
+        <button class="btn btn-success btn-lg inputStyle col-md-3">Paramètres</button>
+    </div>
+        
+    </ul>
+</div>
+{% endblock %}

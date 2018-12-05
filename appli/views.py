@@ -25,3 +25,39 @@ def connect():
 def voirCompetition():
     return render_template(
         "voirCompetition.html")
+
+@app.route("/tableau_de_bord")
+def tableauDeBord():
+    return render_template(
+        "tableauDeBord.html", tournoi=["Pétanque","Concours informatique","Football"])
+
+@app.route("/voir_competition/<string:tournoi>")
+def tournoi(tournoi):
+    return render_template(
+        "tournoi.html", tournoi=tournoi)
+
+@app.route("/voir_competition/<string:tournoi>/voir_les_maths")
+def voirMatchs(tournoi):
+    return render_template(
+        "voirMatchs.html", tournoi=tournoi)
+
+@app.route("/voir_competition/<string:tournoi>/stream")
+def voirStream(tournoi):
+    return render_template(
+        "stream.html", tournoi=tournoi)
+
+@app.route("/voir_competition/<string:tournoi>/photos")
+def voirPhotos(tournoi):
+    return render_template(
+        "photo.html", tournoi=tournoi)
+
+@app.route("/voir_competition/<string:tournoi>/Equipes")
+def equipe(tournoi):
+    return render_template(
+        "equipe.html", tournoi=tournoi)
+
+@app.route("/voir_competition/<string:tournoi>/paramètres")
+def paramètre(tournoi):
+    return render_template(
+        "paramètres.html", tournoi=tournoi)
+
