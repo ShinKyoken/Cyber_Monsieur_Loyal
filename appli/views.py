@@ -21,7 +21,7 @@ def connect():
     return render_template(
         "connexion.html")
 
-@app.route("/voirCompetition")
+@app.route("/voir_competition")
 def voirCompetition():
     return render_template(
         "voirCompetition.html")
