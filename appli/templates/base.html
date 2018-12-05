@@ -5,27 +5,33 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 {% endblock %}
 {% block navbar %}
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">CYBER MONSIEUR LOYAL</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Accueil</a></li>
-          <li><a href="#about">Créer compétition</a></li>
-          <li><a href="#contact">Voir compétitions</a></li>
-          <li><a href="#contact">Se connecter</a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <img src="./static/CML_Logo.png" alt="logo" width="28" height="25">
+      </a>
     </div>
-  </nav>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Accueil</a></li>
+        <li><a href="/creerCompetition">Créer compétition</a></li>
+        <li><a href="#">Voir compétitions</a></li>
+        <li><a href="/connexion">Se connecter</a></li>
+      </ul>
+      <span class="nav navbar-right">
+        <a href="/connexion">Se connecter</a>
+      </span>
+    </div>
+  </div>
+</nav>
+
 {% endblock %}
 {% block content %}
 <div id="main" class="container theme-showcase" role="main">
