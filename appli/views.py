@@ -30,3 +30,8 @@ def voirCompetition():
 def tableauDeBord():
     return render_template(
         "tableauDeBord.html", tournoi=["Pétanque","Concours informatique","Football"])
+
+@app.route("/voir_competition/test")
+def tournoi():
+    return render_template(
+        "tournoi.html", tournoi="Pétanque")
