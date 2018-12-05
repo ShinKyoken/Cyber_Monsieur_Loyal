@@ -1,13 +1,10 @@
 drop table PARTICIPERPARTIE;
-drop table INSCRIRE;
-drop table CONSTITUER;
-drop table APPARTENIR;
-drop table PARTIE;
 drop table PHOTO;
-drop table TOURNOI;
-drop table ADMIN;
-drop table EQUIPE;
+drop table PARTIE;
 drop table PARTICIPANT;
+drop table EQUIPE;
+drop table ADMIN;
+drop table TOURNOI;
 
 create table ADMIN (
   idAdmin int primary key,
@@ -42,7 +39,9 @@ create table PARTICIPANT (
   idP int primary key,
   nomP varchar(20),
   prenomP varchar(20),
-  mailP varchar(20)
+  mailP varchar(20),
+  idE int,
+  foreign key (idE) references EQUIPE(idE)
 );
 
 create table EQUIPE (
@@ -51,40 +50,19 @@ create table EQUIPE (
   nbParticipant int,
   idChefE int unique,
   nomE varchar(20),
-  foreign key (idChefE) references PARTICIPANT(idP)
+  idT int,
+  foreign key (idChefE) references PARTICIPANT(idP),
+  foreign key (idT) references TOURNOI(idT)
 );
 
 create table PHOTO (
   idPhoto int primary key,
   Photo varchar(40),
   descPhoto varchar(20),
-  datePhoto date
-);
-
-create table CONSTITUER (
-  idP int,
-  idE int,
-  primary key(idP,idE),
-  foreign key (idE) references EQUIPE(idE),
-  foreign key (idP) references PARTICIPANT(idP)
-);
-
-create table APPARTENIR (
-  idPhoto int,
+  datePhoto date,
   idT int,
-  primary key(idPhoto,idT),
-  foreign key (idT) references TOURNOI(idT),
-  foreign key (idPhoto) references PHOTO(idPhoto)
-);
-
-create table INSCRIRE (
-  idT int,
-  idE int,
-  primary key(idT,idE),
-  foreign key (idE) references EQUIPE(idE),
   foreign key (idT) references TOURNOI(idT)
 );
-
 
 create table PARTIE (
   idPartie int primary key,
