@@ -25,3 +25,8 @@ def connect():
 def voirCompetition():
     return render_template(
         "voirCompetition.html")
+
+@app.route("/tableau_de_bord")
+def tableauDeBord():
+    return render_template(
+        "tableauDeBord.html", tournoi=["Pétanque","Concours informatique","Football"])
