@@ -2,9 +2,9 @@ drop table PARTICIPERPARTIE;
 drop table PHOTO;
 drop table PARTIE;
 drop table PARTICIPANT;
+drop table TOURNOI;
 drop table EQUIPE;
 drop table ADMIN;
-drop table TOURNOI;
 
 create table ADMIN (
   idAdmin int primary key,
@@ -13,9 +13,8 @@ create table ADMIN (
   dateNaissAdmin date,
   mdpAdmin varchar(20),
   mailAdmin varchar(100),
-  dateInsc date DEFAULT
+  dateInsc date
 );
-
 
 create table TOURNOI (
   idT int primary key,
@@ -35,15 +34,6 @@ create table TOURNOI (
   foreign key (idAdmin) references ADMIN(idAdmin)
 );
 
-create table PARTICIPANT (
-  idP int primary key,
-  nomP varchar(20),
-  prenomP varchar(20),
-  mailP varchar(20),
-  idE int,
-  foreign key (idE) references EQUIPE(idE)
-);
-
 create table EQUIPE (
   idE int primary key,
   etatE int,
@@ -53,6 +43,15 @@ create table EQUIPE (
   idT int,
   foreign key (idChefE) references PARTICIPANT(idP),
   foreign key (idT) references TOURNOI(idT)
+);
+
+create table PARTICIPANT (
+  idP int primary key,
+  nomP varchar(20),
+  prenomP varchar(20),
+  mailP varchar(20),
+  idE int,
+  foreign key (idE) references EQUIPE(idE)
 );
 
 create table PHOTO (
