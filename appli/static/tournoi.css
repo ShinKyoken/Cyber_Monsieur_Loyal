@@ -1,11 +1,9 @@
-nav>ul>li{
-    list-style:none;
-    margin-bottom:2vw;
-    padding-top:3vw;
+button{
+    margin-top:4vw;
 }
 
 ul{
-    margin-top:3vw;
+    margin-top:0vw;
 }
 
 .banner{
@@ -18,7 +16,7 @@ ul{
 
 .sidebar{
     background-color: white;
-    padding-bottom:40vw; 
+    padding-bottom:5vw; 
 }
 
 
