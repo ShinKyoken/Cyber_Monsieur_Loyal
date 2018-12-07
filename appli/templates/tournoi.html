@@ -1,36 +1,19 @@
 {% extends "base.html" %} {% block styles %} {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='tableauDeBord.css') }}"> 
-{% endblock %} {% block main %}
-<div class="container-fluid banner">
-    <div class="container">
-        <h1 class="text-center">
-            <strong>{{tournoi}}</strong>
-        </h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='tournoi.css') }}"> {% endblock %} {% block main %}
+<div class=" banner">
+    <div class="">
         <div class="row">
-            <p class="col-md-3">
-                <strong>Discipline : {{tournoi.disciplineTournoi}}</strong>
-            </p>
-            <p class="col-md-3">
-                <strong>Organisateur : </strong>
-            </p>
-            <p class="col-md-2">
-                <strong>Début : {{tournoi.dateTournoi}}</strong>
-            </p>
-            <p class="col-md-2">
-                <strong>Fin : </strong>
-            </p>
-            <p class="col-md-2">
-                <strong>Participants : {{tournoi.nbEquipes}}</strong>
-            </p>
-        </div>
-        <div class="row center-block">
-            <button class="btn btn-success btn-lg inputStyle col-md-2">Voir les matchs</button>
-            <button class="btn btn-success btn-lg inputStyle col-md-2">Stream</button>
-            <button class="btn btn-success btn-lg inputStyle col-md-2">Photos</button>
-            <button class="btn btn-success btn-lg inputStyle col-md-2">Equipes</button>
-            <button class="btn btn-success btn-lg inputStyle col-md-2">Modifier tournoi</button>
-        </div>
-        <div class="row">
+            <div class="col-md-4 sidebar">
+                <nav>
+                    <ul>
+                        <button>Voir les matchs</button>
+                        <button>Stream</button>
+                        <button>Photos</buton>
+                        <button>Equipes</button>
+                        <button>Modifier tournoi</button>
+                    </ul>
+                </nav>
+            </div>
             <div class="col-md-6">
                 <div>
                     <h2>
@@ -58,13 +41,13 @@
                         dans des applications de mise en page de texte, comme Aldus PageMaker.
                     </p>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <h2>
-                    <strong>Historique</strong>
-                </h2>
+                <div>
+                    <h2>
+                        <strong>Historique</strong>
+                    </h2>
+                </div>
             </div>
         </div>
+    </div>
 </div>
-
 {% endblock %}
