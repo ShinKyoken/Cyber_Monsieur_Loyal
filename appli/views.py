@@ -60,3 +60,8 @@ def equipe(tournoi):
 def paramètre(tournoi):
     return render_template(
         "paramètres.html", tournoi=tournoi)
+
+@app.route("/voir_competition/<string:tournoi>/creer_equipe")
+def creerEquipe(tournoi):
+    return render_template(
+        "creerEquipe.html", tournoi=tournoi, tailleEquipe=6)
