@@ -23,7 +23,15 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Accueil</a></li>
         <li><a href="/creer_competition">Créer compétition</a></li>
-        <li><a href="/voir_competition">Voir compétitions</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle "id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Voir compétitions
+          </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="/voir_competitions_actives">Compétitions actives</a></li>
+              <li><a href="/voir_competitions_terminees">Compétitions terminées</a></li>
+            </ul>
+        </li>
         <li><a href="/tableau_de_bord">Tableau de bord</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -39,3 +47,13 @@
   {% block main %}{% endblock %}
 </div>
 {% endblock %}
+
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Voir compétitions
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Compétitions actives</a></li>
+    <li><a href="#">Compétitions terminées</a></li>
+  </ul>
+</div>

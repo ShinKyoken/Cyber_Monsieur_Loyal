@@ -21,10 +21,15 @@ def connect():
     return render_template(
         "connexion.html")
 
-@app.route("/voir_competition")
-def voirCompetition():
+@app.route("/voir_competitions_actives")
+def voirCompetitionsActives():
     return render_template(
-        "voirCompetition.html")
+        "voirCompetitionsActives.html")
+
+@app.route("/voir_competitions_terminees")
+def voirCompetitionsTerminees():
+    return render_template(
+        "voirCompetitionsTerminees.html")
 
 @app.route("/tableau_de_bord")
 def tableauDeBord():
@@ -36,7 +41,7 @@ def tournoi(tournoi):
     return render_template(
         "tournoi.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/voir_les_maths")
+@app.route("/voir_competition/<string:tournoi>/voir_les_matchs")
 def voirMatchs(tournoi):
     return render_template(
         "voirMatchs.html", tournoi=tournoi)
@@ -60,4 +65,3 @@ def equipe(tournoi):
 def paramètre(tournoi):
     return render_template(
         "paramètres.html", tournoi=tournoi)
-
