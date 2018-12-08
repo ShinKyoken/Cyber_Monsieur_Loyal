@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Listes des auteurs</h1>
+{% for admin in listeAdmins %}
+  <a class="col-md-4 col-xs-6 col-sm-4" href="#">
+    <label> {{ admin.nomAdmin }} {{ admin.idAdmin }} </label>
+  </a>
+{% endfor %}
+{% endblock %}

@@ -37,6 +37,7 @@ class EQUIPE(db.Model):
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
     Photo     = db.Column(db.String(100))
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
@@ -45,19 +46,18 @@ class CONSTITUER(db.Model):
     idP = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"),primary_key=True)
     idE = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"), primary_key=True)
 
-class APPARTENIR(db.Model):
-    idPhoto = db.Column(db.Integer, db.ForeignKey("PHOTO.idPhoto"),primary_key=True)
-    idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), primary_key=True)
-
 class INSCRIRE(db.Model):
     idT = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), primary_key=True)
     idE = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
 
 class PARTIE(db.Model):
-    idPartie = db.Column(db.Integer, primary_key=True)
+    idPartie   = db.Column(db.Integer, primary_key=True)
     carteParie = db.Column(db.String(100))
 
 class PARTICIPERPARTIE(db.Model):
-    idE = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
+    idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
     idPartie = db.Column(db.Integer, db.ForeignKey("PARTIE.idPartie"),primary_key=True)
-    idT = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
+    idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
+
+def get_All_Admin():
+    return ADMIN.query.all()

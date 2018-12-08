@@ -65,3 +65,9 @@ def equipe(tournoi):
 def paramètre(tournoi):
     return render_template(
         "paramètres.html", tournoi=tournoi)
+
+@app.route("/listeAdmins")
+def listeAdmins():
+    return render_template(
+    "listeAdmin.html", listeAdmins = get_All_Admin()
+    )
