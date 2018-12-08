@@ -56,7 +56,7 @@ def equipe(tournoi):
     return render_template(
         "equipe.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/paramètres")
+@app.route("/voir_competition/<string:tournoi>/parametres")
 def paramètre(tournoi):
     return render_template(
         "paramètres.html", tournoi=tournoi)
