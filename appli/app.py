@@ -13,6 +13,6 @@ def mkpath(p):
 
 from flask_sqlalchemy import SQLAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = ('sqlite:///'+mkpath('./books.db'))
+app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql://pandion:pandion@localhost/servinfo-mariadb/DBpandion')
 db=SQLAlchemy(app)
 app.config['SECRET_KEY'] = "3ec22ed8-06fd-455e-8132-94b9fc65ba51"
