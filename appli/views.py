@@ -29,7 +29,7 @@ def voirCompetitionsActives():
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
-        "voirCompetitionsTerminees.html")
+        "voirCompetitionsTerminees.html",tournois = get_All_Tournoi())
 
 @app.route("/tableau_de_bord")
 def tableauDeBord():

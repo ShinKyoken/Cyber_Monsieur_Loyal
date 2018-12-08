@@ -61,3 +61,6 @@ class PARTICIPERPARTIE(db.Model):
 
 def get_All_Admin():
     return ADMIN.query.all()
+
+def get_All_Tournoi():
+    return TOURNOI.query.all()
