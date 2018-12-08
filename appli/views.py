@@ -65,3 +65,7 @@ def paramètre(tournoi):
 def creerEquipe(tournoi):
     return render_template(
         "creerEquipe.html", tournoi=tournoi, tailleEquipe=6)
+
+@app.route("/listeAdmins")
+def listeAdmins():
+    return render_template("listeAdmin.html",listeAdmins=get_All_admin())
