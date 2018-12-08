@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='voirCompetition.css') }}">
+{% endblock %}
+{% block main %}
+<div class="container-fluid voirCompetition">
+  <div class="container">
+    <h1 id="nom_equipe" >{{ tournoi }}</h1>
+      <!-- Example row of columns -->
+      <form method="get" action="#">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon3">Nom de l'équipe</span>
+          <input type="text" class="form-control" id="" aria-describedby="basic-addon3">
+        </div>
+      </form>
+      <div class="row">
+        {% for x in range(tailleEquipe) %}
+        <div class="col-sm-6 col-md-{{12//(tailleEquipe//2)}}">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>Membre {{x+1}}</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+  </div>
+</div>
+{% endblock %}
