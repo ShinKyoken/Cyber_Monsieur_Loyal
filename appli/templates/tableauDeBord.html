@@ -9,7 +9,7 @@
     <h2 class="text-center"><strong>Mes compétitions</strong></h2>
     <ul>
         {% for x in tournoi %}
-        <li class="text-center"><a href="/voir_competition/{{x}}">{{x.intituleT}}</a></li>
+        <li class="text-center"><a href="/voir_competition/{{x.idT}}">{{x.intituleT}}</a></li>
         {% endfor %}
     </ul>
 </div>
