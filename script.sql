@@ -12,8 +12,6 @@ create table ADMIN (
   prenomAdmin varchar(20),
   dateNaissAdmin date,
   mdpAdmin varchar(20),
-  mailAdmin varchar(100),
-  dateInsc date
 );
 
 create table TOURNOI (
@@ -51,8 +49,6 @@ create table PARTICIPANT (
   nomP varchar(20),
   prenomP varchar(20),
   mailP varchar(20),
-  idE int,
-  foreign key (idE) references EQUIPE(idE)
 );
 
 create table PHOTO (
