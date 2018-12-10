@@ -4,13 +4,28 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='photo.css') }}">
 {% endblock %} 
 {% block main %}
-<div class="banner" id="container">
-    <h1 class="text-center"><strong>Photos</strong></h1>
-    <h2 class="text-center"><strong>{{tournoi}}</strong></h2>
-    {% for photo in photos %}
-    <div class="row divPhoto">
-        <img class="col-md-4" src={{photo.img}} alt="Generic placeholder image" >
-        <p class="col-md-6">{{photo.desc}}</p>
+<div class="voirCompetition container-fluid">
+    <h1 class="text-center">Photos</h1>
+    <h2 class="text-center">{{tournoi}}</h2>
+    <div class="row">
+            <form method="get" action="/voir_competitions_actives/{{tournoi}}">
+                <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Retour</button>
+            </form>
+            <form method="get" action="">
+                <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Ajouter une photo</button>
+            </form>
     </div>
-    {% endfor %}
+    <div class="container divCartes">
+        <div class="row center-block">
+            {% for photo in photos %}
+                <div class="col-md-4 col-sm-6 thumbnail cartes">
+                <img class="center-block" src="{{ photo.img }}" alt="Generic placeholder image" width="140" height="140">
+                <p class="text-center">{{ photo.desc }}</p>
+                <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
+                </div><!-- /.col-lg-4 -->
+            {% endfor %}
+        </div><!-- /.row -->
+    </div>
+</div>
+
 {% endblock %}
