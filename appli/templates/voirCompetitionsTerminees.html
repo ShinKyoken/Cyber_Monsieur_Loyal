@@ -21,30 +21,14 @@
 </div>
   <div class="container divCartes">
     <div class="row center-block">
+      {% for tournoi in tournois %}
          <div class="col-md-4 col-sm-6 thumbnail cartes">
-           <img class="center-block" src="../static/petanque.png" alt="Generic placeholder image" width="140" height="140">
-           <h2>Bizot Tournament</h2>
-           <p class="text-center">Le tournoi des gamers confirmés, la crème de la crème du gaming.</p>
+           <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
+           <h2>{{ tournoi.intituleT }}</h2>
+           <p class="text-center">{{ tournoi.descT }}</p>
            <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
          </div><!-- /.col-lg-4 -->
-         <div class="col-md-4 col-sm-6 thumbnail cartes">
-           <img class="center-block" src="../static/manette.png" alt="Generic placeholder image" width="140" height="140">
-           <h2>G@m3rs Tournament</h2>
-           <p class="text-center">Le tournoi des gamers confirmés, la crème de la crème du gaming.</p>
-           <button class="bouton center-block">Voir les détails  <span class="glyphicon glyphicon-search"></span></button>
-         </div><!-- /.col-lg-4 -->
-         <div class="col-md-4 col-sm-6 thumbnail cartes">
-           <img class="center-block" src="../static/check.png" alt="Generic placeholder image" width="140" height="140">
-           <h2>Tcheks Tournament</h2>
-           <p class="text-center">Le tournoi de Bizot à ne pas manquer ! Venez vous inscrire à ce fantastique tournoi de pétanque.</p>
-           <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
-         </div><!-- /.col-lg-4 -->
-         <div class="col-md-4 col-sm-6 thumbnail cartes">
-           <img class="center-block" src="../static/ski.png" alt="Generic placeholder image" width="140" height="140">
-           <h2>Ski en famille</h2>
-           <p class="text-center">Le tournoi de Bizot à ne pas manquer ! Venez vous inscrire à ce fantastique tournoi de pétanque.</p>
-           <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span> </button>
-         </div><!-- /.col-lg-4 -->
+      {% endfor %}
        </div><!-- /.row -->
      </div>
 </div>

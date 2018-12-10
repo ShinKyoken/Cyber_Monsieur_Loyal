@@ -31,6 +31,7 @@ create table TOURNOI (
   nbParticipantsMax int,
   disciplineT varchar(20),
   lieuT varchar(100),
+  logoT text,
   foreign key (idAdmin) references ADMIN(idAdmin)
 );
 

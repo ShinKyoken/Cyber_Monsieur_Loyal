@@ -24,12 +24,12 @@ def connect():
 @app.route("/voir_competitions_actives")
 def voirCompetitionsActives():
     return render_template(
-        "voirCompetitionsActives.html")
+        "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs())
 
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
-        "voirCompetitionsTerminees.html",tournois = get_All_Tournoi())
+        "voirCompetitionsTerminees.html",tournois = get_All_Tournois_Terminees())
 
 @app.route("/tableau_de_bord")
 def tableauDeBord():
@@ -69,5 +69,5 @@ def paramètre(tournoi):
 @app.route("/listeAdmins")
 def listeAdmins():
     return render_template(
-    "listeAdmin.html", listeAdmins = get_All_Admin()
+    "listeAdmin.html", listeAdmins = get_All_Admins()
     )

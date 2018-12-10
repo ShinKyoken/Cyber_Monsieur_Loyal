@@ -13,14 +13,15 @@ class TOURNOI(db.Model):
     regleT           = db.Column(db.String(100))
     dateT            = db.Column(db.Date)
     dureeT           = db.Column(db.String(5))
-    intituleT        = db.Column(db.String(30))
-    descT            = db.Column(db.String(30))
+    intituleT        = db.Column(db.String(50))
+    descT            = db.Column(db.String(100))
     typeT            = db.Column(db.String(30))
     etatT            = db.Column(db.Integer)
     nbEquipe         = db.Column(db.Integer)
     nbParicipantsMax = db.Column(db.Integer)
     disciplineT      = db.Column(db.String(30))
     lieuT            = db.Column(db.String(30))
+    logoT            = db.Column(db.Text)
 
 class PARTICIPANT(db.Model):
     idP     = db.Column(db.Integer, primary_key = True)
@@ -59,8 +60,11 @@ class PARTICIPERPARTIE(db.Model):
     idPartie = db.Column(db.Integer, db.ForeignKey("PARTIE.idPartie"),primary_key=True)
     idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
 
-def get_All_Admin():
+def get_All_Admins():
     return ADMIN.query.all()
 
-def get_All_Tournoi():
-    return TOURNOI.query.all()
+def get_All_Tournois_Actifs():
+    return TOURNOI.query.filter_by(etatT = 1)
+
+def get_All_Tournois_Terminees():
+    return TOURNOI.query.filter_by(etatT = 2)
