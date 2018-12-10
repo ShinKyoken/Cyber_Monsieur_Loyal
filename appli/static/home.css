@@ -1,7 +1,22 @@
+@font-face {
+    font-family: Adrenaline;
+    src: url("Adrenaline-Regular.woff2");
+}
+
 
 h1 {
   margin-bottom: 1em;
-  color:red;
+  font-family: Adrenaline;
+}
+h1.title {
+  font-size: 6em;
+}
+
+p.big {
+  font-size: 2em;
+}
+p.small {
+  font-size: 1.3em;
 }
 
 #main{
@@ -10,18 +25,20 @@ h1 {
 
 #banner
 {
-  padding-top: 20vh;
-  background: #FF5F6D;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  padding-top: 10vh;
+  /* background: #FF5F6D;
+  background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);
+  background: linear-gradient(to left, #FFC371, #FF5F6D); */
+  background-image: url("gradient_sky.jpg");
+  background-size: 100vw 100vh;
+  text-align: center;
 
-  /* min-height: 91.1vh; */
-  min-height: 100vh;
+  color: #F7F7F7;
+  /* min-height: 100vh; */
 }
 #service
 {
-  /* min-height: 91.2vh; */
-  min-height: 100vh;
+  /* min-height: 100vh; */
   /* padding-top: 5vh; */
   background: #7474BF;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #348AC7, #7474BF);  /* Chrome 10-25, Safari 5.1-6 */
@@ -37,9 +54,9 @@ h1 {
 }
 
 .foot {
-  min-height: 90vh;
+  /* min-height: 90vh; */
   /* padding-top: 50px; */
-  padding-top: 20vh;
+  padding: 10vh 0vh 10vh 0vh;
 }
 
 .footer {
@@ -57,4 +74,13 @@ h1 {
 
 .navbar {
   /* background-color: transparent; */
+}
+
+.thumbnail img {
+  margin-top: 1em;
+}
+
+.thumbnail h3 {
+  /* text-align: center; */
+  font-weight: bold;
 }
