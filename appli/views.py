@@ -36,32 +36,38 @@ def tableauDeBord():
     return render_template(
         "tableauDeBord.html", tournoi=["Pétanque","Concours informatique","Football"])
 
-@app.route("/voir_competition/<string:tournoi>")
+@app.route("/voir_competitions_actives/<string:tournoi>")
+@app.route("/voir_competitions_terminees/<string:tournoi>")
 def tournoi(tournoi):
     return render_template(
         "tournoi.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/voir_les_matchs")
+@app.route("/voir_competitions_actives/<string:tournoi>/voir_les_matchs")
+@app.route("/voir_competitions_terminees/<string:tournoi>/voir_les_matchs")
 def voirMatchs(tournoi):
     return render_template(
         "voirMatchs.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/stream")
+@app.route("/voir_competitions_actives/<string:tournoi>/stream")
+@app.route("/voir_competitions_terminees/<string:tournoi>/stream")
 def voirStream(tournoi):
     return render_template(
         "stream.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/photos")
+@app.route("/voir_competitions_actives/<string:tournoi>/photos")
+@app.route("/voir_competitions_terminees/<string:tournoi>/photos")
 def voirPhotos(tournoi):
     return render_template(
         "photo.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/Equipes")
+@app.route("/voir_competitions_actives/<string:tournoi>/Equipes")
+@app.route("/voir_competitions_terminees/<string:tournoi>/Equipes")
 def equipe(tournoi):
     return render_template(
         "equipe.html", tournoi=tournoi)
 
-@app.route("/voir_competition/<string:tournoi>/paramètres")
+@app.route("/voir_competitions_actives/<string:tournoi>/paramètres")
+@app.route("/voir_competitions_terminees/<string:tournoi>/paramètres")
 def paramètre(tournoi):
     return render_template(
         "paramètres.html", tournoi=tournoi)
