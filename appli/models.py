@@ -68,3 +68,6 @@ def get_All_Tournois_Actifs():
 
 def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
+
+def get_All_Tournois_Admin():
+    return TOURNOI.query.filter_by(idAdmin = 1)

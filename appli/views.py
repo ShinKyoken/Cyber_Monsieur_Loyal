@@ -34,7 +34,7 @@ def voirCompetitionsTerminees():
 @app.route("/tableau_de_bord")
 def tableauDeBord():
     return render_template(
-        "tableauDeBord.html", tournoi=["Pétanque","Concours informatique","Football"])
+        "tableauDeBord.html", tournoi= get_All_Tournois_Admin())
 
 @app.route("/voir_competitions_actives/<string:tournoi>")
 @app.route("/voir_competitions_terminees/<string:tournoi>")
