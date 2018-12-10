@@ -58,7 +58,9 @@ def voirStream(tournoi):
 @app.route("/voir_competitions_terminees/<string:tournoi>/photos")
 def voirPhotos(tournoi):
     return render_template(
-        "photo.html", tournoi=tournoi)
+        "photo.html", tournoi=tournoi, photos=[{"img":"https://parismatch.be/app/uploads/2018/04/Macaca_nigra_self-portrait_large-e1524567086123-1100x715.jpg", "desc":"une image d'un singe content"},
+        {"img":"https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/_jcr_content/main-pars/image/visual-reverse-image-search-v2_1000x560.jpg", "desc":"une image d'un papillon"}]
+    )
 
 @app.route("/voir_competitions_actives/<string:tournoi>/Equipes")
 @app.route("/voir_competitions_terminees/<string:tournoi>/Equipes")
