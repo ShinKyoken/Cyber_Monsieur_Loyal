@@ -79,3 +79,8 @@ def listeAdmins():
     return render_template(
     "listeAdmin.html", listeAdmins = get_All_Admins()
     )
+
+@app.route("/voir_competitions_actives/<string:tournoi>/Equipe/creer_equipe")
+def creerEquipe(tournoi):
+    return render_template(
+    "creerEquipe.html", tailleEquipe = 6, tournoi=tournoi)
