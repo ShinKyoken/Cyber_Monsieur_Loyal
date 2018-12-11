@@ -4,12 +4,10 @@
 }
 
 
-h1 {
-  margin-bottom: 1em;
-  font-family: Adrenaline;
-}
 h1.title {
   font-size: 6em;
+  margin-bottom: 1em;
+  font-family: Adrenaline;
 }
 
 p.big {
