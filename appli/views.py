@@ -1,6 +1,6 @@
 from .app import app
 from .models import *
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 @app.route("/")
 def home():
@@ -12,9 +12,26 @@ def home():
 def creerCompetition():
     return render_template("creerCompetition.html")
 
-@app.route("/confirmer_tournoi")
-def confirmer_tournoi():
+@app.route("/confirmer_competition", methods={"POST"})
+def confirmerTournoi():
+    tournoi = {}
+    tournoi['intituleT']         = request.form['intituleT']
+    tournoi['regleT']            = request.form['regleT']
+    tournoi['descT']             = request.form['descT']
+    tournoi['dateT']             = request.form['dateT']
+    tournoi['dureeT']            = request.form['dureeT']
+    tournoi['typeT']             = request.form['typeT']
+    tournoi['lieuT']             = request.form['lieuT']
+    tournoi['disciplineT']       = request.form['disciplineT']
+    tournoi['nbEquipe']          = request.form['nbEquipe']
+    tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
+    tournoi['logoT']             = request.form['logoT']
+    tournoi['etatT']             = 1
+    tournoi['idAdmin']           = 1
+    print(tournoi)
+    insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
+
 
 @app.route("/connexion")
 def connect():

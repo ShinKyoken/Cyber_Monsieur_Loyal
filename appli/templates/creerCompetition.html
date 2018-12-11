@@ -7,7 +7,7 @@
 {% block main %}
 <div class="container-fluid" id="containerCreerCompetFluid">
 <div class="container" id="containerCreerCompet">
-<form method="get" action="models.py">
+<form method="post" action="/confirmer_competition">
     <h1 class="text-center"><strong>Créer votre tournoi !</strong></h1>
     <div>
         <div class="form-group row">
@@ -61,19 +61,19 @@
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Logo</label>
-                <input type="text" class="form-control inputStyle" id="image" placeholder="Importez une image">
+                <input type="text" name="logoT" class="form-control inputStyle" id="image" placeholder="Importez une image">
             </div>
         </div>
         <div class="form-group" >
             <label class="labelStyle">Type de tournoi : </label>
-            <select class="form-control inputStyle" id="sel1">
+            <select class="form-control inputStyle" name="typeT" id="sel1">
                 <option>Élimination directe</option>
                 <option>Phase de poule</option>
                 <option>Championnat</option>
             </select>
         </div>
         <div class="form-group text-center">
-            <button class="btn btn-success btn-lg inputStyle">Créer le tournoi</button>
+            <button type="submit" class="btn btn-success btn-lg inputStyle">Créer le tournoi</button>
         </div>
     </div>
 </form>
