@@ -79,6 +79,7 @@ def insert_tournoi(tournoi):
     newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
-    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'], lieuT = tournoi['lieuT'], logoT = tournoi['logoT'])
+    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
+    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'])
     db.session.add(newTournoi)
     db.session.commit()
