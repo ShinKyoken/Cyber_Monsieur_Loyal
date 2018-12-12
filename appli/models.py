@@ -18,7 +18,7 @@ class TOURNOI(db.Model):
     typeT            = db.Column(db.String(30))
     etatT            = db.Column(db.Integer)
     nbEquipe         = db.Column(db.Integer)
-    nbParicipantsMax = db.Column(db.Integer)
+    nbParticipantsMax = db.Column(db.Integer)
     disciplineT      = db.Column(db.String(30))
     lieuT            = db.Column(db.String(30))
     logoT            = db.Column(db.Text)
@@ -68,3 +68,18 @@ def get_All_Tournois_Terminees():
 
 def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
+
+def get_Tournoi_by_id(id):
+    return TOURNOI.query.filter_by(idT = idT)
+
+def count_tournoi():
+    return TOURNOI.query.count()
+
+def insert_tournoi(tournoi):
+    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
+    dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
+    typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
+    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
+    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'])
+    db.session.add(newTournoi)
+    db.session.commit()

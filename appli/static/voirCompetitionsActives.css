@@ -13,6 +13,7 @@ h1{
 
 .divCartes{
   padding-top: 5vh;
+
 }
 
 .cartes{
@@ -29,7 +30,11 @@ img{
 
 .thumbnail{
   background-color: rgba(255,255,255,0.2);
-    }
+  max-width: 25vw;
+  max-height:30vh;
+  margin-left:2vh;
+}
+
 
 h2{
   color:black;
