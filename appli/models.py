@@ -70,7 +70,7 @@ def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
 
 def get_Tournoi_by_id(id):
-    return TOURNOI.query.filter_by(idT = idT)
+    return TOURNOI.query.filter_by(idT = id)[0]
 
 def count_tournoi():
     return TOURNOI.query.count()

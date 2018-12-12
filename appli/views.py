@@ -53,35 +53,35 @@ def tableauDeBord():
     return render_template(
         "tableauDeBord.html", tournoi= get_All_Tournois_Admin())
 
-@app.route("/voir_competitions/<int:tournoi>")
+@app.route("/voir_competition/<int:tournoi>"    )
 def tournoi(tournoi):
     return render_template(
-        "tournoi.html", tournoi=tournoi)
+        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi))
 
-@app.route("/voir_competitions/<int:tournoi>/voir_les_matchs")
+@app.route("/voir_competition/<int:tournoi>/voir_les_matchs")
 def voirMatchs(tournoi):
     return render_template(
-        "voirMatchs.html", tournoi=tournoi)
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))
 
-@app.route("/voir_competitions/<int:tournoi>/stream")
+@app.route("/voir_competition/<int:tournoi>/stream")
 def voirStream(tournoi):
     return render_template(
-        "stream.html", tournoi=tournoi)
+        "stream.html", tournoi=get_Tournoi_by_id(tournoi))
 
-@app.route("/voir_competitions/<int:tournoi>/photos")
+@app.route("/voir_competition/<int:tournoi>/photos")
 def voirPhotos(tournoi):
     return render_template(
-        "photo.html", tournoi=tournoi, photos=[{"img":"https://parismatch.be/app/uploads/2018/04/Macaca_nigra_self-portrait_large-e1524567086123-1100x715.jpg", "desc":"une image d'un singe content"},
+        "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=[{"img":"https://parismatch.be/app/uploads/2018/04/Macaca_nigra_self-portrait_large-e1524567086123-1100x715.jpg", "desc":"une image d'un singe content"},
         {"img":"https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/_jcr_content/main-pars/image/visual-reverse-image-search-v2_1000x560.jpg", "desc":"une image d'un papillon"}]
     )
 
-@app.route("/voir_competitions/<int:tournoi>/Equipes")
+@app.route("/voir_competition/<int:tournoi>/Equipes")
 def equipe(tournoi):
     return render_template(
         "equipe.html", tournoi=tournoi)
 
 
-@app.route("/voir_competitions/<int:tournoi>/paramètres")
+@app.route("/voir_competition/<int:tournoi>/paramètres")
 def paramètre(tournoi):
     return render_template(
         "paramètres.html", tournoi=tournoi)
