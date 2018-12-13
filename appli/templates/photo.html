@@ -6,21 +6,21 @@
 {% block main %}
 <div class="voirCompetition container-fluid">
     <h1 class="text-center">Photos</h1>
-    <h2 class="text-center">{{tournoi}}</h2>
+    <h2 class="text-center">{{tournoi.intituleT}}</h2>
     <div class="row">
-            <form method="get" action="/voir_competitions/{{tournoi}}">
+            <a href="/voir_competition/{{tournoi.idT}}">
                 <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Retour</button>
-            </form>
-            <form method="get" action="">
+            </a>
+            <a href="">
                 <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Ajouter une photo</button>
-            </form>
+            </a>
     </div>
     <div class="container divCartes">
         <div class="row center-block">
             {% for photo in photos %}
                 <div class="col-md-4 col-sm-6 thumbnail cartes">
-                <img class="center-block" src="{{ photo.img }}" alt="Generic placeholder image" width="140" height="140">
-                <p class="text-center">{{ photo.desc }}</p>
+                <img class="center-block" src="{{ photo.Photo }}" alt="Generic placeholder image" width="140" height="140">
+                <p class="text-center">{{ photo.descPhoto }}</p>
                 <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
                 </div><!-- /.col-lg-4 -->
             {% endfor %}
