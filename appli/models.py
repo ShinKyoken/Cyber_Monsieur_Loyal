@@ -76,17 +76,12 @@ def get_Tournoi_by_id(id):
 def count_tournoi():
     return TOURNOI.query.count()
 
-def get_nom_prenom_tournois_terminees():
-    tournois = get_All_Tournois_Terminees()
+def get_nom_prenom_by_tournoi(etatT):
     dico = {}
-    for tournoi in tournois:
-        admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
-        dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
-    return dico
-
-def get_nom_prenom_tournois_actifs():
-    tournois = get_All_Tournois_Actifs()
-    dico = {}
+    if etatT == 1:
+        tournois = get_All_Tournois_Actifs()
+    elif etatT == 2:
+        tournois = get_All_Tournois_Terminees()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
         dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]

@@ -42,14 +42,14 @@ def connect():
 def voirCompetitionsActives():
     return render_template(
         "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
-        dicoAdmin = get_nom_prenom_tournois_actifs()
+        dicoAdmin = get_nom_prenom_by_tournoi(1)
         )
 
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
         "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
-        dicoAdmin = get_nom_prenom_tournois_terminees()
+        dicoAdmin = get_nom_prenom_by_tournoi(2)
         )
 
 @app.route("/tableau_de_bord")
