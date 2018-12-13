@@ -58,7 +58,11 @@ def tournoi(tournoi):
     return render_template(
         "tournoi.html", tournoi=get_Tournoi_by_id(tournoi))
 
+<<<<<<< HEAD
 @app.route("/voir_competition/<int:tournoi>/matchs")
+=======
+@app.route("/voir_competition/<int:tournoi>/voir_les_matchs")
+>>>>>>> 387179f445d1d0da972c8cc4d54e7dd6b7650e2f
 def voirMatchs(tournoi):
     return render_template(
         "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))
@@ -71,16 +75,28 @@ def voirStream(tournoi):
 @app.route("/voir_competition/<int:tournoi>/photos")
 def voirPhotos(tournoi):
     return render_template(
+<<<<<<< HEAD
         "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=get_All_Photos(tournoi)
     )
 
 @app.route("/voir_competition/<int:tournoi>/equipes")
+=======
+        "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=[{"img":"https://parismatch.be/app/uploads/2018/04/Macaca_nigra_self-portrait_large-e1524567086123-1100x715.jpg", "desc":"une image d'un singe content"},
+        {"img":"https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/_jcr_content/main-pars/image/visual-reverse-image-search-v2_1000x560.jpg", "desc":"une image d'un papillon"}]
+    )
+
+@app.route("/voir_competition/<int:tournoi>/Equipes")
+>>>>>>> 387179f445d1d0da972c8cc4d54e7dd6b7650e2f
 def equipe(tournoi):
     return render_template(
         "equipe.html", tournoi=tournoi)
 
 
+<<<<<<< HEAD
 @app.route("/voir_competition/<int:tournoi>/parametres")
+=======
+@app.route("/voir_competition/<int:tournoi>/paramètres")
+>>>>>>> 387179f445d1d0da972c8cc4d54e7dd6b7650e2f
 def paramètre(tournoi):
     return render_template(
         "parametres.html", tournoi=tournoi)

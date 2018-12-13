@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %} {% block styles %} {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='tournoi.css') }}">
 {% endblock %}
@@ -48,3 +49,55 @@
     </div>
 </div>
 {% endblock %}
+=======
+{% extends "base.html" %} {% block styles %} {{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='tournoi.css') }}">
+{% endblock %}
+{% block main %}
+  <div class=" banner">
+    <div class="">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <nav>
+                    <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
+                    <h2 class="text-center">{{ tournoi.intituleT }}</h2>
+                    <p class="text-center">Organisateur : Michel</p>
+                    <p class="text-center">Lieu : {{ tournoi.lieuT }}</p>
+                    <p class="text-center">Début : {{ tournoi.dateT }}</p>
+                    <p class="text-center">Fin : 12/06/2019</p>
+                    <ul>
+                      <button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button>
+                      <button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button>
+                      <button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button>
+                      <button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button>
+                      <button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-8">
+                <div>
+                    <h2>
+                        <strong>Description</strong>
+                    </h2>
+                    <p><!--tournoi.descr--> {{ tournoi.descT }}
+                    </p>
+                </div>
+                <div>
+                    <h2>
+                        <strong>Réglement</strong>
+                    </h2>
+                    <p><!-- <p>tournoi.reglement-->
+                      {{ tournoi.regleT }}
+                    </p>
+                </div>
+                <div>
+                    <h2>
+                        <strong>Historique</strong>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+>>>>>>> 387179f445d1d0da972c8cc4d54e7dd6b7650e2f
