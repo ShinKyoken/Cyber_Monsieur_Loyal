@@ -8,20 +8,21 @@ class ADMIN(db.Model):
     mdpAdmin       = db.Column(db.String(100))
 
 class TOURNOI(db.Model):
-    idT              = db.Column(db.Integer, primary_key = True)
-    idAdmin          = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT           = db.Column(db.String(100))
-    dateT            = db.Column(db.Date)
-    dureeT           = db.Column(db.String(5))
-    intituleT        = db.Column(db.String(50))
-    descT            = db.Column(db.String(100))
-    typeT            = db.Column(db.String(30))
-    etatT            = db.Column(db.Integer)
-    nbEquipe         = db.Column(db.Integer)
+    idT               = db.Column(db.Integer, primary_key = True)
+    idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
+    regleT            = db.Column(db.String(100))
+    dateT             = db.Column(db.Date)
+    dureeT            = db.Column(db.String(5))
+    intituleT         = db.Column(db.String(50))
+    descT             = db.Column(db.String(100))
+    typeT             = db.Column(db.String(30))
+    etatT             = db.Column(db.Integer)
+    nbEquipe          = db.Column(db.Integer)
     nbParticipantsMax = db.Column(db.Integer)
-    disciplineT      = db.Column(db.String(30))
-    lieuT            = db.Column(db.String(30))
-    logoT            = db.Column(db.Text)
+    disciplineT       = db.Column(db.String(30))
+    stream            = db.Column(db.Text)
+    lieuT             = db.Column(db.String(30))
+    logoT             = db.Column(db.Text)
 
 class PARTICIPANT(db.Model):
     idP     = db.Column(db.Integer, primary_key = True)
@@ -75,11 +76,27 @@ def get_Tournoi_by_id(id):
 def count_tournoi():
     return TOURNOI.query.count()
 
+def get_nom_prenom_tournois_terminees():
+    tournois = get_All_Tournois_Terminees()
+    dico = {}
+    for tournoi in tournois:
+        admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
+        dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
+    return dico
+
+def get_nom_prenom_tournois_actifs():
+    tournois = get_All_Tournois_Actifs()
+    dico = {}
+    for tournoi in tournois:
+        admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
+        dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
+    return dico
+
 def insert_tournoi(tournoi):
     newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
-    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'])
+    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
