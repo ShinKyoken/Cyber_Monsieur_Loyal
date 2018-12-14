@@ -2,7 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
 {% block navbar %}
 
@@ -16,7 +16,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/">
-        <img src="/static/CML_Logo.png" alt="logo" width="28" height="25">
+        <img src="/static/icons/CML_Logo.png" alt="logo" width="28" height="25">
       </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
