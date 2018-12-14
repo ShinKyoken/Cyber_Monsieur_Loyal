@@ -18,7 +18,7 @@ class TOURNOI(db.Model):
     typeT            = db.Column(db.String(30))
     etatT            = db.Column(db.Integer)
     nbEquipe         = db.Column(db.Integer)
-    nbParicipantsMax = db.Column(db.Integer)
+    nbParticipantsMax = db.Column(db.Integer)
     disciplineT      = db.Column(db.String(30))
     lieuT            = db.Column(db.String(30))
     logoT            = db.Column(db.Text)
