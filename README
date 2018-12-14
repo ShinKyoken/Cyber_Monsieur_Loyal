@@ -5,5 +5,5 @@ Comment lancer le venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-Si jamais il manque des modules --> refaites pip install -r requirements.txt
-(il doit manquer toutes les bibliothèques liées à pymysql)
+Si jamais il manque des modules :
+refaire : pip install -r requirements.txt
