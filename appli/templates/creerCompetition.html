@@ -1,79 +1,79 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='creerCompetition.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/creerCompetition.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 {% endblock %}
 {% block main %}
 <div class="container-fluid" id="containerCreerCompetFluid">
 <div class="container" id="containerCreerCompet">
-<form method="get" action="/confirmer_tournoi">
+<form method="post" action="/confirmer_competition">
     <h1 class="text-center"><strong>Créer votre tournoi !</strong></h1>
     <div>
         <div class="form-group row">
             <div class="col-md-4">
                 <label class="labelStyle">Nom du tournoi</label>
-                <input type="text" class="form-control inputStyle" id="nomTournoi" placeholder="Insérez nom du tournoi">
+                <input type="text" name="intituleT" class="form-control inputStyle" id="nomTournoi" placeholder="Insérez nom du tournoi">
             </div>
             <div class="col-md-4">
                 <label class="labelStyle">Lieu</label>
-                <input type="text" class="form-control inputStyle" id="lieu" placeholder="Insérez le lieu">
+                <input type="text" name="lieuT" class="form-control inputStyle" id="lieu" placeholder="Insérez le lieu">
             </div>
             <div class="col-md-4">
                 <label class="labelStyle">Discipline</label>
-                <input type="text" class="form-control inputStyle" id="discipline" placeholder="Insérez la discipline">
+                <input type="text" name="disciplineT" class="form-control inputStyle" id="discipline" placeholder="Insérez la discipline">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <label class="labelStyle">Date du tournoi</label>
-                <input class="form-control inputStyle" type="date" id="dateDebut">
+                <input class="form-control inputStyle" name="dateT" type="date" id="dateDebut">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Durée du tournoi</label>
-                <input type="number" class="form-control inputStyle" id="DureeTournoi" placeholder="Insérez la durée du tournoi">
+                <input type="number" name="dureeT" class="form-control inputStyle" id="DureeTournoi" placeholder="Insérez la durée du tournoi">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <label class="labelStyle">Nombre d'équipes</label>
-                <input type="number" class="form-control inputStyle" id="nbEquipe" placeholder="Insérez le nombre d'équipes">
+                <input type="number" name="nbEquipe"  class="form-control inputStyle" id="nbEquipe" placeholder="Insérez le nombre d'équipes">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Nombre de membres par équipe</label>
-                <input type="number" class="form-control inputStyle" id="nbMembre" placeholder="Insérez le nombre de membres par équipe">
+                <input type="number" name="nbParticipantsMax"  class="form-control inputStyle" id="nbMembre" placeholder="Insérez le nombre de membres par équipe">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <label class="labelStyle">Description</label>
-                <input type="textarea" class="form-control inputStyle" id="description" placeholder="Insérez une description">
+                <input type="textarea" name="descT"  class="form-control inputStyle" id="description" placeholder="Insérez une description">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Réglement</label>
-                <input type="textarea" class="form-control inputStyle" id="reglement" placeholder="Insérez le réglement">
+                <input type="textarea" name="regleT"  class="form-control inputStyle" id="reglement" placeholder="Insérez le réglement">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
-                <label class="labelStyle">Lien du stream</label>
-                <input type="url" class="form-control inputStyle" id="urlStream" placeholder="Insérez le lien du stream">
+                <label class="labelStyle">Nom de la chaîne Twitch</label>
+                <input type="text" name="stream" class="form-control inputStyle" id="urlStream" placeholder="Insérez le lien du stream">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Logo</label>
-                <input type="text" class="form-control inputStyle" id="image" placeholder="Importez une image">
+                <input type="text" name="logoT" class="form-control inputStyle" id="image" placeholder="Importez une image">
             </div>
         </div>
         <div class="form-group" >
             <label class="labelStyle">Type de tournoi : </label>
-            <select class="form-control inputStyle" id="sel1">
+            <select class="form-control inputStyle" name="typeT" id="sel1">
                 <option>Élimination directe</option>
                 <option>Phase de poule</option>
                 <option>Championnat</option>
             </select>
         </div>
         <div class="form-group text-center">
-            <button class="btn btn-success btn-lg inputStyle">Créer le tournoi</button>
+            <button type="submit" class="btn btn-success btn-lg inputStyle">Créer le tournoi</button>
         </div>
     </div>
 </form>
