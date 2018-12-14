@@ -31,7 +31,7 @@ img{
 .thumbnail{
   background-color: rgba(255,255,255,0.2);
   max-width: 25vw;
-  min-height:40vh;
+  min-height:42vh;
   margin-left:2vh;
   position:relative;
 }

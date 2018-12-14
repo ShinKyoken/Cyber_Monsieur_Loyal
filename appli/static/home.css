@@ -82,7 +82,15 @@ p.small {
   margin-top: 1em;
 }
 
+.thumbnail{
+  min-height:30vh;
+}
+
 .thumbnail h3 {
-  /* text-align: center; */
+  text-align: center;
   font-weight: bold;
+}
+
+.thumbnail p{
+  text-align:center;
 }
