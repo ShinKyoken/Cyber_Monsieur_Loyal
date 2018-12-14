@@ -1,32 +1,24 @@
 {% extends "base.html" %} {% block styles %} {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='tournoi.css') }}"> {% endblock %} {% block main %}
-<div class=" banner">
+<link rel="stylesheet" href="{{ url_for('static', filename='tournoi.css') }}">
+{% endblock %}
+{% block main %}
+  <div class=" banner">
     <div class="">
         <div class="row">
             <div class="col-md-3 sidebar">
                 <nav>
-                    <img class="center-block" src="../static/manette.png" alt="Generic placeholder image" width="140" height="140">
-                    <h2 class="text-center">{{tournoi}}</h2>
+                    <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
+                    <h2 class="text-center">{{ tournoi.intituleT }}</h2>
                     <p class="text-center">Organisateur : Michel</p>
-                    <p class="text-center">Lieu : Orléans</p>
-                    <p class="text-center">Début : 12/05/2019</p>
+                    <p class="text-center">Lieu : {{ tournoi.lieuT }}</p>
+                    <p class="text-center">Début : {{ tournoi.dateT }}</p>
                     <p class="text-center">Fin : 12/06/2019</p>
                     <ul>
-                        <form method="get" action="/voir_competitions_actives/{{tournoi}}/voir_les_matchs">
-                            <button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button>
-                        </form>
-                        <form method="get" action="/voir_competitions_actives/{{tournoi}}/stream">
-                            <button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button>
-                        </form>
-                        <form method="get" action="/voir_competitions_actives/{{tournoi}}/photos">
-                            <button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button>
-                        </form>
-                        <form method="get" action="/voir_competitions_actives/{{tournoi}}/Equipes">
-                            <button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button>
-                        </form>
-                        <form method="get" action="/voir_competitions_actives/{{tournoi}}/parametres">
-                            <button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button>
-                        </form>
+                      <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button></a>
                     </ul>
                 </nav>
             </div>
@@ -35,27 +27,15 @@
                     <h2>
                         <strong>Description</strong>
                     </h2>
-                    <p><!--tournoi.descr-->Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.
-                        Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur
-                        anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.
-                        Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique,
-                        sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente
-                        de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion
-                        dans des applications de mise en page de texte, comme Aldus PageMaker.
+                    <p>{{ tournoi.descT }}
                     </p>
                 </div>
                 <div>
                     <h2>
                         <strong>Réglement</strong>
                     </h2>
-                    <p><!-- <p>tournoi.reglement-->
-                        Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.
-                        Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur
-                        anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.
-                        Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique,
-                        sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente
-                        de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion
-                        dans des applications de mise en page de texte, comme Aldus PageMaker.
+                    <p>
+                      {{ tournoi.regleT }}
                     </p>
                 </div>
                 <div>
