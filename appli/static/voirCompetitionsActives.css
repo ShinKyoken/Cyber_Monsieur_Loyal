@@ -16,11 +16,11 @@ h1{
 
 }
 
-.cartes{
-  max-width: 35vh;
+/* .cartes{
+  max-width: 30vh;
   margin-left:2vh;
   min-height:31vh;
-}
+} */
 
 img{
   max-width: 15vh;
@@ -31,8 +31,9 @@ img{
 .thumbnail{
   background-color: rgba(255,255,255,0.2);
   max-width: 25vw;
-  max-height:30vh;
+  min-height:40vh;
   margin-left:2vh;
+  position:relative;
 }
 
 
@@ -64,6 +65,8 @@ h2{
    padding: 10px;
    background-color: #51A4F6;
    text-shadow: 1px 1px 20px #000000;
+   margin-bottom:20px;
+
 }
 
 .bouton:hover {

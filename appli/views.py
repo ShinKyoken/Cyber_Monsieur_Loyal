@@ -26,9 +26,9 @@ def confirmerTournoi():
     tournoi['nbEquipe']          = request.form['nbEquipe']
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
+    tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 1
     tournoi['idAdmin']           = 1
-    print(tournoi)
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
 
@@ -41,12 +41,16 @@ def connect():
 @app.route("/voir_competitions_actives")
 def voirCompetitionsActives():
     return render_template(
-        "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs())
+        "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
+        dicoAdmin = get_nom_prenom_by_tournoi(1)
+        )
 
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
-        "voirCompetitionsTerminees.html",tournois = get_All_Tournois_Terminees())
+        "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
+        dicoAdmin = get_nom_prenom_by_tournoi(2)
+        )
 
 @app.route("/tableau_de_bord")
 def tableauDeBord():
