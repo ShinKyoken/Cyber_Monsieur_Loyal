@@ -98,3 +98,19 @@ def insert_tournoi(tournoi):
     lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
+
+def update_tournoi(tournoi,id):
+    tournoiUp=get_Tournoi_by_id(id)
+    tournoiUp.intituleT=tournoi['intituleT']
+    tournoiUp.regleT=tournoi['regleT']
+    tournoiUp.descT=tournoi['descT']
+    tournoiUp.dateT=tournoi['dateT']
+    tournoiUp.dureeT=tournoi['dureeT']
+    tournoiUp.typeT=tournoi['typeT']
+    tournoiUp.lieuT=tournoi['lieuT']
+    tournoiUp.disciplineT=tournoi['disciplineT']
+    tournoiUp.nbEquipe=tournoi['nbEquipe']
+    tournoiUp.nbParticipantsMax=tournoi['nbParticipantsMax']
+    tournoiUp.logoT=tournoi['logoT']
+    db.session.commit()
+

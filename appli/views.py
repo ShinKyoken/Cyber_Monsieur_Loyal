@@ -32,6 +32,26 @@ def confirmerTournoi():
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
 
+@app.route("/voir_competition/<int:id>/modifier_competition", methods={"POST"})
+def modifierTournoi():
+    tournoi = {}
+    tournoi['intituleT']         = request.form['intituleT']
+    tournoi['regleT']            = request.form['regleT']
+    tournoi['descT']             = request.form['descT']
+    tournoi['dateT']             = request.form['dateT']
+    tournoi['dureeT']            = request.form['dureeT']
+    tournoi['typeT']             = request.form['typeT']
+    tournoi['lieuT']             = request.form['lieuT']
+    tournoi['disciplineT']       = request.form['disciplineT']
+    tournoi['nbEquipe']          = request.form['nbEquipe']
+    tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
+    tournoi['logoT']             = request.form['logoT']
+    tournoi['etatT']             = 1
+    tournoi['idAdmin']           = 1
+    print(tournoi)
+    update_tournoi(tournoi,id)
+    return render_template("modifierTournoi.html")
+
 
 @app.route("/connexion")
 def connect():
@@ -81,12 +101,12 @@ def voirPhotos(tournoi):
 @app.route("/voir_competition/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
-        "equipe.html", tournoi=tournoi)
+        "equipe.html", tournoi=get_Tournoi_by_id(tournoi))
 
 @app.route("/voir_competition/<int:tournoi>/parametres")
 def paramètre(tournoi):
     return render_template(
-        "parametres.html", tournoi=tournoi)
+        "parametres.html", tournoi=get_Tournoi_by_id(tournoi))
 
 @app.route("/listeAdmins")
 def listeAdmins():
