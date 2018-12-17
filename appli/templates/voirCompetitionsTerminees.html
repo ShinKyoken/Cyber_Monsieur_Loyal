@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='voirCompetitionsTerminees.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsTerminees.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 {% endblock %}
 {% block main %}
@@ -25,7 +25,7 @@
          <div class="col-md-4 col-sm-6 thumbnail cartes">
            <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
            <h2>{{ tournoi.intituleT }}</h2>
-           <p class="text-center">{{ tournoi.descT }}</p>
+           <p class="text-center">{{ dicoAdmin[tournoi.idT][1] }} {{ dicoAdmin[tournoi.idT][2] }}</p>
            <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
          </div><!-- /.col-lg-4 -->
       {% endfor %}

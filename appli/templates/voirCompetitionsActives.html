@@ -1,33 +1,46 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='voirCompetitionsActives.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 {% endblock %}
 {% block main %}
 <div class="voirCompetition container-fluid">
   <div class="container">
-  <form role="form" method="POST" action="voirCompetitionActives.html">
-    <h1 class="text-center">Voici les compétitions en cours!</h1>
-    <div class="recherche input-group container">
-      <input class="rechercheComp form-control" type="text">
-      <div class="input-group-btn">
-        <button class="btn btn-default" type="submit">
-          <i class="glyphicon glyphicon-search"></i>
-        </button>
+    <form role="form" method="POST" action="voirCompetitionActives.html">
+      <h1 class="text-center">Voici les compétitions en cours!</h1>
+      <div class="recherche input-group container">
+        <input class="rechercheComp form-control" type="text">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
 </div>
   <div class="container divCartes">
     <div class="row center-block">
       {% for tournoi in tournois %}
+<<<<<<< HEAD
          <div class="col-md-4 col-sm-6 thumbnail cartes">
            <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
            <h2>{{ tournoi.intituleT }}</h2>
            <p class="text-center">{{ tournoi.descT }}</p>
             <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
          </div><!-- /.col-lg-4 -->
+=======
+        <div class="col-md-4 col-sm-6 ">
+          <div class="thumbnail">
+             <img class="center-block" src="{{ tournoi.logoT }}" alt="Logo" width="140" height="140">
+             <h2>{{ tournoi.intituleT }}</h2>
+             <p class="text-center">De : {{ dicoAdmin[tournoi.idT][1] }} {{ dicoAdmin[tournoi.idT][2] }}</p>
+             <p class="text-center">A commencé le : {{ tournoi.dateT }}</p>
+             <p class="text-center">Lieu : {{ tournoi.lieuT }}</p>
+         </div>
+         <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
+       </div><!-- /.col-lg-4 -->
+>>>>>>> 264c19aeb927589b79116c71d9ec5d72324f58ab
       {% endfor %}
        </div><!-- /.row -->
      </div>
