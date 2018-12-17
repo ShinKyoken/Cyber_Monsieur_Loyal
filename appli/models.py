@@ -112,5 +112,5 @@ def update_tournoi(tournoi,id):
     tournoiUp.nbEquipe=tournoi['nbEquipe']
     tournoiUp.nbParticipantsMax=tournoi['nbParticipantsMax']
     tournoiUp.logoT=tournoi['logoT']
+    tournoiUp.stream=tournoi['stream']
     db.session.commit()
-
