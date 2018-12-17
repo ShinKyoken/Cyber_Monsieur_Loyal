@@ -22,14 +22,6 @@
   <div class="container divCartes">
     <div class="row center-block">
       {% for tournoi in tournois %}
-<<<<<<< HEAD
-         <div class="col-md-4 col-sm-6 thumbnail cartes">
-           <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
-           <h2>{{ tournoi.intituleT }}</h2>
-           <p class="text-center">{{ tournoi.descT }}</p>
-            <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
-         </div><!-- /.col-lg-4 -->
-=======
         <div class="col-md-4 col-sm-6 ">
           <div class="thumbnail">
              <img class="center-block" src="{{ tournoi.logoT }}" alt="Logo" width="140" height="140">
@@ -40,7 +32,6 @@
          </div>
          <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
        </div><!-- /.col-lg-4 -->
->>>>>>> 264c19aeb927589b79116c71d9ec5d72324f58ab
       {% endfor %}
        </div><!-- /.row -->
      </div>
