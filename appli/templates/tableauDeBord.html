@@ -1,16 +1,38 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/tableauDeBord.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 {% endblock %}
 {% block main %}
-<div class="banner" id="container">
-    <h1 class="text-center"><strong>Tableau de bord</strong></h1>
-    <h2 class="text-center"><strong>Mes compétitions</strong></h2>
-    <ul>
-        {% for x in tournoi %}
-        <li class="text-center"><a href="/voir_competition/{{x.idT}}">{{x.intituleT}}</a></li>
-        {% endfor %}
-    </ul>
+<div class="voirCompetition container-fluid">
+  <div class="container">
+    <form role="form" method="POST" action="tableauDeBord.html">
+      <h1 class="text-center">Voici vos compétitions!</h1>
+      <div class="recherche input-group container">
+        <input class="rechercheComp form-control" type="text">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+</div>
+  <div class="container divCartes">
+    <div class="row center-block">
+      {% for tournoi in tournois %}
+        <div class="col-md-4 col-sm-6 ">
+          <div class="thumbnail">
+             <img class="center-block" src="{{ tournoi.logoT }}" alt="Logo" width="140" height="140">
+             <h2>{{ tournoi.intituleT }}</h2>
+             <p class="text-center">A commencé le : {{ tournoi.dateT }}</p>
+             <p class="text-center">Lieu : {{ tournoi.lieuT }}</p>
+         </div>
+         <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
+       </div><!-- /.col-lg-4 -->
+      {% endfor %}
+       </div><!-- /.row -->
+     </div>
 </div>
 {% endblock %}
