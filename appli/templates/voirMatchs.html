@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="">
+
+	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
+		<button>
+		<h2>Matchs du Tournois</h2>
+		<button>
+	</div>
+	
+	<div class="block_classement">      <!-- Partie de gauche, avec le classement équipes -->
+		<h3>Classement</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">First</th>
+					<th scope="col">Last</th>
+					<th scope="col">Handle</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				  <th scope="row">1</th>
+				  <td>Mark</td>
+				  <td>Otto</td>
+				  <td>@mdo</td>
+				</tr>
+				<tr>
+				  <th scope="row">2</th>
+				  <td>Jacob</td>
+				  <td>Thornton</td>
+				  <td>@fat</td>
+				</tr>
+				<tr>
+				  <th scope="row">3</th>
+				  <td>Larry</td>
+				  <td>the Bird</td>
+				  <td>@twitter</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="block_matchs">			<!-- Partie de droite, avec la liste des prochains matchs -->
+		<h3>Matchs a venir</h3>
+		<div class="row">
+		</div>
+	</div>
+	
+</div>
+{% endblock %}
