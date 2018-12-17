@@ -26,6 +26,7 @@ def confirmerTournoi():
     tournoi['nbEquipe']          = request.form['nbEquipe']
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
+    tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 1
     tournoi['idAdmin']           = 1
     print(tournoi)
