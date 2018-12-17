@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirMatchs.css') }}">
+{% endblock %}
 {% block main %}
-<div class="">
+<div class="voirMatches">
 
 	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
-		<button>
 		<h2>Matchs du Tournois</h2>
-		<button>
 	</div>
 
 	<div class="block_classement">      <!-- Partie de gauche, avec le classement équipes -->

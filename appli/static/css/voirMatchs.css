@@ -1,0 +1,19 @@
+.voirMatches{
+  padding: 7%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.panneau_haut{
+  display: flex;
+  justify-content: center;
+  flex: 1 1 100%;
+}
+
+.block_classement{
+  flex:1 1 50%;
+}
+
+.block_matchs{
+  flex:1 1 50%;
+}
