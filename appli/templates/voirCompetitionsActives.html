@@ -30,7 +30,7 @@
              <p class="text-center">A commencé le : {{ tournoi.dateT }}</p>
              <p class="text-center">Lieu : {{ tournoi.lieuT }}</p>
          </div>
-         <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
+        <a href='/voir_competition/{{tournoi.idT}}'><button class="bouton center-block">Voir les détails <span class="glyphicon glyphicon-search"></span></button></a>
        </div><!-- /.col-lg-4 -->
       {% endfor %}
        </div><!-- /.row -->
