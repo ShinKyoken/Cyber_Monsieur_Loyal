@@ -12,6 +12,10 @@ def home():
 def creerCompetition():
     return render_template("creerCompetition.html")
 
+@app.route("/test")
+def test():
+    return render_template("nouveauCreerCompetition.html")
+    
 @app.route("/confirmer_competition", methods={"POST"})
 def confirmerTournoi():
     tournoi = {}
@@ -114,7 +118,7 @@ def listeAdmins():
     "listeAdmin.html", listeAdmins = get_All_Admins()
     )
 
-@app.route("/tableau_de_bord/<string:tournoi>/Equipe/creer_equipe")
+@app.route("/voir_competitions_actives/<string:tournoi>/equipes/creer_equipe")
 def creerEquipe(tournoi):
     return render_template(
-    "creerEquipe.html", tailleEquipe = 6, tournoi=tournoi)
+    "creerEquipe.html", tailleEquipe = 24, tournoi=get_Tournoi_by_id(tournoi))
