@@ -12,6 +12,10 @@ def home():
 def creerCompetition():
     return render_template("creerCompetition.html")
 
+@app.route("/test")
+def test():
+    return render_template("nouveauCreerCompetition.html")
+    
 @app.route("/confirmer_competition", methods={"POST"})
 def confirmerTournoi():
     tournoi = {}
