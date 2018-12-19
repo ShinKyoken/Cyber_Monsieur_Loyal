@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirMatchs.css') }}">
+{% endblock %}
+{% block main %}
+<div class="voirMatches">
+
+	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
+		<h2>Matchs du Tournois</h2>
+	</div>
+
+	<div class="block_classement">      <!-- Partie de gauche, avec le classement équipes -->
+		<h3>Classement</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Place</th>
+					<th scope="col">Nom d'equipe</th>
+					<th scope="col">Victoires</th>
+					<th scope="col">Defaites</th>
+					<th scope="col">Nul</th>
+					<th scope="col">Points</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				  <th scope="row">1</th>
+				  <td>Les G@m3rz</td>
+				  <td>10</td>
+				  <td>0</td>
+					<td>0</td>
+					<td>100</td>
+				</tr>
+				<tr>
+					<th scope="row">2</th>
+				 <td>Equipe 2</td>
+				 <td>5</td>
+				 <td>0</td>
+				 <td>5</td>
+				 <td>60</td>
+				</tr>
+				<tr>
+					<th scope="row">3</th>
+				 <td>Equipe Nul</td>
+				 <td>0</td>
+				 <td>10</td>
+				 <td>0</td>
+				 <td>0</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="block_matchs">			<!-- Partie de droite, avec la liste des prochains matchs -->
+		<h3>Matchs a venir</h3>
+		<div class="row">
+		</div>
+	</div>
+
+</div>
+{% endblock %}
