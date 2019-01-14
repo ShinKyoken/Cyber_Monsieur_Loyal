@@ -17,22 +17,17 @@
 				<tr>
 					<th scope="col">Place</th>
 					<th scope="col">Nom d'equipe</th>
-					<th scope="col">Victoires</th>
-					<th scope="col">Defaites</th>
-					<th scope="col">Nul</th>
 					<th scope="col">Points</th>
 				</tr>
 			</thead>
 			<tbody>
+			{% for equipe in equipes %}
 				<tr>
-					{% for equipe in equipes %}
-				  <td>{ equipe.nomE}</td>
-				  <td>10</td>
-				  <td>0</td>
-					<td>0</td>
-					<td>{ equipe.points}</td>
-					{% endfor %}
+					<td>1</td>
+				  <td>{{ equipe.nomE }}</td>
+					<td>{{ equipe.points }}</td>
 				</tr>
+			{% endfor %}
 			</tbody>
 		</table>
 	</div>
