@@ -83,6 +83,9 @@ def count_tournoi():
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
+def get_equipe_by_id(id):
+    return EQUIPE.query.filter_by(idE = id)[0]
+
 #def get_All_Equipes_Classe():
 #    return EQUIPE.query.order_by(points)
 
@@ -133,8 +136,9 @@ def insert_participant(participant):
     return newParticipant.idP
 
 def insert_equipe(equipe):
-    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
+    return newEquipe.idE
