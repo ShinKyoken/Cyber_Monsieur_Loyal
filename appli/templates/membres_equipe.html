@@ -8,27 +8,18 @@
 <div class="voirCompetition container-fluid">
   <div class="container">
     <form role="form" method="POST" action="voirCompetitionActives.html">
-      <h1 class="text-center">Voici les équipes inscrites!</h1>
+      <h1 class="text-center">Membres</h1>
     </form>
 </div>
   <div class="container divCartes">
     <div class="row center-block">
-      {% for equipe in equipes %}
-        <div class="col-md-4 col-sm-6 ">
-          <div class="thumbnail">
-             <h2>{{ equipe.nomE }}</h2>
-             {% for participant in participants %}
-               <p>{{ participant.nomP }}<p>
-             {% endfor %}
-
-
-         </div>
-         <a href='/tableau_de_bord/equipes/{{equipe.idE}}'><button class="bouton center-block">Voir les membres <span class="glyphicon glyphicon-search"></span></button></a>
+      {% for participant in participants %}
+        <div class="col-md-1 col-sm-2 ">
+              <p>{{ participant.nomP }}<p>
+              <p>{{ participant.prenomP }}<p>
        </div><!-- /.col-lg-4 -->
       {% endfor %}
        </div><!-- /.row -->
      </div>
 </div>
 {% endblock %}
-
- {{equipe.idE}}

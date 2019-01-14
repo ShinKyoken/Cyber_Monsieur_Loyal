@@ -79,14 +79,30 @@ def get_All_Tournois_Admin():
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
 
-def get_All_Equipes(idT):
-    return EQUIPE.query.filter_by(idT = idT)
+def get_All_Equipes():
+    return EQUIPE.query.all()
+
+def get_All_Participants():
+    return PARTICIPANT.query.all()
+
+def get_membres_constituer(idEquipe):
+    return CONSTITUER.query.filter_by(idE = idEquipe)
+
+def get_participant_by_id_equipe(idEquipe):
+    membres = []
+    listeParticipants = get_membres_constituer(idEquipe)
+    for participant in listeParticipants:
+        membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
+    return membres
 
 def count_tournoi():
     return TOURNOI.query.count()
 
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
+
+def get_equipe_by_tournoi(idTournoi):
+    return EQUIPE.query.filter_by(idT = idTournoi)
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
