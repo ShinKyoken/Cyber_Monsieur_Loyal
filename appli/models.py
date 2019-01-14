@@ -83,8 +83,8 @@ def count_tournoi():
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
-#def get_All_Equipes_Classe():
-#    return EQUIPE.query.order_by(points)
+def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
+    return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
 
 #def get_Match_A_Venir():
 #    return EQUIPE.query.order_by(points)
