@@ -130,7 +130,7 @@ def listeAdmins():
     "listeAdmin.html", listeAdmins = get_All_Admins()
     )
 
-@app.route("/tableau_de_bord/<string:tournoi>/equipes/creer_equipe")
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/creer_equipe")
 def creerEquipe(tournoi):
     return render_template(
     "creerEquipe.html", tailleEquipe = 3, tournoi=get_Tournoi_by_id(tournoi))
@@ -160,18 +160,25 @@ def voirCompet_equipe(tournoi):
         "equipe.html", equipes=get_All_Equipes(tournoi)
         , route="voirCompet")
 
-@app.route("/tableau_de_bord/<string:tournoi>/equipes/confirmer_equipe", methods={"POST"})
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
 def confirmerEquipe(tournoi):
-  capitaine = {}
-  capitaine['nomP'] = request.form['nom_capitaine']
-  capitaine['prenomP'] = request.form['prenom_capitaine']
-  capitaine['mailP'] = request.form['mail_capitaine']
-  insert_participant(capitaine)
-  for i in range(1, 3):
-      participant = {}
-      participant['nomP'] = request.form['nom_membre'+str(i)]
-      participant['prenomP'] = request.form['prenom_membre'+str(i)]
-      participant['mailP'] = request.form['mail_membre'+str(i)]
-      insert_participant(participant)
-  return render_template(
-  "equipe.html")
+    t = get_Tournoi_by_id(tournoi)
+    capitaine = {}
+    capitaine['nomP'] = request.form['nom_capitaine']
+    capitaine['prenomP'] = request.form['prenom_capitaine']
+    capitaine['mailP'] = request.form['mail_capitaine']
+    idChef = insert_participant(capitaine)
+    print(idChef)
+    for i in range(1, 3):
+        participant = {}
+        participant['nomP'] = request.form['nom_membre'+str(i)]
+        participant['prenomP'] = request.form['prenom_membre'+str(i)]
+        participant['mailP'] = request.form['mail_membre'+str(i)]
+        insert_participant(participant)
+    equipe = {}
+    equipe['nom_equipe'] = request.form['nom_equipe']
+    equipe['capitaine'] = idChef
+    equipe['idTournoi'] = t.idT
+    insert_equipe(equipe)
+    return render_template(
+    "equipe.html")

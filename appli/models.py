@@ -35,9 +35,9 @@ class EQUIPE(db.Model):
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
-    idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"), unique=True)
+    idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"))
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
@@ -129,4 +129,12 @@ def insert_participant(participant):
     newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],
     mailP = participant['mailP'])
     db.session.add(newParticipant)
+    db.session.commit()
+    return newParticipant.idP
+
+def insert_equipe(equipe):
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
+    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
+    # print(newEquipe.__dict__)
+    db.session.add(newEquipe)
     db.session.commit()
