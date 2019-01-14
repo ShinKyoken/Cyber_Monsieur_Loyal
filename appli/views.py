@@ -15,7 +15,7 @@ def creerCompetition():
 @app.route("/test")
 def test():
     return render_template("nouveauCreerCompetition.html")
-    
+
 @app.route("/confirmer_competition", methods={"POST"})
 def confirmerTournoi():
     tournoi = {}
@@ -110,7 +110,7 @@ def equipe(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
     return render_template(
-        "parametres.html", tournoi=get_Tournoi_by_id(tournoi))
+        "parametres.html", tournoi=tournoi)
 
 @app.route("/listeAdmins")
 def listeAdmins():
