@@ -33,6 +33,7 @@ class PARTICIPANT(db.Model):
 class EQUIPE(db.Model):
     idE           = db.Column(db.Integer, primary_key = True)
     etatE         = db.Column(db.Integer)
+    points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"), unique=True)
     nomE          = db.Column(db.String(100))
@@ -81,6 +82,9 @@ def count_tournoi():
 
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
+
+#def get_All_Equipes_Classe():
+#    return EQUIPE.query.order_by(points)
 
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}

@@ -25,28 +25,13 @@
 			</thead>
 			<tbody>
 				<tr>
-				  <th scope="row">1</th>
-				  <td>Les G@m3rz</td>
+					{% for equipe in equipes %}
+				  <td>{ equipe.nomE}</td>
 				  <td>10</td>
 				  <td>0</td>
 					<td>0</td>
-					<td>100</td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-				 <td>Equipe 2</td>
-				 <td>5</td>
-				 <td>0</td>
-				 <td>5</td>
-				 <td>60</td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-				 <td>Equipe Nul</td>
-				 <td>0</td>
-				 <td>10</td>
-				 <td>0</td>
-				 <td>0</td>
+					<td>{ equipe.points}</td>
+					{% endfor %}
 				</tr>
 			</tbody>
 		</table>
@@ -55,6 +40,30 @@
 	<div class="block_matchs">			<!-- Partie de droite, avec la liste des prochains matchs -->
 		<h3>Matchs a venir</h3>
 		<div class="row">
+			<div class="col-md-10 col-sm-2 ">
+	 		 <div class="thumbnail">
+	 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+	 				<p class="text-center">Carte de la partie: { match.carte }</p>
+	 		</div>
+	 	</div>
+		 <div class="col-md-10 col-sm-2 ">
+			 <div class="thumbnail">
+					<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+					<p class="text-center">Carte de la partie: { match.carte }</p>
+			</div>
+		</div>
+		<div class="col-md-10 col-sm-2 ">
+ 		 <div class="thumbnail">
+ 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+ 				<p class="text-center">Carte de la partie: { match.carte }</p>
+ 		</div>
+ 	</div>
+	 <div class="col-md-10 col-sm-2 ">
+		 <div class="thumbnail">
+				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+				<p class="text-center">Carte de la partie: { match.carte }</p>
+		</div>
+	</div>
 		</div>
 	</div>
 
