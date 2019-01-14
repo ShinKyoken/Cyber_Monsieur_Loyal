@@ -161,11 +161,9 @@ def insert_equipe(equipe):
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
-<<<<<<< HEAD
+    return newEquipe.idE
+
 
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
-=======
-    return newEquipe.idE
->>>>>>> hugo/ajout_membre
