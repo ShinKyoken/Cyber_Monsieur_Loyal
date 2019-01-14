@@ -86,6 +86,9 @@ def get_All_Photos(idTournoi):
 #def get_All_Equipes_Classe():
 #    return EQUIPE.query.order_by(points)
 
+#def get_Match_A_Venir():
+#    return EQUIPE.query.order_by(points)
+
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}
     if etatT == 1:
