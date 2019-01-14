@@ -31,17 +31,18 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True)
+    idE           = db.Column(db.Integer, primary_key = True,  autoincrement = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
-    idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"), unique=True)
+    idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True,)
     Photo     = db.Column(db.Text)
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
@@ -67,6 +68,9 @@ def get_All_Tournois_Actifs():
 
 def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
+
+def get_All_Tournois_Inactifs():
+    return TOURNOI.query.filter_by(etatT = 0)
 
 def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
@@ -95,6 +99,8 @@ def get_nom_prenom_by_tournoi(etatT):
         tournois = get_All_Tournois_Actifs()
     elif etatT == 2:
         tournois = get_All_Tournois_Terminees()
+    elif etatT == 0:
+        tournois = get_All_Tournois_Inactifs()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
         dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]

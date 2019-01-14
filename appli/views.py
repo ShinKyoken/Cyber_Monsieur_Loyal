@@ -31,7 +31,7 @@ def confirmerTournoi():
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
+    tournoi['etatT']             = 0
     tournoi['idAdmin']           = 1
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
@@ -67,6 +67,14 @@ def voirCompetitionsActives():
     return render_template(
         "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
         dicoAdmin = get_nom_prenom_by_tournoi(1),
+        route="voirCompet"
+        )
+
+@app.route("/voir_competitions_inactives")
+def voirCompetitionsInactives():
+    return render_template(
+        "voirCompetitionsInactives.html",tournois = get_All_Tournois_Inactifs(),
+        dicoAdmin = get_nom_prenom_by_tournoi(0),
         route="voirCompet"
         )
 

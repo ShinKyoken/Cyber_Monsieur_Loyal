@@ -1,9 +1,10 @@
 drop table PARTICIPERPARTIE;
+drop table CONSTITUER;
 drop table PHOTO;
 drop table PARTIE;
+drop table EQUIPE;
 drop table PARTICIPANT;
 drop table TOURNOI;
-drop table EQUIPE;
 drop table ADMIN;
 
 create table ADMIN (
