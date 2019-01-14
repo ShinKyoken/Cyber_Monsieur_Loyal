@@ -66,25 +66,34 @@ def connect():
 def voirCompetitionsActives():
     return render_template(
         "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
-        dicoAdmin = get_nom_prenom_by_tournoi(1)
+        dicoAdmin = get_nom_prenom_by_tournoi(1),
+        route="voirCompet"
         )
 
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
         "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
-        dicoAdmin = get_nom_prenom_by_tournoi(2)
+        dicoAdmin = get_nom_prenom_by_tournoi(2),
+        route="voirCompet"
         )
+
+@app.route("/voir_competition/<int:tournoi>")
+def voirCompet(tournoi):
+    return render_template(
+        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="voirCompet")
 
 @app.route("/tableau_de_bord")
 def tableauDeBord():
     return render_template(
-        "tableauDeBord.html", tournois= get_All_Tournois_Admin())
+        "tableauDeBord.html", tournois= get_All_Tournois_Admin(), route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>"    )
 def tournoi(tournoi):
     return render_template(
-        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi))
+        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
 def voirMatchs(tournoi):
@@ -94,18 +103,21 @@ def voirMatchs(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 def voirStream(tournoi):
     return render_template(
-        "stream.html", tournoi=get_Tournoi_by_id(tournoi))
+        "stream.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/photos")
 def voirPhotos(tournoi):
     return render_template(
         "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=get_All_Photos(tournoi)
+        , route="tableau"
     )
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
-        "equipe.html", equipes=get_All_Equipes(tournoi))
+        "equipe.html", equipes=get_All_Equipes(tournoi)
+        , route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
@@ -122,3 +134,28 @@ def listeAdmins():
 def creerEquipe(tournoi):
     return render_template(
     "creerEquipe.html", tailleEquipe = 24, tournoi=get_Tournoi_by_id(tournoi))
+
+@app.route("/voir_competition/<int:tournoi>/matchs")
+def voirCompet_Matchs(tournoi):
+    return render_template(
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="voirCompet")
+
+@app.route("/voir_competition/<int:tournoi>/stream")
+def voirCompet_Stream(tournoi):
+    return render_template(
+        "stream.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="voirCompet")
+
+@app.route("/voir_competition/<int:tournoi>/photos")
+def voirCompet_Photos(tournoi):
+    return render_template(
+        "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=get_All_Photos(tournoi)
+        , route="voirCompet"
+    )
+
+@app.route("/voir_competition/<int:tournoi>/equipes")
+def voirCompet_equipe(tournoi):
+    return render_template(
+        "equipe.html", equipes=get_All_Equipes(tournoi)
+        , route="voirCompet")

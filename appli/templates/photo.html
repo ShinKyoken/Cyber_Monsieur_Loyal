@@ -8,12 +8,20 @@
     <h1 class="text-center">Photos</h1>
     <h2 class="text-center">{{tournoi.intituleT}}</h2>
     <div class="row">
-            <a href="/voir_competition/{{tournoi.idT}}">
+            {% if route == "tableau" %}
+            <a href="/tableau_de_bord/{{tournoi.idT}}">
                 <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Retour</button>
             </a>
             <a href="">
                 <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Ajouter une photo</button>
             </a>
+            {% endif %}
+
+            {% if route == "voirCompet" %}
+            <a href="/voir_competition/{{tournoi.idT}}">
+                <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Retour</button>
+            </a>
+            {% endif %}
     </div>
     <div class="container divCartes">
         <div class="row center-block">

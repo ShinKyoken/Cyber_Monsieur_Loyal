@@ -8,16 +8,24 @@
     <h1>Stream</h1>
     <h2>{{tournoi.intituleT}}</h2>
     <div class="row retour">
+        {% if route == "tableau" %}
+        <a href="/tableau_de_bord/{{tournoi.idT}}">
+            <button class=" btn btn-success btn-lg inputStyle col-md-2">Retour</button>
+        </a>
+        {% endif %}
+        {% if route == "voirCompet" %}
         <a href="/voir_competition/{{tournoi.idT}}">
             <button class=" btn btn-success btn-lg inputStyle col-md-2">Retour</button>
         </a>
+        {% endif %}
+
     </div>
     <div class="row">
         <div class="col-md-9">
-            <iframe src="https://player.twitch.tv/?channel={{tournoi.stream}}" frameborder="0" allowfullscreen="true" scrolling="no" height="700vh" width="1050vw"></iframe><a href="https://www.twitch.tv/{{tournoi.stream}}?tt_content=text_link&tt_medium=live_embed" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline;">Regardez une vidéo en direct de {{ tournoi.stream }} sur www.twitch.tv</a>
+            <iframe class="videoTwitch" src="https://player.twitch.tv/?channel={{tournoi.stream}}" frameborder="0" allowfullscreen="true" scrolling="no"></iframe><a href="https://www.twitch.tv/{{tournoi.stream}}?tt_content=text_link&tt_medium=live_embed" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline;">Regardez une vidéo en direct de {{ tournoi.stream }} sur www.twitch.tv</a>
         </div>
         <div class="col-md-3">
-            <iframe src="https://www.twitch.tv/embed/{{tournoi.stream}}/chat" frameborder="0" scrolling="no" height="700vh" width="330vw"></iframe>
+            <iframe class="chatTwitch" src="https://www.twitch.tv/embed/{{tournoi.stream}}/chat" frameborder="0" scrolling="no"></iframe>
         </div>
     </div>
 </div>
