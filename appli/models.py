@@ -1,6 +1,7 @@
-from .app import db
+from .app import db, login_manager
+from flask_login import UserMixin
 
-class ADMIN(db.Model):
+class ADMIN(db.Model, UserMixin):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
@@ -138,3 +139,7 @@ def insert_equipe(equipe):
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
+
+@login_manager.user_loader
+def load_user(username):
+        return ADMIN.query.get(username)
