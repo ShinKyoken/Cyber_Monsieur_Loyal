@@ -73,14 +73,30 @@ def get_All_Tournois_Admin():
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
 
-def get_All_Equipes(idT):
-    return EQUIPE.query.filter_by(idT = idT)
+def get_All_Equipes():
+    return EQUIPE.query.all()
+
+def get_All_Participants():
+    return PARTICIPANT.query.all()
 
 def count_tournoi():
     return TOURNOI.query.count()
 
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
+
+def get_equipe_by_tournoi(idTournoi):
+    return EQUIPE.query.filter_by(idT = idTournoi)
+
+def get_membres_equipe(idEquipe):
+    dico = {}
+    equipes = get_All_Equipes()
+    participants = get_All_Participants()
+    for equipe in equipes:
+        membres = CONSTITUER.query.filter_by(idE=idEquipe)[0]
+        dico[equipe.idE] = [participants.nomP, participants.prenomP]
+    return dico
+
 
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}

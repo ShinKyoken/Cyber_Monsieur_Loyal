@@ -102,7 +102,7 @@ def voirPhotos(tournoi):
 @app.route("/voir_competition/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
-        "equipe.html", equipes=get_All_Equipes(tournoi))
+        "equipe.html", EquipesT = get_equipe_by_tournoi(tournoi), equipes=get_All_Equipes())
 
 @app.route("/voir_competition/<int:tournoi>/parametres")
 def paramètre(tournoi):
