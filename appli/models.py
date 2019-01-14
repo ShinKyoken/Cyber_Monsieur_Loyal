@@ -80,32 +80,24 @@ def get_All_Equipes():
 def get_All_Participants():
     return PARTICIPANT.query.all()
 
+def get_membres_constituer(idEquipe):
+    return CONSTITUER.query.filter_by(idE = idEquipe)
+
+def get_participant_by_id_equipe(idEquipe):
+    membres = []
+    listeParticipants = get_membres_constituer(idEquipe)
+    for participant in listeParticipants:
+        membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
+    return membres
+
 def count_tournoi():
     return TOURNOI.query.count()
 
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
-<<<<<<< HEAD
 def get_equipe_by_tournoi(idTournoi):
     return EQUIPE.query.filter_by(idT = idTournoi)
-
-def get_membres_equipe(idEquipe):
-    dico = {}
-    equipes = get_All_Equipes()
-    participants = get_All_Participants()
-    for equipe in equipes:
-        membres = CONSTITUER.query.filter_by(idE=idEquipe)[0]
-        dico[equipe.idE] = [participants.nomP, participants.prenomP]
-    return dico
-
-=======
-#def get_All_Equipes_Classe():
-#    return EQUIPE.query.order_by(points)
-
-#def get_Match_A_Venir():
-#    return EQUIPE.query.order_by(points)
->>>>>>> 37d3e2d135a6997d1b862c1c37cec3f3d994dfdf
 
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}

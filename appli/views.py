@@ -116,12 +116,12 @@ def voirPhotos(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
-<<<<<<< HEAD
-        "equipe.html", EquipesT = get_equipe_by_tournoi(tournoi), equipes=get_All_Equipes())
-=======
-        "equipe.html", equipes=get_All_Equipes(tournoi)
-        , route="tableau")
->>>>>>> 37d3e2d135a6997d1b862c1c37cec3f3d994dfdf
+        "equipe.html", equipes=get_equipe_by_tournoi(tournoi), tournoi=get_Tournoi_by_id(tournoi))
+
+@app.route("/tableau_de_bord/equipes/<int:equipe>")
+def membres_equipe(equipe):
+    return render_template(
+        "membres_equipe.html", participants=get_participant_by_id_equipe(equipe))
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
@@ -161,7 +161,7 @@ def voirCompet_Photos(tournoi):
 @app.route("/voir_competition/<int:tournoi>/equipes")
 def voirCompet_equipe(tournoi):
     return render_template(
-        "equipe.html", equipes=get_All_Equipes(tournoi)
+        "equipe.html", equipes=get_equipe_by_tournoi(tournoi)
         , route="voirCompet")
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
