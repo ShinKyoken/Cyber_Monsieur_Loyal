@@ -1,6 +1,24 @@
 from .app import app
 from .models import *
 from flask import render_template, redirect, url_for, request
+from flask_login import login_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, HiddenField, validators, PasswordField
+from flask import request
+
+class LoginForm(FlaskForm):
+        username = StringField('Username')
+        password = PasswordField('Password')
+
+        def get_authenticated_user(self):
+                user = ADMIN.query.get(self.nomAdmin.data)
+                if user is None:
+                    return None
+                m = sha256()
+                m.update(self.mdpAdmin.data.encode())
+                passwd = m.hexdigest()
+                return user if passwd == user.mdpAdmin else None
+
 
 @app.route("/")
 def home():
@@ -31,7 +49,7 @@ def confirmerTournoi():
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
+    tournoi['etatT']             = 0
     tournoi['idAdmin']           = 1
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
@@ -70,6 +88,14 @@ def voirCompetitionsActives():
         route="voirCompet"
         )
 
+@app.route("/voir_competitions_inactives")
+def voirCompetitionsInactives():
+    return render_template(
+        "voirCompetitionsInactives.html",tournois = get_All_Tournois_Inactifs(),
+        dicoAdmin = get_nom_prenom_by_tournoi(0),
+        route="voirCompet"
+        )
+
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
@@ -98,7 +124,7 @@ def tournoi(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
 def voirMatchs(tournoi):
     return render_template(
-        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))#, equipes=get_All_Equipes_Classe(), match_A_Venir=get_Match_A_Venir())
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi), equipes=get_All_Equipes_Classe(tournoi))#, match_A_Venir=get_Match_A_Venir())
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 def voirStream(tournoi):

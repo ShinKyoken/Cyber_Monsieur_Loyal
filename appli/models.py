@@ -1,6 +1,7 @@
-from .app import db
+from .app import db, login_manager
+from flask_login import UserMixin
 
-class ADMIN(db.Model):
+class ADMIN(db.Model, UserMixin):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
@@ -31,7 +32,8 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True)
+    idE           = db.Column(db.Integer, primary_key = True,  autoincrement = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
@@ -41,7 +43,7 @@ class EQUIPE(db.Model):
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True,)
     Photo     = db.Column(db.Text)
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
@@ -67,6 +69,9 @@ def get_All_Tournois_Actifs():
 
 def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
+
+def get_All_Tournois_Inactifs():
+    return TOURNOI.query.filter_by(etatT = 0)
 
 def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
@@ -99,12 +104,20 @@ def get_All_Photos(idTournoi):
 def get_equipe_by_tournoi(idTournoi):
     return EQUIPE.query.filter_by(idT = idTournoi)
 
+def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
+    return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
+
+#def get_Match_A_Venir():
+#    return EQUIPE.query.order_by(points)
+
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}
     if etatT == 1:
         tournois = get_All_Tournois_Actifs()
     elif etatT == 2:
         tournois = get_All_Tournois_Terminees()
+    elif etatT == 0:
+        tournois = get_All_Tournois_Inactifs()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
         dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
@@ -148,3 +161,7 @@ def insert_equipe(equipe):
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
+
+@login_manager.user_loader
+def load_user(username):
+        return ADMIN.query.get(username)
