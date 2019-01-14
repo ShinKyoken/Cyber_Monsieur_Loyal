@@ -156,12 +156,16 @@ def insert_participant(participant):
     return newParticipant.idP
 
 def insert_equipe(equipe):
-    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
+<<<<<<< HEAD
 
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
+=======
+    return newEquipe.idE
+>>>>>>> hugo/ajout_membre
