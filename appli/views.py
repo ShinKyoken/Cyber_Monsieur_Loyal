@@ -206,6 +206,7 @@ def confirmerEquipe(tournoi):
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
+    print(e)
     return render_template(
     "ajoutMembre.html", equipe = e, tournoi = t)
 
@@ -219,7 +220,8 @@ def ajouterMembre(tournoi, equipe):
         participant['nomP'] = request.form['nom_membre'+str(i)]
         participant['prenomP'] = request.form['prenom_membre'+str(i)]
         participant['mailP'] = request.form['mail_membre'+str(i)]
-        insert_participant(participant)
+        p = insert_participant(participant)
+        insert_constituer(equipe, p)
 
     return render_template(
         "equipe.html", tournoi= get_Tournoi_by_id(tournoi))

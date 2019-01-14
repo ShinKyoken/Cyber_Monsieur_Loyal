@@ -104,6 +104,9 @@ def get_All_Photos(idTournoi):
 def get_equipe_by_tournoi(idTournoi):
     return EQUIPE.query.filter_by(idT = idTournoi)
 
+def get_equipe_by_id(id):
+    return EQUIPE.query.filter_by(idE = id)[0]
+
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
 
@@ -163,6 +166,10 @@ def insert_equipe(equipe):
     db.session.commit()
     return newEquipe.idE
 
+def insert_constituer(idEquipe, idParticipant):
+    newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
+    db.session.add(newConstituer)
+    db.session.commit()
 
 @login_manager.user_loader
 def load_user(username):
