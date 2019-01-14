@@ -73,6 +73,9 @@ def get_All_Tournois_Admin():
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
 
+def get_All_Equipes(idT):
+    return EQUIPE.query.filter_by(idT = idT)
+
 def count_tournoi():
     return TOURNOI.query.count()
 

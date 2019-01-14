@@ -105,7 +105,7 @@ def voirPhotos(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
-        "equipe.html", tournoi=get_Tournoi_by_id(tournoi))
+        "equipe.html", equipes=get_All_Equipes(tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
