@@ -30,9 +30,10 @@ def home():
 def creerCompetition():
     return render_template("creerCompetition.html")
 
-@app.route("/test")
-def test():
-    return render_template("nouveauCreerCompetition.html")
+@app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/test",methods={"POST"})
+def test(tournoi):
+    automatique_match(tournoi,request.form['nbMatchs'],request.form['nbEquipe'])
+    return render_template("letest.html")
 
 @app.route("/confirmer_competition", methods={"POST"})
 def confirmerTournoi():
@@ -153,6 +154,10 @@ def membres_equipe(equipe):
 def paramètre(tournoi):
     return render_template(
         "parametres.html", tournoi=tournoi)
+
+@app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
+def lancerCompet(tournoi):
+    return render_template("creation_matchs.html",tournoi = get_Tournoi_by_id(tournoi))
 
 @app.route("/listeAdmins")
 def listeAdmins():
