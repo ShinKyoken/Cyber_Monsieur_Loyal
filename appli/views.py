@@ -1,6 +1,24 @@
 from .app import app
 from .models import *
 from flask import render_template, redirect, url_for, request
+from flask_login import login_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, HiddenField, validators, PasswordField
+from flask import request
+
+class LoginForm(FlaskForm):
+        username = StringField('Username')
+        password = PasswordField('Password')
+
+        def get_authenticated_user(self):
+                user = ADMIN.query.get(self.nomAdmin.data)
+                if user is None:
+                    return None
+                m = sha256()
+                m.update(self.mdpAdmin.data.encode())
+                passwd = m.hexdigest()
+                return user if passwd == user.mdpAdmin else None
+
 
 @app.route("/")
 def home():
