@@ -33,10 +33,11 @@ class PARTICIPANT(db.Model):
 class EQUIPE(db.Model):
     idE           = db.Column(db.Integer, primary_key = True)
     etatE         = db.Column(db.Integer)
+    points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
-    idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"), unique=True)
+    idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"))
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
@@ -85,6 +86,7 @@ def count_tournoi():
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
+<<<<<<< HEAD
 def get_equipe_by_tournoi(idTournoi):
     return EQUIPE.query.filter_by(idT = idTournoi)
 
@@ -97,6 +99,13 @@ def get_membres_equipe(idEquipe):
         dico[equipe.idE] = [participants.nomP, participants.prenomP]
     return dico
 
+=======
+#def get_All_Equipes_Classe():
+#    return EQUIPE.query.order_by(points)
+
+#def get_Match_A_Venir():
+#    return EQUIPE.query.order_by(points)
+>>>>>>> 37d3e2d135a6997d1b862c1c37cec3f3d994dfdf
 
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}
@@ -132,4 +141,18 @@ def update_tournoi(tournoi,id):
     tournoiUp.nbParticipantsMax=tournoi['nbParticipantsMax']
     tournoiUp.logoT=tournoi['logoT']
     tournoiUp.stream=tournoi['stream']
+    db.session.commit()
+
+def insert_participant(participant):
+    newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],
+    mailP = participant['mailP'])
+    db.session.add(newParticipant)
+    db.session.commit()
+    return newParticipant.idP
+
+def insert_equipe(equipe):
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
+    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
+    # print(newEquipe.__dict__)
+    db.session.add(newEquipe)
     db.session.commit()

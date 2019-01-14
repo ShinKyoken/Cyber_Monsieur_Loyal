@@ -12,6 +12,10 @@ def home():
 def creerCompetition():
     return render_template("creerCompetition.html")
 
+@app.route("/test")
+def test():
+    return render_template("nouveauCreerCompetition.html")
+
 @app.route("/confirmer_competition", methods={"POST"})
 def confirmerTournoi():
     tournoi = {}
@@ -29,12 +33,11 @@ def confirmerTournoi():
     tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 1
     tournoi['idAdmin']           = 1
-    print(tournoi)
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
 
-@app.route("/voir_competition/<int:id>/modifier_competition", methods={"POST"})
-def modifierTournoi():
+@app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
+def modifierTournoi(id):
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
     tournoi['regleT']            = request.form['regleT']
@@ -47,9 +50,9 @@ def modifierTournoi():
     tournoi['nbEquipe']          = request.form['nbEquipe']
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
+    tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 1
     tournoi['idAdmin']           = 1
-    print(tournoi)
     update_tournoi(tournoi,id)
     return render_template("modifierTournoi.html")
 
@@ -63,51 +66,67 @@ def connect():
 def voirCompetitionsActives():
     return render_template(
         "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
-        dicoAdmin = get_nom_prenom_by_tournoi(1)
+        dicoAdmin = get_nom_prenom_by_tournoi(1),
+        route="voirCompet"
         )
 
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
         "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
-        dicoAdmin = get_nom_prenom_by_tournoi(2)
+        dicoAdmin = get_nom_prenom_by_tournoi(2),
+        route="voirCompet"
         )
+
+@app.route("/voir_competition/<int:tournoi>")
+def voirCompet(tournoi):
+    return render_template(
+        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="voirCompet")
 
 @app.route("/tableau_de_bord")
 def tableauDeBord():
     return render_template(
-        "tableauDeBord.html", tournois= get_All_Tournois_Admin())
+        "tableauDeBord.html", tournois= get_All_Tournois_Admin(), route="tableau")
 
-@app.route("/voir_competition/<int:tournoi>"    )
+@app.route("/tableau_de_bord/<int:tournoi>"    )
 def tournoi(tournoi):
     return render_template(
-        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi))
+        "tournoi.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="tableau")
 
-@app.route("/voir_competition/<int:tournoi>/matchs")
+@app.route("/tableau_de_bord/<int:tournoi>/matchs")
 def voirMatchs(tournoi):
     return render_template(
-        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))#, equipes=get_All_Equipes_Classe(), match_A_Venir=get_Match_A_Venir())
 
-@app.route("/voir_competition/<int:tournoi>/stream")
+@app.route("/tableau_de_bord/<int:tournoi>/stream")
 def voirStream(tournoi):
     return render_template(
-        "stream.html", tournoi=get_Tournoi_by_id(tournoi))
+        "stream.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="tableau")
 
-@app.route("/voir_competition/<int:tournoi>/photos")
+@app.route("/tableau_de_bord/<int:tournoi>/photos")
 def voirPhotos(tournoi):
     return render_template(
         "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=get_All_Photos(tournoi)
+        , route="tableau"
     )
 
-@app.route("/voir_competition/<int:tournoi>/equipes")
+@app.route("/tableau_de_bord/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
+<<<<<<< HEAD
         "equipe.html", EquipesT = get_equipe_by_tournoi(tournoi), equipes=get_All_Equipes())
+=======
+        "equipe.html", equipes=get_All_Equipes(tournoi)
+        , route="tableau")
+>>>>>>> 37d3e2d135a6997d1b862c1c37cec3f3d994dfdf
 
-@app.route("/voir_competition/<int:tournoi>/parametres")
+@app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
     return render_template(
-        "parametres.html", tournoi=get_Tournoi_by_id(tournoi))
+        "parametres.html", tournoi=tournoi)
 
 @app.route("/listeAdmins")
 def listeAdmins():
@@ -115,7 +134,55 @@ def listeAdmins():
     "listeAdmin.html", listeAdmins = get_All_Admins()
     )
 
-@app.route("/voir_competitions_actives/<string:tournoi>/Equipe/creer_equipe")
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/creer_equipe")
 def creerEquipe(tournoi):
     return render_template(
-    "creerEquipe.html", tailleEquipe = 6, tournoi=tournoi)
+    "creerEquipe.html", tailleEquipe = 3, tournoi=get_Tournoi_by_id(tournoi))
+
+@app.route("/voir_competition/<int:tournoi>/matchs")
+def voirCompet_Matchs(tournoi):
+    return render_template(
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="voirCompet")
+
+@app.route("/voir_competition/<int:tournoi>/stream")
+def voirCompet_Stream(tournoi):
+    return render_template(
+        "stream.html", tournoi=get_Tournoi_by_id(tournoi)
+        , route="voirCompet")
+
+@app.route("/voir_competition/<int:tournoi>/photos")
+def voirCompet_Photos(tournoi):
+    return render_template(
+        "photo.html", tournoi=get_Tournoi_by_id(tournoi), photos=get_All_Photos(tournoi)
+        , route="voirCompet"
+    )
+
+@app.route("/voir_competition/<int:tournoi>/equipes")
+def voirCompet_equipe(tournoi):
+    return render_template(
+        "equipe.html", equipes=get_All_Equipes(tournoi)
+        , route="voirCompet")
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
+def confirmerEquipe(tournoi):
+    t = get_Tournoi_by_id(tournoi)
+    capitaine = {}
+    capitaine['nomP'] = request.form['nom_capitaine']
+    capitaine['prenomP'] = request.form['prenom_capitaine']
+    capitaine['mailP'] = request.form['mail_capitaine']
+    idChef = insert_participant(capitaine)
+    print(idChef)
+    for i in range(1, 3):
+        participant = {}
+        participant['nomP'] = request.form['nom_membre'+str(i)]
+        participant['prenomP'] = request.form['prenom_membre'+str(i)]
+        participant['mailP'] = request.form['mail_membre'+str(i)]
+        insert_participant(participant)
+    equipe = {}
+    equipe['nom_equipe'] = request.form['nom_equipe']
+    equipe['capitaine'] = idChef
+    equipe['idTournoi'] = t.idT
+    insert_equipe(equipe)
+    return render_template(
+    "equipe.html")

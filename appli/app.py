@@ -2,6 +2,8 @@ from flask import Flask
 app = Flask(__name__)
 from flask_bootstrap import Bootstrap
 Bootstrap(app)
+from flask_uikit import UIkit
+UIkit(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 import os.path

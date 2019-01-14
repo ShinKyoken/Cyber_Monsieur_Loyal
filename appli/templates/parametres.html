@@ -1,70 +1,70 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/creerCompetition.css') }}">
+<link rel="stylesheet" href="{{ url_for("static", filename="css/creerCompetition.css") }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 {% endblock %}
 {% block main %}
 <div class="container-fluid" id="containerCreerCompetFluid">
 <div class="container" id="containerCreerCompet">
-<form method="post" action="/voir_competition/{{tournoi.idT}}/modifier_competition">
-    <h1 class="text-center"><strong>Créer votre tournoi !</strong></h1>
+<form method="post" action="/tableau_de_bord/{{tournoi.idT}}/modifier_competition">
+    <h1 class="text-center"><strong>Modifier le tournoi : {{tournoi.intituleT}} !</strong></h1>
     <div>
         <div class="form-group row">
             <div class="col-md-4">
                 <label class="labelStyle">Nom du tournoi</label>
-                <input type="text" name="intituleT" class="form-control inputStyle" id="nomTournoi" value={{tournoi.intituleT}}>
+                <input type="text" name="intituleT" class="form-control inputStyle" id="nomTournoi" value="{{tournoi.intituleT}}">
             </div>
             <div class="col-md-4">
                 <label class="labelStyle">Lieu</label>
-                <input type="text" name="lieuT" class="form-control inputStyle" id="lieu" value={{tournoi.lieuT}}>
+                <input type="text" name="lieuT" class="form-control inputStyle" id="lieu" value="{{tournoi.lieuT}}">
             </div>
             <div class="col-md-4">
                 <label class="labelStyle">Discipline</label>
-                <input type="text" name="disciplineT" class="form-control inputStyle" id="discipline" value={{tournoi.disciplineT}}>
+                <input type="text" name="disciplineT" class="form-control inputStyle" id="discipline" value="{{tournoi.disciplineT}}">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <label class="labelStyle">Date du tournoi</label>
-                <input class="form-control inputStyle" name="dateT" type="date" id="dateDebut" value={{tournoi.dateT}}>
+                <input class="form-control inputStyle" name="dateT" type="date" id="dateDebut" value="{{tournoi.dateT}}">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Durée du tournoi</label>
-                <input type="number" name="dureeT" class="form-control inputStyle" id="DureeTournoi" value={{tournoi.dureeT}}>
+                <input type="number" name="dureeT" class="form-control inputStyle" id="DureeTournoi" value="{{tournoi.dureeT}}">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
-                <label class="labelStyle">Nombre d'équipes</label>
-                <input type="number" name="nbEquipe"  class="form-control inputStyle" id="nbEquipe" value={{tournoi.nbEquipe}}>
+                <label class="labelStyle">Nombre d"équipes</label>
+                <input type="number" name="nbEquipe"  class="form-control inputStyle" id="nbEquipe" value="{{tournoi.nbEquipe}}">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Nombre de membres par équipe</label>
-                <input type="number" name="nbParticipantsMax"  class="form-control inputStyle" id="nbMembre" value={{tournoi.nbParticipantsMax}}>
+                <input type="number" name="nbParticipantsMax"  class="form-control inputStyle" id="nbMembre" value="{{tournoi.nbParticipantsMax}}">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <label class="labelStyle">Description</label>
-                <input type="textarea" name="descT"  class="form-control inputStyle" id="description" value={{tournoi.descT}}>
+                <input type="textarea" name="descT"  class="form-control inputStyle" id="description" value="{{tournoi.descT}}">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Réglement</label>
-                <input type="textarea" name="regleT"  class="form-control inputStyle" id="reglement" value={{tournoi.regleT}}>
+                <input type="textarea" name="regleT"  class="form-control inputStyle" id="reglement" value="{{tournoi.regleT}}">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <label class="labelStyle">Nom de la chaîne Twitch</label>
-                <input type="text" name="stream" class="form-control inputStyle" id="urlStream" value={{tournoi.stream}}>
+                <input type="text" name="stream" class="form-control inputStyle" id="urlStream" value="{{tournoi.stream}}">
             </div>
             <div class="col-md-6">
                 <label class="labelStyle">Logo</label>
-                <input type="text" name="logoT" class="form-control inputStyle" id="image" value={{tournoi.logoT}}>
+                <input type="text" name="logoT" class="form-control inputStyle" id="image" value="{{tournoi.logoT}}">
             </div>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <label class="labelStyle">Type de tournoi : </label>
             <select class="form-control inputStyle" name="typeT" id="sel1">
                 <option>Élimination directe</option>
@@ -73,7 +73,7 @@
             </select>
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-success btn-lg inputStyle">Créer le tournoi</button>
+            <button type="submit" class="btn btn-success btn-lg inputStyle">Modifier le tournoi</button>
         </div>
     </div>
 </form>
