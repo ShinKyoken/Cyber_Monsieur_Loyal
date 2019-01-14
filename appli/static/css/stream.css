@@ -10,7 +10,18 @@ h2{
     padding-bottom: 3vh;
 }
 
+
 .retour{
     margin-bottom: 2vh;
     margin-left:0vw;
+}
+
+.videoTwitch{
+    height:60vh;
+    width: 70vw;
+}
+
+.chatTwitch{
+    height:60vh;
+    width: 20vw;
 }

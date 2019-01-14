@@ -2,9 +2,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/tournoi.css') }}">
 {% endblock %}
 {% block main %}
-  <div class=" banner">
-    <div class="">
-        <div class="row">
+  <div class="container-fluid" id="containerSidebar">
+
             <div class="col-md-3 sidebar">
                 <nav>
                     <img class="center-block" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="140" height="140">
@@ -14,11 +13,20 @@
                     <p class="text-center">Début : {{ tournoi.dateT }}</p>
                     <p class="text-center">Fin : 12/06/2019</p>
                     <ul>
+                    {% if route == "tableau" %}
                       <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button></a>
+                    {% endif %}
+                    {% if route == "voirCompet" %}
+                      <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button></a>
+                    {% endif %}
+
                     </ul>
                 </nav>
             </div>
