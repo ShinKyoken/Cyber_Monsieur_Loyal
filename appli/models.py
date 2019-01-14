@@ -33,6 +33,7 @@ class PARTICIPANT(db.Model):
 class EQUIPE(db.Model):
     idE           = db.Column(db.Integer, primary_key = True)
     etatE         = db.Column(db.Integer)
+    points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"), unique=True)
     nomE          = db.Column(db.String(100))
@@ -116,4 +117,10 @@ def update_tournoi(tournoi,id):
     tournoiUp.nbParticipantsMax=tournoi['nbParticipantsMax']
     tournoiUp.logoT=tournoi['logoT']
     tournoiUp.stream=tournoi['stream']
+    db.session.commit()
+
+def insert_participant(participant):
+    newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],
+    mailP = participant['mailP'])
+    db.session.add(newParticipant)
     db.session.commit()

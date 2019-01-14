@@ -118,7 +118,23 @@ def listeAdmins():
     "listeAdmin.html", listeAdmins = get_All_Admins()
     )
 
-@app.route("/voir_competitions_actives/<string:tournoi>/equipes/creer_equipe")
+@app.route("/tableau_de_bord/<string:tournoi>/equipes/creer_equipe")
 def creerEquipe(tournoi):
     return render_template(
-    "creerEquipe.html", tailleEquipe = 24, tournoi=get_Tournoi_by_id(tournoi))
+    "creerEquipe.html", tailleEquipe = 3, tournoi=get_Tournoi_by_id(tournoi))
+
+@app.route("/tableau_de_bord/<string:tournoi>/equipes/confirmer_equipe", methods={"POST"})
+def confirmerEquipe(tournoi):
+    capitaine = {}
+    capitaine['nomP'] = request.form['nom_capitaine']
+    capitaine['prenomP'] = request.form['prenom_capitaine']
+    capitaine['mailP'] = request.form['mail_capitaine']
+    insert_participant(capitaine)
+    for i in range(1, 3):
+        participant = {}
+        participant['nomP'] = request.form['nom_membre'+str(i)]
+        participant['prenomP'] = request.form['prenom_membre'+str(i)]
+        participant['mailP'] = request.form['mail_membre'+str(i)]
+        insert_participant(participant)
+    return render_template(
+    "equipe.html")
