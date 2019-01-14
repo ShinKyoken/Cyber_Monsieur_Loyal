@@ -124,3 +124,9 @@ def update_tournoi(tournoi,id):
     tournoiUp.logoT=tournoi['logoT']
     tournoiUp.stream=tournoi['stream']
     db.session.commit()
+
+def insert_participant(participant):
+    newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],
+    mailP = participant['mailP'])
+    db.session.add(newParticipant)
+    db.session.commit()
