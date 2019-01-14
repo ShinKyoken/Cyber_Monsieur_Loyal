@@ -98,8 +98,7 @@ def tournoi(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
 def voirMatchs(tournoi):
     return render_template(
-        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi)
-        , route="tableau")
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))#, equipes=get_All_Equipes_Classe(), match_A_Venir=get_Match_A_Venir())
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 def voirStream(tournoi):
