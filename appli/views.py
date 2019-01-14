@@ -1,6 +1,24 @@
 from .app import app
 from .models import *
 from flask import render_template, redirect, url_for, request
+from flask_login import login_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, HiddenField, validators, PasswordField
+from flask import request
+
+class LoginForm(FlaskForm):
+        username = StringField('Username')
+        password = PasswordField('Password')
+
+        def get_authenticated_user(self):
+                user = ADMIN.query.get(self.nomAdmin.data)
+                if user is None:
+                    return None
+                m = sha256()
+                m.update(self.mdpAdmin.data.encode())
+                passwd = m.hexdigest()
+                return user if passwd == user.mdpAdmin else None
+
 
 @app.route("/")
 def home():
@@ -12,9 +30,10 @@ def home():
 def creerCompetition():
     return render_template("creerCompetition.html")
 
-@app.route("/test")
-def test():
-    return render_template("nouveauCreerCompetition.html")
+@app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/test",methods={"POST"})
+def test(tournoi):
+    automatique_match(tournoi,request.form['nbMatchs'],request.form['nbEquipe'])
+    return render_template("letest.html")
 
 @app.route("/confirmer_competition", methods={"POST"})
 def confirmerTournoi():
@@ -31,7 +50,7 @@ def confirmerTournoi():
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 2
+    tournoi['etatT']             = 0
     tournoi['idAdmin']           = 1
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
@@ -70,6 +89,14 @@ def voirCompetitionsActives():
         route="voirCompet"
         )
 
+@app.route("/voir_competitions_inactives")
+def voirCompetitionsInactives():
+    return render_template(
+        "voirCompetitionsInactives.html",tournois = get_All_Tournois_Inactifs(),
+        dicoAdmin = get_nom_prenom_by_tournoi(0),
+        route="voirCompet"
+        )
+
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
@@ -98,7 +125,7 @@ def tournoi(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
 def voirMatchs(tournoi):
     return render_template(
-        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi))#, equipes=get_All_Equipes_Classe(), match_A_Venir=get_Match_A_Venir())
+        "voirMatchs.html", tournoi=get_Tournoi_by_id(tournoi), equipes=get_All_Equipes_Classe(tournoi))#, match_A_Venir=get_Match_A_Venir())
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 def voirStream(tournoi):
@@ -116,13 +143,21 @@ def voirPhotos(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
 def equipe(tournoi):
     return render_template(
-        "equipe.html", equipes=get_All_Equipes(tournoi)
-        , route="tableau")
+        "equipe.html", equipes=get_equipe_by_tournoi(tournoi), tournoi=get_Tournoi_by_id(tournoi))
+
+@app.route("/tableau_de_bord/equipes/<int:equipe>")
+def membres_equipe(equipe):
+    return render_template(
+        "membres_equipe.html", participants=get_participant_by_id_equipe(equipe))
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
     return render_template(
         "parametres.html", tournoi=tournoi)
+
+@app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
+def lancerCompet(tournoi):
+    return render_template("creation_matchs.html",tournoi = get_Tournoi_by_id(tournoi))
 
 @app.route("/listeAdmins")
 def listeAdmins():
@@ -130,10 +165,10 @@ def listeAdmins():
     "listeAdmin.html", listeAdmins = get_All_Admins()
     )
 
-@app.route("/voir_competitions_actives/<string:tournoi>/equipes/creer_equipe")
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/creer_equipe")
 def creerEquipe(tournoi):
     return render_template(
-    "creerEquipe.html", tailleEquipe = 24, tournoi=get_Tournoi_by_id(tournoi))
+    "creerEquipe.html", tailleEquipe = 3, tournoi=get_Tournoi_by_id(tournoi))
 
 @app.route("/voir_competition/<int:tournoi>/matchs")
 def voirCompet_Matchs(tournoi):
@@ -157,5 +192,28 @@ def voirCompet_Photos(tournoi):
 @app.route("/voir_competition/<int:tournoi>/equipes")
 def voirCompet_equipe(tournoi):
     return render_template(
-        "equipe.html", equipes=get_All_Equipes(tournoi)
+        "equipe.html", equipes=get_equipe_by_tournoi(tournoi)
         , route="voirCompet")
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
+def confirmerEquipe(tournoi):
+    t = get_Tournoi_by_id(tournoi)
+    capitaine = {}
+    capitaine['nomP'] = request.form['nom_capitaine']
+    capitaine['prenomP'] = request.form['prenom_capitaine']
+    capitaine['mailP'] = request.form['mail_capitaine']
+    idChef = insert_participant(capitaine)
+    print(idChef)
+    for i in range(1, 3):
+        participant = {}
+        participant['nomP'] = request.form['nom_membre'+str(i)]
+        participant['prenomP'] = request.form['prenom_membre'+str(i)]
+        participant['mailP'] = request.form['mail_membre'+str(i)]
+        insert_participant(participant)
+    equipe = {}
+    equipe['nom_equipe'] = request.form['nom_equipe']
+    equipe['capitaine'] = idChef
+    equipe['idTournoi'] = t.idT
+    insert_equipe(equipe)
+    return render_template(
+    "equipe.html")
