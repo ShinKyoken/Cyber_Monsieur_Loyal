@@ -31,7 +31,7 @@ def confirmerTournoi():
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
+    tournoi['etatT']             = 2
     tournoi['idAdmin']           = 1
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
