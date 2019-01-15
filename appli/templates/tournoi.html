@@ -26,7 +26,10 @@
                     {% if tournoi.etatT == 1 %}
                       <a href="/tableau_de_bord/{{tournoi.idT}}/"><button class="btn btn-success btn-lg inputStyle col-md-11">Arrêter le tournoi</button></a>
                     {% endif %}
-                    
+
+                    <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi"><button class="btn btn-success btn-lg inputStyle col-md-11">Lancer tournoi</button></a>
+
+
                     {% endif %}
                     {% if route == "voirCompet" %}
                       <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button></a>
