@@ -11,7 +11,7 @@ class ADMIN(db.Model, UserMixin):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.String(100))
+    regleT            = db.Column(db.LargeBinary)
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -96,6 +96,9 @@ def get_participant_by_id_equipe(idEquipe):
     for participant in listeParticipants:
         membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
     return membres
+
+def insert_regle(fichier):
+    newFile = TOURNOI(regleT = fichier.read())
 
 def count_tournoi():
     return TOURNOI.query.count()
