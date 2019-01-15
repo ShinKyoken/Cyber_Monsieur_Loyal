@@ -9,19 +9,19 @@ from flask import request
 class LoginForm(FlaskForm):
         username = StringField('Username')
         password = PasswordField('Password')
+        next = HiddenField()
 
-        def validate_on_submit(self):
-                print('aaaaaaaaa\n\n\n')
+        def get_authenticated_user(self):
                 print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
                 if self.username.data == None:
-                    return False
+                    return None
                 user = ADMIN.query.get(self.username.data)
                 if user is None:
                     return False
                 m = sha256()
-                m.update(self.mdpAdmin.data.encode())
+                m.update(self.password.data.encode())
                 passwd = m.hexdigest()
-                return True if passwd == user.mdpAdmin else False
+                return user if passwd == user.password else None
 
 
 @app.route("/")
@@ -29,11 +29,17 @@ def home():
     return render_template(
         "home.html")
 
-@app.route("/connexion",methods={"POST"})
+@app.route("/connexion",methods=["GET","POST"])
 def connect():
     form = LoginForm()
+    print(form.validate_on_submit())
+    if not form.is_submitted()
     if form.validate_on_submit():
-        return home()
+        user = form.get_authenticated_user()
+        if user :
+            login_user(user)
+            next = form.next.data or url_for("home")
+            return redirect(next)
     return render_template(
         "connexion.html",form = form)
 
@@ -245,7 +251,7 @@ def ajouterMembre(tournoi, equipe):
 def ajouterPhoto(tournoi):
     return render_template(
         "ajouterPhoto.html", tournoi= get_Tournoi_by_id(tournoi))
-        
+
 @app.route("/tableau_de_bord/recherche/", methods=("POST",))
 def rechercheTournois():
     a = request.form['search']
