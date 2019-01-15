@@ -33,12 +33,16 @@ def home():
 def connect():
     form = LoginForm()
     print(form.validate_on_submit())
-    if not form.is_submitted()
-    if form.validate_on_submit():
+    print(form.is_submitted())
+    if (not form.is_submitted()) :
+        f.next.data = request.args.get("next")
+    elif form.validate_on_submit():
         user = form.get_authenticated_user()
+        print("aaaaaaaaaaaaaaaaaaaaaa\n")
         if user :
             login_user(user)
             next = form.next.data or url_for("home")
+            print("bbbbbbbbbbbbbbbbbbbbbbb\n")
             return redirect(next)
     return render_template(
         "connexion.html",form = form)
