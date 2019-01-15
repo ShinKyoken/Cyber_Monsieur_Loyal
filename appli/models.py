@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from .app import db
+=======
+from .app import db, login_manager
+>>>>>>> 9ea2126dd700c3a961d87f156aea3b83d91ff0af
 from flask_login import UserMixin
 import random
 
@@ -54,7 +58,9 @@ class CONSTITUER(db.Model):
 
 class PARTIE(db.Model):
     idPartie   = db.Column(db.Integer, primary_key=True)
-    carteParie = db.Column(db.String(100))
+    cartePartie = db.Column(db.String(100))
+    datePartie = db.Column(db.Date)
+    gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
 
 class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
@@ -102,7 +108,14 @@ def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
 def get_equipe_by_tournoi(idTournoi):
+<<<<<<< HEAD
     return EQUIPE.query.filter_by(idT = idTournoi).all()
+=======
+    return EQUIPE.query.filter_by(idT = idTournoi)
+
+def get_equipe_by_id(id):
+    return EQUIPE.query.filter_by(idE = id)[0]
+>>>>>>> 9ea2126dd700c3a961d87f156aea3b83d91ff0af
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
@@ -160,6 +173,15 @@ def insert_equipe(equipe):
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     db.session.add(newEquipe)
     db.session.commit()
+
+def insert_constituer(idEquipe, idParticipant):
+    newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
+    db.session.add(newConstituer)
+    db.session.commit()
+
+@login_manager.user_loader
+def load_user(username):
+        return ADMIN.query.get(username)
 
 def insert_partie():
     newPartie = PARTIE(carteParie = "Nuketown")

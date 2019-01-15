@@ -203,17 +203,35 @@ def confirmerEquipe(tournoi):
     capitaine['prenomP'] = request.form['prenom_capitaine']
     capitaine['mailP'] = request.form['mail_capitaine']
     idChef = insert_participant(capitaine)
-    print(idChef)
-    for i in range(1, 3):
+
+    equipe = {}
+    equipe['nom_equipe']   = request.form['nom_equipe']
+    equipe['capitaine']    = idChef
+    equipe['idTournoi']    = t.idT
+    equipe['tailleEquipe'] = int(request.form['nbParticipant'])
+    idEquipe = insert_equipe(equipe)
+    e = get_equipe_by_id(idEquipe)
+    print(e)
+    return redirect(url_for(
+    "ajout_membre", tournoi = tournoi, equipe = idEquipe))
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajout_membre")
+def ajout_membre(tournoi, equipe):
+    e = get_equipe_by_id(equipe)
+    t = get_Tournoi_by_id(tournoi)
+    return render_template(
+        "ajoutMembre.html", equipe = e, tournoi = t)
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter_membre", methods=("GET","POST",))
+def ajouterMembre(tournoi, equipe):
+    e = get_equipe_by_id(equipe)
+    print(e.nbParticipant)
+    for i in range(1, e.nbParticipant+1):
         participant = {}
         participant['nomP'] = request.form['nom_membre'+str(i)]
         participant['prenomP'] = request.form['prenom_membre'+str(i)]
         participant['mailP'] = request.form['mail_membre'+str(i)]
-        insert_participant(participant)
-    equipe = {}
-    equipe['nom_equipe'] = request.form['nom_equipe']
-    equipe['capitaine'] = idChef
-    equipe['idTournoi'] = t.idT
-    insert_equipe(equipe)
-    return render_template(
-    "equipe.html")
+        p = insert_participant(participant)
+        insert_constituer(equipe, p)
+
+    return redirect(url_for("equipe",tournoi = tournoi))
