@@ -95,7 +95,7 @@ def get_equipe_by_tournoi(idTournoi):
     return EQUIPE.query.filter_by(idT = idTournoi).all()
 
 def get_equipe_by_id(id):
-    return EQUIPE.query.filter_by(idE = id)[0]
+    return EQUIPE.query.filter_by(idE = id)
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
@@ -155,6 +155,7 @@ def insert_equipe(equipe):
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     db.session.add(newEquipe)
     db.session.commit()
+    return newEquipe.idE
 
 def insert_constituer(idEquipe, idParticipant):
     newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
@@ -228,7 +229,7 @@ def delete_equipe(idEquipe):
 
 def get_participant_by_id(idP):
     return TOURNOI.query.filter_by(idP = idP)
-    
+
 def get_membres_constituer(idEquipe):
     return CONSTITUER.query.filter_by(idE = idEquipe)
 
