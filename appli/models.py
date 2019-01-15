@@ -34,8 +34,8 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True)
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idE           = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
