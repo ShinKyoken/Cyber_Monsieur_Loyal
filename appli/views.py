@@ -233,5 +233,12 @@ def ajouterMembre(tournoi, equipe):
         participant['mailP'] = request.form['mail_membre'+str(i)]
         p = insert_participant(participant)
         insert_constituer(equipe, p)
-
     return redirect(url_for("equipe",tournoi = tournoi))
+    return render_template(
+        "equipe.html", tournoi= get_Tournoi_by_id(tournoi))
+
+
+@app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
+def ajouterPhoto(tournoi):
+    return render_template(
+        "ajouterPhoto.html", tournoi= get_Tournoi_by_id(tournoi))
