@@ -54,7 +54,9 @@ class CONSTITUER(db.Model):
 
 class PARTIE(db.Model):
     idPartie   = db.Column(db.Integer, primary_key=True)
-    carteParie = db.Column(db.String(100))
+    cartePartie = db.Column(db.String(100))
+    datePartie = db.Column(db.Date)
+    gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
 
 class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
