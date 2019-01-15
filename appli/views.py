@@ -119,3 +119,8 @@ def listeAdmins():
 def creerEquipe(tournoi):
     return render_template(
     "creerEquipe.html", tailleEquipe = 6, tournoi=tournoi)
+
+@app.route("/voir_competitions/<int:tournoi>/historique")
+def historique(tournoi):
+    return render_template(
+        "historique.html")
