@@ -10,7 +10,7 @@
       <!-- Example row of columns -->
       <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/ajouter_membre">
       <div class="row">
-        {% for x in range(equipe.nbParticipant) %}
+        {% for x in range((equipe.nbParticipant)-1) %}
         <div class="col-sm-6 col-md-{{tailleEquipe}}">
           <div class="thumbnail">
             <div class="caption">

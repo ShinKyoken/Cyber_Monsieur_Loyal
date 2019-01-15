@@ -3,7 +3,7 @@ from flask_login import UserMixin
 import random
 import datetime
 
-class ADMIN(db.Model, UserMixin):
+class ADMIN(db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
@@ -13,7 +13,7 @@ class ADMIN(db.Model, UserMixin):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.String(100))
+    regleT            = db.Column(db.LargeBinary)
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -34,8 +34,7 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True,  autoincrement = True)
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False)
+    idE           = db.Column(db.Integer, primary_key = True)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
@@ -44,7 +43,7 @@ class EQUIPE(db.Model):
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True,)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
     Photo     = db.Column(db.Text)
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
@@ -73,30 +72,17 @@ def get_All_Tournois_Actifs():
 def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
 
-def get_All_Tournois_Inactifs():
-    return TOURNOI.query.filter_by(etatT = 0)
-
 def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
 
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
 
-def get_All_Equipes():
-    return EQUIPE.query.all()
+def get_All_Equipes(idT):
+    return EQUIPE.query.filter_by(idT = idT)
 
-def get_All_Participants():
-    return PARTICIPANT.query.all()
-
-def get_membres_constituer(idEquipe):
-    return CONSTITUER.query.filter_by(idE = idEquipe)
-
-def get_participant_by_id_equipe(idEquipe):
-    membres = []
-    listeParticipants = get_membres_constituer(idEquipe)
-    for participant in listeParticipants:
-        membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
-    return membres
+def insert_regle(fichier):
+    newFile = TOURNOI(regleT = fichier.read())
 
 def count_tournoi():
     return TOURNOI.query.count()
@@ -112,6 +98,8 @@ def get_equipe_by_id(id):
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
+#def get_All_Equipes_Classe():
+#    return EQUIPE.query.order_by(points)
 
 #def get_Match_A_Venir():
 #    return EQUIPE.query.order_by(points)
@@ -122,15 +110,13 @@ def get_nom_prenom_by_tournoi(etatT):
         tournois = get_All_Tournois_Actifs()
     elif etatT == 2:
         tournois = get_All_Tournois_Terminees()
-    elif etatT == 0:
-        tournois = get_All_Tournois_Inactifs()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
         dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
+    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'].read(), dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
@@ -221,3 +207,27 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
                 res = "Votre tournoi à bien été crée, cependant un match ne sera pas complet"
                 break
     return res
+
+def getRechercheAllTournois(recherche):
+    return TOURNOI.query.filter(
+        TOURNOI.intituleT.like(recherche +"%")
+    ).all()
+
+def getRechercheTournoisActif(recherche):
+    t = get_All_Tournois_Actifs()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+
+def get_constituer(idP, idE):
+    return TOURNOI.query.filter_by(idP = idP, idE = idE)
+
+def delete_equipe(idEquipe):
+    return None
+
+def get_participant_by_id(idP):
+    return TOURNOI.query.filter_by(idP = idP)
+
+def delete_membre(idEquipe, idParticipant):
+    c = get_constituer(idEquipe, idParticipant)
+    db.session.delete(c)
+    p = get_participant_by_id(idParticipant)
+    db.session.delete(p)
