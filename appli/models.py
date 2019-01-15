@@ -114,7 +114,7 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
+    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'].read(), dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
@@ -151,7 +151,6 @@ def insert_equipe(equipe):
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
-<<<<<<< HEAD
     return newEquipe.idE
 
 def insert_constituer(idEquipe, idParticipant):
@@ -162,5 +161,3 @@ def insert_constituer(idEquipe, idParticipant):
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
-=======
->>>>>>> Ajout de la page d'ajout de photo
