@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
+{% endblock %}
+{% block main %}
+<div class="voirCompetition container-fluid">
+  <div class="container">
+    <form role="form" method="POST" action="voirCompetitionActives.html">
+      <h1 class="text-center">Membres</h1>
+    </form>
+</div>
+  <div class="container divCartes">
+    <div class="row center-block">
+      {% for participant in participants %}
+        <div class="col-md-1 col-sm-2 ">
+              <p>{{ participant.nomP }}<p>
+              <p>{{ participant.prenomP }}<p>
+       </div><!-- /.col-lg-4 -->
+      {% endfor %}
+       </div><!-- /.row -->
+     </div>
+</div>
+{% endblock %}

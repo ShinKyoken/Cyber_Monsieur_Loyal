@@ -1,5 +1,6 @@
 from .app import db, login_manager
 from flask_login import UserMixin
+import random
 
 class ADMIN(db.Model, UserMixin):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -32,7 +33,8 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True)
+    idE           = db.Column(db.Integer, primary_key = True,  autoincrement = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
@@ -42,7 +44,7 @@ class EQUIPE(db.Model):
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True,)
     Photo     = db.Column(db.Text)
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
@@ -53,7 +55,9 @@ class CONSTITUER(db.Model):
 
 class PARTIE(db.Model):
     idPartie   = db.Column(db.Integer, primary_key=True)
-    carteParie = db.Column(db.String(100))
+    cartePartie = db.Column(db.String(100))
+    datePartie = db.Column(db.Date)
+    gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
 
 class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
@@ -69,14 +73,30 @@ def get_All_Tournois_Actifs():
 def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
 
+def get_All_Tournois_Inactifs():
+    return TOURNOI.query.filter_by(etatT = 0)
+
 def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
 
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
 
-def get_All_Equipes(idT):
-    return EQUIPE.query.filter_by(idT = idT)
+def get_All_Equipes():
+    return EQUIPE.query.all()
+
+def get_All_Participants():
+    return PARTICIPANT.query.all()
+
+def get_membres_constituer(idEquipe):
+    return CONSTITUER.query.filter_by(idE = idEquipe)
+
+def get_participant_by_id_equipe(idEquipe):
+    membres = []
+    listeParticipants = get_membres_constituer(idEquipe)
+    for participant in listeParticipants:
+        membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
+    return membres
 
 def count_tournoi():
     return TOURNOI.query.count()
@@ -84,8 +104,14 @@ def count_tournoi():
 def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
-#def get_All_Equipes_Classe():
-#    return EQUIPE.query.order_by(points)
+def get_equipe_by_tournoi(idTournoi):
+    return EQUIPE.query.filter_by(idT = idTournoi)
+
+def get_equipe_by_id(id):
+    return EQUIPE.query.filter_by(idE = id)[0]
+
+def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
+    return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
 
 #def get_Match_A_Venir():
 #    return EQUIPE.query.order_by(points)
@@ -96,6 +122,8 @@ def get_nom_prenom_by_tournoi(etatT):
         tournois = get_All_Tournois_Actifs()
     elif etatT == 2:
         tournois = get_All_Tournois_Terminees()
+    elif etatT == 0:
+        tournois = get_All_Tournois_Inactifs()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
         dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
@@ -136,10 +164,50 @@ def insert_participant(participant):
 def insert_equipe(equipe):
     newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
-    # print(newEquipe.__dict__)
     db.session.add(newEquipe)
+    db.session.commit()
+
+def insert_constituer(idEquipe, idParticipant):
+    newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
+    db.session.add(newConstituer)
     db.session.commit()
 
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
+        
+def insert_partie():
+    newPartie = PARTIE(carteParie = "Nuketown")
+    db.session.add(newPartie)
+    db.session.commit()
+    return newPartie.idPartie
+
+def insert_participer_partie(idTournoi, idEquipe, idP):
+    newParticiperPartie = PARTICIPERPARTIE(idE = idEquipe, idPartie = idPartie, idT = idTournoi)
+    db.session.add(newParticiperPartie)
+    db.session.commit()
+
+
+def automatique_match(idTournoi,nbMatchs,nbParticipants):
+    listeEquipe = get_equipe_by_tournoi(idTournoi)
+    dico = {}
+    listeId = []
+    listeIdPartie = []
+
+    for equipe in listeEquipe:
+        dico[equipe.idE] = nbMatchs
+        listeId.append(equipe.idE)
+
+    for i in range((len(listeEquipe)*nbMatchs)//nbParticipants):
+        listeIdPartie.append(insert_partie())
+
+    for partie in listeIdPartie:
+        for parti in nbParticipants:
+            int = random.randint(1,len(listeId))
+            insert_participer_partie(listeId[int],partie,idTournoi)
+            reset_liste = listeId.copy()
+            del reset_liste[int]
+            dico[listeId[int]] -= 1
+            if dico[listeId[int]] == 0:
+                del listeId[int]
+    return "GG VOUS AVEZ WIN BRAVO"
