@@ -245,7 +245,7 @@ def ajouterMembre(tournoi, equipe):
 def ajouterPhoto(tournoi):
     return render_template(
         "ajouterPhoto.html", tournoi= get_Tournoi_by_id(tournoi))
-        
+
 @app.route("/tableau_de_bord/recherche/", methods=("POST",))
 def rechercheTournois():
     a = request.form['search']

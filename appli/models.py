@@ -35,6 +35,7 @@ class PARTICIPANT(db.Model):
 
 class EQUIPE(db.Model):
     idE           = db.Column(db.Integer, primary_key = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
