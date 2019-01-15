@@ -1,5 +1,6 @@
 from .app import db, login_manager
 from flask_login import UserMixin
+import random
 
 class ADMIN(db.Model, UserMixin):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -54,7 +55,9 @@ class CONSTITUER(db.Model):
 
 class PARTIE(db.Model):
     idPartie   = db.Column(db.Integer, primary_key=True)
-    carteParie = db.Column(db.String(100))
+    cartePartie = db.Column(db.String(100))
+    datePartie = db.Column(db.Date)
+    gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
 
 class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
@@ -159,12 +162,10 @@ def insert_participant(participant):
     return newParticipant.idP
 
 def insert_equipe(equipe):
-    newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
-    # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
-    return newEquipe.idE
 
 def insert_constituer(idEquipe, idParticipant):
     newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
@@ -174,3 +175,39 @@ def insert_constituer(idEquipe, idParticipant):
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
+        
+def insert_partie():
+    newPartie = PARTIE(carteParie = "Nuketown")
+    db.session.add(newPartie)
+    db.session.commit()
+    return newPartie.idPartie
+
+def insert_participer_partie(idTournoi, idEquipe, idP):
+    newParticiperPartie = PARTICIPERPARTIE(idE = idEquipe, idPartie = idPartie, idT = idTournoi)
+    db.session.add(newParticiperPartie)
+    db.session.commit()
+
+
+def automatique_match(idTournoi,nbMatchs,nbParticipants):
+    listeEquipe = get_equipe_by_tournoi(idTournoi)
+    dico = {}
+    listeId = []
+    listeIdPartie = []
+
+    for equipe in listeEquipe:
+        dico[equipe.idE] = nbMatchs
+        listeId.append(equipe.idE)
+
+    for i in range((len(listeEquipe)*nbMatchs)//nbParticipants):
+        listeIdPartie.append(insert_partie())
+
+    for partie in listeIdPartie:
+        for parti in nbParticipants:
+            int = random.randint(1,len(listeId))
+            insert_participer_partie(listeId[int],partie,idTournoi)
+            reset_liste = listeId.copy()
+            del reset_liste[int]
+            dico[listeId[int]] -= 1
+            if dico[listeId[int]] == 0:
+                del listeId[int]
+    return "GG VOUS AVEZ WIN BRAVO"

@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% block styles %} {{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/creation_match.css') }}">
+{% endblock %} {% block main %}
+<div class="container" id="contMain">
+<form method="post" action="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi/test">
+    <h1 class="text-center"><strong>Lancer le tournoi : {{tournoi.intituleT}} !</strong></h1>
+    <div class="row">
+      <div class="form-group row">
+          <div class="col-md-4">
+            <label class="labelStyle">Nombre d'équipe par match</label>
+            <input type="text" name="nbEquipe" class="form-control inputStyle" id="nbEquipe" placeholder="Exemple : 3 ...">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-4">
+            <label class="labelStyle">Nombre de matchs par équipe</label>
+            <input type="text" name="nbMatchs" class="form-control inputStyle" id="nbMatchs" placeholder="Exemple : 3 ...">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-4">
+              <button type="submit" class="btn btn-success btn-lg inputStyle">Lancer le tournoi</button>
+          </div>
+        </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
