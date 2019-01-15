@@ -34,8 +34,8 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True)
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idE           = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
@@ -231,6 +231,16 @@ def delete_equipe(idEquipe):
 
 def get_participant_by_id(idP):
     return TOURNOI.query.filter_by(idP = idP)
+
+def get_membres_constituer(idEquipe):
+    return CONSTITUER.query.filter_by(idE = idEquipe)
+
+def get_participant_by_id_equipe(idEquipe):
+    membres = []
+    listeParticipants = get_membres_constituer(idEquipe)
+    for participant in listeParticipants:
+        membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
+    return membres
 
 def delete_membre(idEquipe, idParticipant):
     c = get_constituer(idEquipe, idParticipant)
