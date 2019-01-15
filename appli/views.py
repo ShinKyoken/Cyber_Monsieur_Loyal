@@ -10,14 +10,18 @@ class LoginForm(FlaskForm):
         username = StringField('Username')
         password = PasswordField('Password')
 
-        def get_authenticated_user(self):
-                user = ADMIN.query.get(self.nomAdmin.data)
+        def validate_on_submit(self):
+                print('aaaaaaaaa\n\n\n')
+                print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
+                if self.username.data == None:
+                    return False
+                user = ADMIN.query.get(self.username.data)
                 if user is None:
-                    return None
+                    return False
                 m = sha256()
                 m.update(self.mdpAdmin.data.encode())
                 passwd = m.hexdigest()
-                return user if passwd == user.mdpAdmin else None
+                return True if passwd == user.mdpAdmin else False
 
 
 @app.route("/")
@@ -25,6 +29,13 @@ def home():
     return render_template(
         "home.html")
 
+@app.route("/connexion",methods={"POST"})
+def connect():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return home()
+    return render_template(
+        "connexion.html",form = form)
 
 @app.route("/creer_competition")
 def creerCompetition():
@@ -74,11 +85,6 @@ def modifierTournoi(id):
     update_tournoi(tournoi,id)
     return render_template("modifierTournoi.html")
 
-
-@app.route("/connexion")
-def connect():
-    return render_template(
-        "connexion.html")
 
 @app.route("/voir_competitions_actives")
 def voirCompetitionsActives():

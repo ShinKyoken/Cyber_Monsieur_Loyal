@@ -5,22 +5,22 @@
 {% endblock %}
 {% block main %}
 <div class="text-center" id="centre">
-<form class="form-signin">
+<form class="form-signin" method="post" action="/connexion">
   <img class="mb-4" src="./static/icons/CML_Logo.png" alt="" width="72" height="72">
   <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
 
   <label for="login-name" class="sr-only">Nom d'utilisateur</label>
-  <input type="textfield" id="inputEmail" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
+  <input type="username" id="username" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
 
   <label for="login-pass" class="sr-only">Mot de passe</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+  <input type="password" id="password" class="form-control" placeholder="Mot de passe" required>
 
   <div class="checkbox mb-3">
     <label>
       <input type="checkbox" value="remember-me"> se souvenir de moi
     </label>
   </div>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" value="Log in">Connexion</button>
 </form>
 </div>
 {% endblock %}
