@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/membres_equipe.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 {% endblock %}
 {% block main %}
@@ -11,16 +12,17 @@
       <h1 class="text-center">Membres</h1>
     </form>
 </div>
-  <div class="container divCartes">
-    <div class="row center-block">
+  <div class="members">
+    <div class="row">
       {% for participant in participants %}
-        <div class="col-md-1 col-sm-2 ">
-              <p>{{ participant.nomP }}<p>
-              <p>{{ participant.prenomP }}<p>
-       </div><!-- /.col-lg-4 -->
+
+           <div class="col-md-4">
+              <p> <img class="rounded float-left" src="/static/icons/stick_figure.png" alt="" height="50px" width="25px">
+                  {{ participant.nomP }} {{ participant.prenomP }}<p>
+          </div>
+
       {% endfor %}
-       </div><!-- /.row -->
-     </div>
-     <a href="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe}}/delete"><button class="bouton center-block">Supprimer l'équipe</button></a>
+    </div>
+  </div>
 </div>
 {% endblock %}
