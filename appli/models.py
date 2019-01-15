@@ -13,7 +13,7 @@ class ADMIN(db.Model):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.LargeBinary)
+    regleT            = db.Column(db.String(100))
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -84,9 +84,6 @@ def get_Tournoi_by_id(id):
 def get_All_Equipes(idT):
     return EQUIPE.query.filter_by(idT = idT)
 
-def insert_regle(fichier):
-    newFile = TOURNOI(regleT = fichier.read())
-
 def count_tournoi():
     return TOURNOI.query.count()
 
@@ -121,7 +118,7 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'].read(), dateT = tournoi['dateT'],
+    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
