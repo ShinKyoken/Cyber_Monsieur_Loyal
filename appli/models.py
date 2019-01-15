@@ -66,6 +66,9 @@ class PARTICIPERPARTIE(db.Model):
 def get_All_Admins():
     return ADMIN.query.all()
 
+def get_All_Tournois_Inactifs():
+    return TOURNOI.query.filter_by(etatT = 0)
+
 def get_All_Tournois_Actifs():
     return TOURNOI.query.filter_by(etatT = 1)
 
@@ -106,6 +109,8 @@ def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tourn
 
 def get_nom_prenom_by_tournoi(etatT):
     dico = {}
+    if etatT == 0:
+        tournois = get_All_Tournois_Inactifs()
     if etatT == 1:
         tournois = get_All_Tournois_Actifs()
     elif etatT == 2:
