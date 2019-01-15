@@ -6,37 +6,42 @@
 {% block main %}
 <div class="container-fluid voirCompetition" id="contmain">
   <div class="container">
-    <h1 id="nom_equipe" > Ajouter une équipe à {{ tournoi }}</h1>
+    <h1 id="nom_equipe" > Ajouter une équipe à "{{ tournoi.intituleT }}"</h1>
       <!-- Example row of columns -->
-      <form method="get" action="#">
+      <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/confirmer_equipe">
         <div class="input-group" id="text_field_nom">
           <span class="input-group-addon" id="">Nom de l'équipe</span>
-          <input type="text" class="form-control" id="" aria-describedby="basic-addon3">
+          <input name="nom_equipe" type="text" class="form-control" id="" aria-describedby="basic-addon3">
         </div>
-      </form>
-      <div class="row">
-        {% for x in range(tailleEquipe) %}
-        <div class="col-sm-6 col-md-{{12//(tailleEquipe//2)}}">
+
           <div class="thumbnail">
             <div class="caption">
-              <h3>Membre {{x+1}}</h3>
-              <form method="get" action="#">
+              <h3>Capitaine</h3>
                 <div class="input-group" id="text_field_nom">
                   <span class="input-group-addon" id="">Nom</span>
-                  <input type="text" class="form-control" id="" aria-describedby="basic-addon3">
+                  <input name="nom_capitaine" type="text" class="form-control" id="" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Prenom</span>
+                  <input name="prenom_capitaine" type="text" class="form-control" id="" aria-describedby="basic-addon3">
                 </div>
                 <div class="input-group" id="text_field_nom">
                   <span class="input-group-addon" id="">Email</span>
-                  <input type="text" class="form-control" id="" aria-describedby="basic-addon3">
+                  <input name="mail_capitaine" type="text" class="form-control" id="" aria-describedby="basic-addon3">
                 </div>
-              </form>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
             </div>
           </div>
-        </div>
-        {% endfor %}
-      </div>
 
+          <div class="input-group" id="text_field_nom">
+            <span class="input-group-addon" id="">Nombre de membre</span>
+            <input name="nbParticipant" class="form-control" id="" type="number" placeholder="Nombre membre">
+          </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-success btn-lg">Ajouter équipe</button>
+        </div>
+
+    </form>
   </div>
 </div>
 {% endblock %}
