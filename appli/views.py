@@ -13,11 +13,10 @@ class LoginForm(FlaskForm):
 
         def get_authenticated_user(self):
                 print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
-                if self.username.data == None:
-                    return None
                 user = ADMIN.query.get(self.username.data)
-                if user is None:
-                    return False
+                print(user)
+                if user is None :
+                    return None
                 m = sha256()
                 m.update(self.password.data.encode())
                 passwd = m.hexdigest()
@@ -32,11 +31,9 @@ def home():
 @app.route("/connexion",methods=["GET","POST"])
 def connect():
     form = LoginForm()
-    print(form.validate_on_submit())
-    print(form.is_submitted())
     if (not form.is_submitted()) :
         f.next.data = request.args.get("next")
-    elif form.validate_on_submit():
+    else :
         user = form.get_authenticated_user()
         print("aaaaaaaaaaaaaaaaaaaaaa\n")
         if user :

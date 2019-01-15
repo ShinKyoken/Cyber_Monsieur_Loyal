@@ -3,7 +3,7 @@ from flask_login import UserMixin
 import random
 import datetime
 
-class ADMIN(db.Model):
+class ADMIN(db.Model,UserMixin):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
@@ -237,3 +237,6 @@ def delete_membre(idEquipe, idParticipant):
     db.session.delete(c)
     p = get_participant_by_id(idParticipant)
     db.session.delete(p)
+
+def get_Admin_by_nom(admin) :
+    return ADMIN.query.filter_by(nomAdmin = admin)[0]
