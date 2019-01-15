@@ -9,8 +9,8 @@
 	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
 		<h2>Matchs du Tournois</h2>
 	</div>
-
-	<div class="block_classement">      <!-- Partie de gauche, avec le classement équipes -->
+ <div class="row">
+	<div class="block_classement col-md-6">      <!-- Partie de gauche, avec le classement équipes -->
 		<h3>Classement</h3>
 		<table class="table">
 			<thead>
@@ -31,24 +31,43 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="block_matchs">			<!-- Partie de droite, avec la liste des prochains matchs -->
-		<h3>Matchs a venir</h3>
-		<div class="row">
+	<div class="block_matchs col-md-4">
+		<div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
+			<h3>Historique des match</h3>
+			<div class="row">
 
-			<div class="col-md-10">
-	 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-	 				<p class="text-center">Carte de la partie: { match.carte }</p>
-	 		</div>
-			<div class="col-md-10">
-	 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-	 				<p class="text-center">Carte de la partie: { match.carte }</p>
-	 		</div>
-			<div class="col-md-10">
-	 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-	 				<p class="text-center">Carte de la partie: { match.carte }</p>
-	 		</div>
-
+				<div class="col-md-10">
+		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+		 				<p class="text-center">Carte de la partie: { match.carte }</p>
+		 		</div>
+				<div class="col-md-10">
+		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+		 				<p class="text-center">Carte de la partie: { match.carte }</p>
+		 		</div>
+				<div class="col-md-10">
+		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+		 				<p class="text-center">Carte de la partie: { match.carte }</p>
+		 		</div>
+			</div>
+		</div>
+		<div class="block_matchs_inter">
+			<h3>Matchs a venir</h3>
+			<div class="row">
+				<div class="col-md-10">
+		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+		 				<p class="text-center">Carte de la partie: { match.carte }</p>
+		 		</div>
+				<div class="col-md-10">
+		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+		 				<p class="text-center">Carte de la partie: { match.carte }</p>
+		 		</div>
+				<div class="col-md-10">
+		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
+		 				<p class="text-center">Carte de la partie: { match.carte }</p>
+		 		</div>
+			</div>
 		</div>
 	</div>
+</div>
 </div>
 {% endblock %}
