@@ -1,7 +1,6 @@
-from .app import db, login_manager
-from flask_login import UserMixin
+from .app import db
 
-class ADMIN(db.Model, UserMixin):
+class ADMIN(db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
@@ -32,8 +31,7 @@ class PARTICIPANT(db.Model):
     mailP   = db.Column(db.String(100))
 
 class EQUIPE(db.Model):
-    idE           = db.Column(db.Integer, primary_key = True,  autoincrement = True)
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False)
+    idE           = db.Column(db.Integer, primary_key = True)
     etatE         = db.Column(db.Integer)
     points        = db.Column(db.Integer)
     nbParticipant = db.Column(db.Integer)
@@ -43,7 +41,7 @@ class EQUIPE(db.Model):
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True,)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
     Photo     = db.Column(db.Text)
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
@@ -72,30 +70,14 @@ def get_All_Tournois_Actifs():
 def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
 
-def get_All_Tournois_Inactifs():
-    return TOURNOI.query.filter_by(etatT = 0)
-
 def get_All_Tournois_Admin():
     return TOURNOI.query.filter_by(idAdmin = 1)
 
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
 
-def get_All_Equipes():
-    return EQUIPE.query.all()
-
-def get_All_Participants():
-    return PARTICIPANT.query.all()
-
-def get_membres_constituer(idEquipe):
-    return CONSTITUER.query.filter_by(idE = idEquipe)
-
-def get_participant_by_id_equipe(idEquipe):
-    membres = []
-    listeParticipants = get_membres_constituer(idEquipe)
-    for participant in listeParticipants:
-        membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
-    return membres
+def get_All_Equipes(idT):
+    return EQUIPE.query.filter_by(idT = idT)
 
 def insert_regle(fichier):
     newFile = TOURNOI(regleT = fichier.read())
@@ -114,6 +96,8 @@ def get_equipe_by_id(id):
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
+#def get_All_Equipes_Classe():
+#    return EQUIPE.query.order_by(points)
 
 #def get_Match_A_Venir():
 #    return EQUIPE.query.order_by(points)
@@ -124,8 +108,6 @@ def get_nom_prenom_by_tournoi(etatT):
         tournois = get_All_Tournois_Actifs()
     elif etatT == 2:
         tournois = get_All_Tournois_Terminees()
-    elif etatT == 0:
-        tournois = get_All_Tournois_Inactifs()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
         dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
@@ -164,11 +146,12 @@ def insert_participant(participant):
     return newParticipant.idP
 
 def insert_equipe(equipe):
-    newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     # print(newEquipe.__dict__)
     db.session.add(newEquipe)
     db.session.commit()
+<<<<<<< HEAD
     return newEquipe.idE
 
 def insert_constituer(idEquipe, idParticipant):
@@ -179,3 +162,5 @@ def insert_constituer(idEquipe, idParticipant):
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
+=======
+>>>>>>> Ajout de la page d'ajout de photo
