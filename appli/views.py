@@ -221,7 +221,7 @@ def ajout_membre(tournoi, equipe):
 def ajouterMembre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     print(e.nbParticipant)
-    for i in range(1, e.nbParticipant+1):
+    for i in range(1, e.nbParticipant):
         participant = {}
         participant['nomP'] = request.form['nom_membre'+str(i)]
         participant['prenomP'] = request.form['prenom_membre'+str(i)]
