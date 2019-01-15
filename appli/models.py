@@ -40,7 +40,6 @@ class EQUIPE(db.Model):
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"))
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
@@ -176,26 +175,34 @@ def insert_participer_partie(idEquipe, idP, idTournoi):
 
 def automatique_match(idTournoi,nbMatchs,nbParticipants):
     listeEquipe = get_equipe_by_tournoi(idTournoi)
-    dico = {}
     listeId = []
     listeIdPartie = []
+    listeIdPerMatchs = []
+    res = "Votre tournoi a été crée sans problème."
 
     for equipe in listeEquipe:
-        dico[equipe.idE] = nbMatchs
         listeId.append(equipe.idE)
 
-    for i in range((len(listeEquipe)*nbMatchs)//nbParticipants):
-        listeIdPartie.append(insert_partie())
+    for i in range(nbMatchs):
+        liste = listeId.copy()
+        listeIdPerMatchs.append(liste)
+
+    if ((len(listeEquipe)*nbMatchs)/nbParticipants) > ((len(listeEquipe)*nbMatchs)//nbParticipants):
+        for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)+1):
+            listeIdPartie.append(insert_partie())
+    else:
+        for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)):
+            listeIdPartie.append(insert_partie())
 
     for partie in listeIdPartie:
-        reset_liste = listeId.copy()
         for i in range (nbParticipants):
-            nb = random.randint(1,len(reset_liste))
-            insert_participer_partie(listeId[nb],partie,idTournoi)
-            print("Valeur de reset liste" + str(reset_liste[nb]))
-            print("Valeur de listeId" + str(listeId[nb]))
-            del reset_liste[nb]
-            dico[listeId[nb]] -= 1
-            if dico[listeId[nb]] == 0:
-                del listeId[nb]
-    return "GG VOUS AVEZ WIN BRAVO"
+            try:
+                nb = random.randint(0,len(listeIdPerMatchs[0])-1)
+                insert_participer_partie(listeIdPerMatchs[0][nb],partie,idTournoi)
+                del listeIdPerMatchs[0][nb]
+                if len(listeIdPerMatchs[0]) == 0:
+                    del listeIdPerMatchs[0]
+            except IndexError:
+                res = "Votre tournoi à bien été crée, cependant un match ne sera pas complet"
+                break
+    return res
