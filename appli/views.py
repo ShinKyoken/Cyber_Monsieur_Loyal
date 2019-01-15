@@ -144,10 +144,11 @@ def equipe(tournoi):
     return render_template(
         "equipe.html", equipes=get_equipe_by_tournoi(tournoi), tournoi=get_Tournoi_by_id(tournoi))
 
-@app.route("/tableau_de_bord/equipes/<int:equipe>")
-def membres_equipe(equipe):
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>")
+def membres_equipe(tournoi, equipe):
+    t = get_Tournoi_by_id(tournoi)
     return render_template(
-        "membres_equipe.html", participants=get_participant_by_id_equipe(equipe))
+        "membres_equipe.html", participants=get_participant_by_id_equipe(equipe), tournoi = t, equipe = equipe)
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
@@ -202,7 +203,7 @@ def confirmerEquipe(tournoi):
     equipe['nom_equipe']   = request.form['nom_equipe']
     equipe['capitaine']    = idChef
     equipe['idTournoi']    = t.idT
-    equipe['tailleEquipe'] = int(request.form['nbParticipant'])
+    equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
     print(e)
@@ -230,9 +231,26 @@ def ajouterMembre(tournoi, equipe):
 
     return redirect(url_for("equipe",tournoi = tournoi))
 
-@app.route("/recherche/", methods=("POST",))
-def rechercheTournoi():
+@app.route("/tableau_de_bord/recherche/", methods=("POST",))
+def rechercheTournois():
     a = request.form['search']
     print(a)
     return render_template(
-        "tableauDeBord.html", tournois= getRechercheTournoi(a), route="tableau")
+        "tableauDeBord.html", tournois= getRechercheAllTournois(a), route="tableau")
+
+@app.route("/voir_competitions_actives/recherche/", methods=("POST",))
+def rechercheTournoisActif():
+    a = request.form['search']
+    print(a)
+    return render_template(
+        "voirCompetitionsActives.html",tournois = getRechercheTournoisActif(a),
+        dicoAdmin = get_nom_prenom_by_tournoi(1),
+        route="voirCompet"
+        )
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/delete")
+def delete_equipe(tournoi, equipe):
+    t = get_Tournoi_by_id(tournoi)
+    db.session.delete(t)
+    db.session.commit()
+    return redirect(url_for("auteur"))
