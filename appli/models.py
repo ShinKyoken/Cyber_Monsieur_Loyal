@@ -95,7 +95,7 @@ def get_equipe_by_tournoi(idTournoi):
     return EQUIPE.query.filter_by(idT = idTournoi).all()
 
 def get_equipe_by_id(id):
-    return EQUIPE.query.filter_by(idE = id)
+    return EQUIPE.query.filter_by(idE = id)[0]
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
