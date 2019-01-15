@@ -174,3 +174,8 @@ def insert_constituer(idEquipe, idParticipant):
 @login_manager.user_loader
 def load_user(username):
         return ADMIN.query.get(username)
+
+def getRechercheTournoi(recherche):
+    return TOURNOI.query.filter(
+        TOURNOI.intituleT.like(recherche +"%")
+    ).all()

@@ -187,8 +187,7 @@ def voirCompet_Photos(tournoi):
 @app.route("/voir_competition/<int:tournoi>/equipes")
 def voirCompet_equipe(tournoi):
     return render_template(
-        "equipe.html", equipes=get_equipe_by_tournoi(tournoi)
-        , route="voirCompet")
+        "equipe.html", equipes=get_equipe_by_tournoi(tournoi), tournoi=get_Tournoi_by_id(tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
 def confirmerEquipe(tournoi):
@@ -230,3 +229,10 @@ def ajouterMembre(tournoi, equipe):
         insert_constituer(equipe, p)
 
     return redirect(url_for("equipe",tournoi = tournoi))
+
+@app.route("/recherche/", methods=("POST",))
+def rechercheTournoi():
+    a = request.form['search']
+    print(a)
+    return render_template(
+        "tableauDeBord.html", tournois= getRechercheTournoi(a), route="tableau")
