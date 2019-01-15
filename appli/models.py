@@ -39,7 +39,6 @@ class EQUIPE(db.Model):
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"))
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
@@ -197,3 +196,27 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
             if dico[listeId[int]] == 0:
                 del listeId[int]
     return "GG VOUS AVEZ WIN BRAVO"
+    
+def getRechercheAllTournois(recherche):
+    return TOURNOI.query.filter(
+        TOURNOI.intituleT.like(recherche +"%")
+    ).all()
+
+def getRechercheTournoisActif(recherche):
+    t = get_All_Tournois_Actifs()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+
+def get_constituer(idP, idE):
+    return TOURNOI.query.filter_by(idP = idP, idE = idE)
+
+def delete_equipe(idEquipe):
+    return None
+
+def get_participant_by_id(idP):
+    return TOURNOI.query.filter_by(idP = idP)
+
+def delete_membre(idEquipe, idParticipant):
+    c = get_constituer(idEquipe, idParticipant)
+    db.session.delete(c)
+    p = get_participant_by_id(idParticipant)
+    db.session.delete(p)
