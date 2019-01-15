@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-from .app import db, login_manager
-from flask_login import UserMixin
-=======
 from .app import db
 from flask_login import UserMixin
 import random
->>>>>>> b482b01c1bcb1af75831155f7222ad17bd705fa7
 
 class ADMIN(db.Model, UserMixin):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -108,12 +103,8 @@ def get_All_Photos(idTournoi):
     return PHOTO.query.filter_by(idT = idTournoi)
 
 def get_equipe_by_tournoi(idTournoi):
-    return EQUIPE.query.filter_by(idT = idTournoi)
+    return EQUIPE.query.filter_by(idT = idTournoi).all()
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b482b01c1bcb1af75831155f7222ad17bd705fa7
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
 
@@ -177,8 +168,8 @@ def insert_partie():
     db.session.commit()
     return newPartie.idPartie
 
-def insert_participer_partie(idTournoi, idEquipe, idP):
-    newParticiperPartie = PARTICIPERPARTIE(idE = idEquipe, idPartie = idPartie, idT = idTournoi)
+def insert_participer_partie(idEquipe, idP, idTournoi):
+    newParticiperPartie = PARTICIPERPARTIE(idE = idEquipe, idPartie = idP, idT = idTournoi)
     db.session.add(newParticiperPartie)
     db.session.commit()
 
@@ -197,12 +188,14 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
         listeIdPartie.append(insert_partie())
 
     for partie in listeIdPartie:
-        for parti in nbParticipants:
-            int = random.randint(1,len(listeId))
-            insert_participer_partie(listeId[int],partie,idTournoi)
-            reset_liste = listeId.copy()
-            del reset_liste[int]
-            dico[listeId[int]] -= 1
-            if dico[listeId[int]] == 0:
-                del listeId[int]
+        reset_liste = listeId.copy()
+        for i in range (nbParticipants):
+            nb = random.randint(1,len(reset_liste))
+            insert_participer_partie(listeId[nb],partie,idTournoi)
+            print("Valeur de reset liste" + str(reset_liste[nb]))
+            print("Valeur de listeId" + str(listeId[nb]))
+            del reset_liste[nb]
+            dico[listeId[nb]] -= 1
+            if dico[listeId[nb]] == 0:
+                del listeId[nb]
     return "GG VOUS AVEZ WIN BRAVO"

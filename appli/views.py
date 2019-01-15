@@ -32,7 +32,7 @@ def creerCompetition():
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/test",methods={"POST"})
 def test(tournoi):
-    automatique_match(tournoi,request.form['nbMatchs'],request.form['nbEquipe'])
+    automatique_match(tournoi,int(request.form['nbMatchs']),int(request.form['nbEquipe']))
     return render_template("letest.html")
 
 @app.route("/confirmer_competition", methods={"POST"})
