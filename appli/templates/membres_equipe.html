@@ -17,8 +17,12 @@
       {% for participant in participants %}
 
            <div class="col-md-4">
+             {% if participant == participants[0] %}
+             <p> <img class="rounded float-left" src="/static/icons/stick_chef.png" alt="" height="50px" width="25px">
+               {% else %}
               <p> <img class="rounded float-left" src="/static/icons/stick_figure.png" alt="" height="50px" width="25px">
-                  {{ participant.nomP }} {{ participant.prenomP }}<p>
+              {% endif %}
+              {{ participant.nomP }} {{ participant.prenomP }}<p>
           </div>
 
       {% endfor %}
