@@ -137,7 +137,7 @@ def voirMatchs(tournoi):
     return render_template(
         "voirMatchs.html",
         equipes = get_All_Equipes_Classe(tournoi),
-        equipes2 = get_All_Equipe_by_partie(get_All_Partie_by_id_tournoi(tournoi)))
+        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)))
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 def voirStream(tournoi):
