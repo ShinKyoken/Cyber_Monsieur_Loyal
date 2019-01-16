@@ -1,7 +1,7 @@
 from .app import app
 from .models import *
 from flask import render_template, redirect, url_for, request
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
 from flask import request
@@ -39,14 +39,22 @@ def connect():
     form = LoginForm()
     if (not form.is_submitted()) :
         form.next.data = request.args.get("next")
-    else :
+    elif form.validate_on_submit():
         user = form.get_authenticated_user()
         if user :
             login_user(user)
+            print(current_user.is_authenticated)
+            print(current_user.nomAdmin)
             next = form.next.data or url_for("home")
             return redirect(next)
     return render_template(
         "connexion.html",form = form)
+
+@app.route("/logout/")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
 
 @app.route("/creer_competition")
 def creerCompetition():
