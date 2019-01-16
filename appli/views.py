@@ -328,8 +328,30 @@ def rechercheTournoisActif():
     a = request.form['search']
     print(a)
     return render_template(
-        "voirCompetitionsActives.html",tournois = getRechercheTournoisActif(a),
+        "voirCompetitionsActives.html",
+        tournois = getRechercheTournoisActif(a),
         dicoAdmin = get_nom_prenom_by_tournoi(1),
+        route="voirCompet"
+        )
+
+@app.route("/voir_competitions_inactives/recherche/", methods=("POST",))
+def rechercheTournoisInactif():
+    a = request.form['search']
+    print(a)
+    return render_template(
+        "voirCompetitionsInactives.html",
+        tournois = getRechercheTournoisInactif(a),
+        dicoAdmin = get_nom_prenom_by_tournoi(0),
+        route="voirCompet")
+
+@app.route("/voir_competitions_terminees/recherche/", methods=("POST",))
+def rechercheTournoisTerminee():
+    a = request.form['search']
+    print(a)
+    return render_template(
+        "voirCompetitionsTerminees.html",
+        tournois = getRechercheTournoisTerminee(a),
+        dicoAdmin = get_nom_prenom_by_tournoi(2),
         route="voirCompet"
         )
 
