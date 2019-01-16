@@ -259,7 +259,7 @@ def confirmerEquipe(tournoi):
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
-    print(e)
+    insert_constituer(idEquipe, idChef)
     return redirect(url_for(
     "ajout_membre", tournoi = tournoi, equipe = idEquipe))
 
@@ -267,8 +267,10 @@ def confirmerEquipe(tournoi):
 def ajout_membre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     t = get_Tournoi_by_id(tournoi)
+    c = get_chef_by_id_equipe(equipe)
+    print(c.nomP)
     return render_template(
-        "ajoutMembre.html", equipe = e, tournoi = t)
+        "ajoutMembre.html", equipe = e, tournoi = t, chef = c)
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter_membre", methods=("GET","POST",))
 def ajouterMembre(tournoi, equipe):
