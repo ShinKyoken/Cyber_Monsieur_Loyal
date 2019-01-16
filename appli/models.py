@@ -1,5 +1,6 @@
 from .app import db, login_manager
 from flask_login import UserMixin, current_user
+from sqlalchemy.dialects.mysql import MEDIUMBLOB
 import random
 import datetime
 
@@ -15,7 +16,7 @@ class ADMIN(UserMixin,db.Model):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.LargeBinary)
+    regleT            = db.Column(db.LargeBinary(length = 2**24-1))
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -138,7 +139,6 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-<<<<<<< HEAD
     newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
                          regleT = tournoi['regleT'].read(),
                          dateT = tournoi['dateT'],dureeT = tournoi['dureeT'],
@@ -152,13 +152,6 @@ def insert_tournoi(tournoi):
                          lieuT = tournoi['lieuT'],
                          logoT = tournoi['logoT'],
                          stream = tournoi['stream'])
-=======
-    newTournoi = TOURNOI(idAdmin = current_user.idAdmin, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
-    dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
-    typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
-    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
-    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
->>>>>>> 803903ab3bfd3076d079b2ee903dc1e8912e5b5b
     db.session.add(newTournoi)
     db.session.commit()
 

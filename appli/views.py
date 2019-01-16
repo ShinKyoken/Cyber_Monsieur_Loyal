@@ -6,6 +6,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
 from flask import request
 from hashlib import sha256
+from io import BytesIO
 
 class LoginForm(FlaskForm):
         username = StringField('Username')
@@ -34,10 +35,10 @@ def home():
     return render_template(
         "home.html")
 
-@app.route("/tableau_de_bord_/<int:tournoi>/download_regles")
+@app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
 def download_regles(idTournoi):
     tournoi = TOURNOI.query.filter_by(idT = idTournoi).first()
-    return send_file(BytesIO(file_data.tournoi), attachment_filename='regles.pdf', as_attachment=True)
+    return send_file(BytesIO(tournoi.regleT), attachment_filename='regles.pdf', as_attachment=True)
 
 @app.route("/connexion",methods=["GET","POST"])
 def connect():
