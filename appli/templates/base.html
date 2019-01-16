@@ -36,7 +36,18 @@
         <li><a href="/tableau_de_bord">Tableau de bord</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/connexion">Se connecter</a></li>
+        {% if current_user.is_authenticated %}
+        <li>
+          <a>{{ current_user.nomAdmin }}</a>
+        </li>
+        <li>
+          <a href="{{ url_for('logout') }}">
+            <span class="glyphicon glyphicon-log-out" title="Logout"></span>
+          </a>
+        </li>
+        {% endif %}{% if not current_user.is_authenticated %}
+          <li><a href="/connexion">Se connecter</a></li>
+        {% endif %}
       </ul>
     </div>
   </div>

@@ -3,12 +3,14 @@ from flask_login import UserMixin
 import random
 import datetime
 
-class ADMIN(db.Model):
+class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
     dateNaissAdmin = db.Column(db.Date)
     mdpAdmin       = db.Column(db.String(100))
+    def get_id(self) :
+        return self.idAdmin
 
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
@@ -54,9 +56,10 @@ class CONSTITUER(db.Model):
     idE = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"), primary_key=True)
 
 class PARTIE(db.Model):
-    idPartie   = db.Column(db.Integer, primary_key=True)
-    cartePartie = db.Column(db.String(100))
-    datePartie = db.Column(db.DateTime, default=datetime.datetime.now())
+    idPartie      = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False )
+    cartePartie   = db.Column(db.String(100))
+    datePartie    = db.Column(db.DateTime, default=datetime.datetime.now())
     gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"))
 
 class PARTICIPERPARTIE(db.Model):
@@ -85,6 +88,9 @@ def get_Tournoi_by_id(id):
 def get_All_Equipes(idT):
     return EQUIPE.query.filter_by(idT = idT)
 
+def insert_regle(fichier):
+    newFile = TOURNOI(regleT = fichier.read())
+
 def count_tournoi():
     return TOURNOI.query.count()
 
@@ -99,6 +105,21 @@ def get_equipe_by_id(id):
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
+
+def get_All_participer_by_tournoi(idTournoi):
+    return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
+
+def get_All_partie_by_tournoi(idTournoi):
+    return PARTIE.query.filter_by(idT = idTournoi)
+
+def get_All_Equipe_by_partie(parties):
+    listeFinale = []
+    for partie in parties:
+        liste = [partie.id,EQUIPE.query.filter_by(idPartie = idPartie)]
+        listeFinale.append(liste)
+    print(listeFinale)
+    return listeFinale
+
 #def get_All_Equipes_Classe():
 #    return EQUIPE.query.order_by(points)
 
@@ -173,8 +194,8 @@ def insert_constituer(idEquipe, idParticipant):
 def load_user(username):
         return ADMIN.query.get(username)
 
-def insert_partie():
-    newPartie = PARTIE(cartePartie = "Nuketown")
+def insert_partie(idTournoi):
+    newPartie = PARTIE(cartePartie = "Nuketown", idT = idTournoi)
     db.session.add(newPartie)
     db.session.commit()
     return newPartie.idPartie
@@ -201,10 +222,10 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
 
     if ((len(listeEquipe)*nbMatchs)/nbParticipants) > ((len(listeEquipe)*nbMatchs)//nbParticipants):
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)+1):
-            listeIdPartie.append(insert_partie())
+            listeIdPartie.append(insert_partie(idTournoi))
     else:
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)):
-            listeIdPartie.append(insert_partie())
+            listeIdPartie.append(insert_partie(idTournoi))
 
     for partie in listeIdPartie:
         for i in range (nbParticipants):
