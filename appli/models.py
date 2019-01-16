@@ -4,7 +4,7 @@ import random
 import datetime
 
 class ADMIN(UserMixin,db.Model):
-    user_id        = db.Column(db.Integer, primary_key = True)
+    idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
     dateNaissAdmin = db.Column(db.Date)
