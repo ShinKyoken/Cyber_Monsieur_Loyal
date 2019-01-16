@@ -227,8 +227,8 @@ def get_constituer(idP, idE):
 def delete_equipe(idEquipe):
     return None
 
-def get_participant_by_id(idP):
-    return TOURNOI.query.filter_by(idP = idP)
+def get_participant_by_id(idParticipant):
+    return PARTICIPANT.query.filter_by(idP = idParticipant)[0]
 
 def get_membres_constituer(idEquipe):
     return CONSTITUER.query.filter_by(idE = idEquipe)
@@ -245,3 +245,9 @@ def delete_membre(idEquipe, idParticipant):
     db.session.delete(c)
     p = get_participant_by_id(idParticipant)
     db.session.delete(p)
+
+def get_chef_by_id_equipe(idEquipe):
+    e = get_equipe_by_id(idEquipe)
+    idChef = e.idChefE
+    participant_chef = get_participant_by_id(idChef)
+    return participant_chef
