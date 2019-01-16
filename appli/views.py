@@ -56,21 +56,25 @@ def connect():
         "connexion.html",form = form)
 
 @app.route("/logout/")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
 @app.route("/creer_competition")
+@login_required
 def creerCompetition():
     return render_template("creerCompetition.html")
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/test",methods={"POST"})
+@login_required
 def test(tournoi):
     automatique_match(tournoi,int(request.form['nbMatchs']),int(request.form['nbEquipe']))
     return render_template("letest.html")
 
 @app.route("/confirmer_competition", methods={"POST"})
+@login_required
 def confirmerTournoi():
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
@@ -91,6 +95,7 @@ def confirmerTournoi():
     return render_template("confirmerTournoi.html")
 
 @app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
+@login_required
 def modifierTournoi(id):
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
@@ -140,6 +145,7 @@ def voirCompet(tournoi):
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
+@login_required
 def tableauDeBord():
     return render_template(
         "tableauDeBord.html",
@@ -147,6 +153,7 @@ def tableauDeBord():
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>")
+@login_required
 def tournoi(tournoi):
     return render_template(
         "tournoi.html",
@@ -154,6 +161,7 @@ def tournoi(tournoi):
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
+@login_required
 def voirMatchs(tournoi):
     return render_template(
         "voirMatchs.html",
@@ -161,6 +169,7 @@ def voirMatchs(tournoi):
         equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)))
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
+@login_required
 def voirStream(tournoi):
     return render_template(
         "stream.html",
@@ -168,6 +177,7 @@ def voirStream(tournoi):
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/photos")
+@login_required
 def voirPhotos(tournoi):
     return render_template(
         "photo.html",
@@ -176,6 +186,7 @@ def voirPhotos(tournoi):
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
+@login_required
 def equipe(tournoi):
     return render_template(
         "equipe.html",
@@ -183,6 +194,7 @@ def equipe(tournoi):
         tournoi=get_Tournoi_by_id(tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>")
+@login_required
 def membres_equipe(tournoi, equipe):
     t = get_Tournoi_by_id(tournoi)
     return render_template(
@@ -192,24 +204,28 @@ def membres_equipe(tournoi, equipe):
         equipe = equipe)
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
+@login_required
 def paramètre(tournoi):
     t = get_Tournoi_by_id(tournoi)
     return render_template(
         "parametres.html", tournoi=t)
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
+@login_required
 def lancerCompet(tournoi):
     return render_template(
         "creation_matchs.html",
         tournoi = get_Tournoi_by_id(tournoi))
 
 @app.route("/listeAdmins")
+@login_required
 def listeAdmins():
     return render_template(
     "listeAdmin.html",
     listeAdmins = get_All_Admins())
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/creer_equipe")
+@login_required
 def creerEquipe(tournoi):
     return render_template(
     "creerEquipe.html",
@@ -246,6 +262,7 @@ def voirCompet_equipe(tournoi):
         tournoi=get_Tournoi_by_id(tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
+@login_required
 def confirmerEquipe(tournoi):
     t = get_Tournoi_by_id(tournoi)
     capitaine = {}
@@ -266,6 +283,7 @@ def confirmerEquipe(tournoi):
     "ajout_membre", tournoi = tournoi, equipe = idEquipe))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajout_membre")
+@login_required
 def ajout_membre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     t = get_Tournoi_by_id(tournoi)
@@ -275,6 +293,7 @@ def ajout_membre(tournoi, equipe):
         "ajoutMembre.html", equipe = e, tournoi = t, chef = c)
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter_membre", methods=("GET","POST",))
+@login_required
 def ajouterMembre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     print(e.nbParticipant)
@@ -288,15 +307,18 @@ def ajouterMembre(tournoi, equipe):
     return redirect(url_for("equipe",tournoi = tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods={"POST"})
+@login_required
 def modifierEquipe(tournoi, equipe):
     pass
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
+@login_required
 def ajouterPhoto(tournoi):
     return render_template(
         "ajouterPhoto.html", tournoi= get_Tournoi_by_id(tournoi))
 
 @app.route("/tableau_de_bord/recherche/", methods=("POST",))
+@login_required
 def rechercheTournois():
     a = request.form['search']
     print(a)
@@ -314,6 +336,7 @@ def rechercheTournoisActif():
         )
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/delete")
+@login_required
 def delete_equipe(tournoi, equipe):
     t = get_Tournoi_by_id(tournoi)
     db.session.delete(t)

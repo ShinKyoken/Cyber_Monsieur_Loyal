@@ -1,5 +1,5 @@
 from .app import db, login_manager
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 import random
 import datetime
 
@@ -81,7 +81,7 @@ def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
 
 def get_All_Tournois_Admin():
-    return TOURNOI.query.filter_by(idAdmin = 1)
+    return TOURNOI.query.filter_by(idAdmin = current_user.idAdmin)
 
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
@@ -138,6 +138,7 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
+<<<<<<< HEAD
     newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
                          regleT = tournoi['regleT'].read(),
                          dateT = tournoi['dateT'],dureeT = tournoi['dureeT'],
@@ -151,6 +152,13 @@ def insert_tournoi(tournoi):
                          lieuT = tournoi['lieuT'],
                          logoT = tournoi['logoT'],
                          stream = tournoi['stream'])
+=======
+    newTournoi = TOURNOI(idAdmin = current_user.idAdmin, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
+    dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
+    typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
+    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
+    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
+>>>>>>> 803903ab3bfd3076d079b2ee903dc1e8912e5b5b
     db.session.add(newTournoi)
     db.session.commit()
 
@@ -214,6 +222,9 @@ def insert_participer_partie(idEquipe, idP, idTournoi):
 
 def automatique_match(idTournoi,nbMatchs,nbParticipants):
     listeEquipe = get_equipe_by_tournoi(idTournoi)
+    t=get_Tournoi_by_id(idTournoi)
+    t.etatT=1
+    db.session.commit()
     listeId = []
     listeIdPartie = []
     listeIdPerMatchs = []
@@ -247,8 +258,8 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     return res
 
 def getRechercheAllTournois(recherche):
-    return TOURNOI.query.filter(
-        TOURNOI.intituleT.like(recherche +"%")).all()
+    t=get_All_Tournois_Admin()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
 
 def getRechercheTournoisActif(recherche):
     t = get_All_Tournois_Actifs()
