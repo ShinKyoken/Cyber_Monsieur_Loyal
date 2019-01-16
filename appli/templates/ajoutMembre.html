@@ -10,6 +10,26 @@
       <!-- Example row of columns -->
       <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/ajouter_membre">
       <div class="row">
+        <div class="col-sm-6 col-md-{{tailleEquipe}}">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>Chef d'équipe</h3>
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Nom</span>
+                  <p class="form-control" aria-describedby="basic-addon3">{{chef.nomP}}</p>
+                </div>
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Prenom</span>
+                  <p class="form-control" aria-describedby="basic-addon3">{{chef.prenomP}}</p>
+                </div>
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Mail</span>
+                  <p class="form-control" aria-describedby="basic-addon3">{{chef.mailP}}</p>
+                </div>
+
+            </div>
+          </div>
+        </div>
         {% for x in range((equipe.nbParticipant)-1) %}
         <div class="col-sm-6 col-md-{{tailleEquipe}}">
           <div class="thumbnail">

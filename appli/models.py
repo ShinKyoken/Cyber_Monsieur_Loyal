@@ -3,12 +3,14 @@ from flask_login import UserMixin
 import random
 import datetime
 
-class ADMIN(db.Model):
+class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
     dateNaissAdmin = db.Column(db.Date)
     mdpAdmin       = db.Column(db.String(100))
+    def get_id(self) :
+        return self.idAdmin
 
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
@@ -85,6 +87,9 @@ def get_Tournoi_by_id(id):
 
 def get_All_Equipes(idT):
     return EQUIPE.query.filter_by(idT = idT)
+
+def insert_regle(fichier):
+    newFile = TOURNOI(regleT = fichier.read())
 
 def count_tournoi():
     return TOURNOI.query.count()
@@ -166,6 +171,13 @@ def insert_participant(participant):
     db.session.commit()
     return newParticipant.idP
 
+def update_participant(participant, idparticipant):
+    participantUp = get_participant_by_id(idParticipant)
+    participantUp.nomP = participant['nomP']
+    participantUp.prenomP = participant['prenomP']
+    participantUp.mailP = participant['mailP']
+    db.session.commit()
+
 def insert_equipe(equipe):
     newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
@@ -242,8 +254,8 @@ def get_constituer(idP, idE):
 def delete_equipe(idEquipe):
     return None
 
-def get_participant_by_id(idP):
-    return TOURNOI.query.filter_by(idP = idP)
+def get_participant_by_id(idParticipant):
+    return PARTICIPANT.query.filter_by(idP = idParticipant)[0]
 
 def get_membres_constituer(idEquipe):
     return CONSTITUER.query.filter_by(idE = idEquipe)
@@ -260,3 +272,9 @@ def delete_membre(idEquipe, idParticipant):
     db.session.delete(c)
     p = get_participant_by_id(idParticipant)
     db.session.delete(p)
+
+def get_chef_by_id_equipe(idEquipe):
+    e = get_equipe_by_id(idEquipe)
+    idChef = e.idChefE
+    participant_chef = get_participant_by_id(idChef)
+    return participant_chef

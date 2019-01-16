@@ -1,27 +1,32 @@
 from .app import app
 from .models import *
 from flask import render_template, redirect, url_for, request
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
 from flask import request
+from hashlib import sha256
 
 class LoginForm(FlaskForm):
         username = StringField('Username')
         password = PasswordField('Password')
+        next = HiddenField()
 
-        def validate_on_submit(self):
-                print('aaaaaaaaa\n\n\n')
+        def get_authenticated_user(self):
                 print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
-                if self.username.data == None:
-                    return False
-                user = ADMIN.query.get(self.username.data)
-                if user is None:
-                    return False
-                m = sha256()
-                m.update(self.mdpAdmin.data.encode())
-                passwd = m.hexdigest()
-                return True if passwd == user.mdpAdmin else False
+                user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
+                print(user.mdpAdmin)
+                if user is None :
+                    return None
+                # Décomenter en-dessous dès que le mdp est cripté dans la bd
+
+                # m = sha256()
+                # m.update(self.password.data.encode())
+                # passwd = m.hexdigest()
+                if self.password.data == user.mdpAdmin :
+                    print("azazeazeazeazeazea")
+                    return user
+                return None
 
 
 @app.route("/")
@@ -29,13 +34,27 @@ def home():
     return render_template(
         "home.html")
 
-@app.route("/connexion",methods={"POST"})
+@app.route("/connexion",methods=["GET","POST"])
 def connect():
     form = LoginForm()
-    if form.validate_on_submit():
-        return home()
+    if (not form.is_submitted()) :
+        form.next.data = request.args.get("next")
+    elif form.validate_on_submit():
+        user = form.get_authenticated_user()
+        if user :
+            login_user(user)
+            print(current_user.is_authenticated)
+            print(current_user.nomAdmin)
+            next = form.next.data or url_for("home")
+            return redirect(next)
     return render_template(
         "connexion.html",form = form)
+
+@app.route("/logout/")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
 
 @app.route("/creer_competition")
 def creerCompetition():
@@ -173,9 +192,9 @@ def membres_equipe(tournoi, equipe):
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
+    t = get_Tournoi_by_id(tournoi)
     return render_template(
-        "parametres.html",
-        tournoi=tournoi)
+        "parametres.html", tournoi=t)
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 def lancerCompet(tournoi):
@@ -240,7 +259,7 @@ def confirmerEquipe(tournoi):
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
-    print(e)
+    insert_constituer(idEquipe, idChef)
     return redirect(url_for(
     "ajout_membre", tournoi = tournoi, equipe = idEquipe))
 
@@ -248,8 +267,10 @@ def confirmerEquipe(tournoi):
 def ajout_membre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     t = get_Tournoi_by_id(tournoi)
+    c = get_chef_by_id_equipe(equipe)
+    print(c.nomP)
     return render_template(
-        "ajoutMembre.html", equipe = e, tournoi = t)
+        "ajoutMembre.html", equipe = e, tournoi = t, chef = c)
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter_membre", methods=("GET","POST",))
 def ajouterMembre(tournoi, equipe):
@@ -263,6 +284,10 @@ def ajouterMembre(tournoi, equipe):
         p = insert_participant(participant)
         insert_constituer(equipe, p)
     return redirect(url_for("equipe",tournoi = tournoi))
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods={"POST"})
+def modifierEquipe(tournoi, equipe):
+    pass
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
 def ajouterPhoto(tournoi):
