@@ -241,9 +241,8 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     return res
 
 def getRechercheAllTournois(recherche):
-    return TOURNOI.query.filter(
-        TOURNOI.intituleT.like(recherche +"%")
-    ).all()
+    t=get_All_Tournois_Admin()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
 
 def getRechercheTournoisActif(recherche):
     t = get_All_Tournois_Actifs()
