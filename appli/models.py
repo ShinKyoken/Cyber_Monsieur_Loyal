@@ -1,5 +1,5 @@
 from .app import db, login_manager
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 import random
 import datetime
 
@@ -80,7 +80,7 @@ def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
 
 def get_All_Tournois_Admin():
-    return TOURNOI.query.filter_by(idAdmin = 1)
+    return TOURNOI.query.filter_by(idAdmin = current_user.idAdmin)
 
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
@@ -106,18 +106,18 @@ def get_equipe_by_id(id):
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
 
-def get_All_participer_by_tournoi(idTournoi):
-    return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
-
 def get_All_partie_by_tournoi(idTournoi):
     return PARTIE.query.filter_by(idT = idTournoi)
 
 def get_All_Equipe_by_partie(parties):
     listeFinale = []
     for partie in parties:
-        liste = [partie.id,EQUIPE.query.filter_by(idPartie = idPartie)]
+        equipes = PARTICIPERPARTIE.query.filter_by(idPartie = partie.idPartie).all()
+        liste = [partie]
+        for i in range(len(equipes)):
+            participant = PARTICIPERPARTIE.query.filter_by(idPartie = partie.idPartie, idE = equipes[i].idE).one()
+            liste.append(EQUIPE.query.filter_by(idE = participant.idE).one())
         listeFinale.append(liste)
-    print(listeFinale)
     return listeFinale
 
 #def get_All_Equipes_Classe():
@@ -140,7 +140,7 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
+    newTournoi = TOURNOI(idAdmin = current_user.idAdmin, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
@@ -208,6 +208,9 @@ def insert_participer_partie(idEquipe, idP, idTournoi):
 
 def automatique_match(idTournoi,nbMatchs,nbParticipants):
     listeEquipe = get_equipe_by_tournoi(idTournoi)
+    t=get_Tournoi_by_id(idTournoi)
+    t.etatT=1
+    db.session.commit()
     listeId = []
     listeIdPartie = []
     listeIdPerMatchs = []
@@ -241,9 +244,8 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     return res
 
 def getRechercheAllTournois(recherche):
-    return TOURNOI.query.filter(
-        TOURNOI.intituleT.like(recherche +"%")
-    ).all()
+    t=get_All_Tournois_Admin()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
 
 def getRechercheTournoisActif(recherche):
     t = get_All_Tournois_Actifs()
