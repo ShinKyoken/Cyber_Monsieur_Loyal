@@ -208,6 +208,9 @@ def insert_participer_partie(idEquipe, idP, idTournoi):
 
 def automatique_match(idTournoi,nbMatchs,nbParticipants):
     listeEquipe = get_equipe_by_tournoi(idTournoi)
+    t=get_Tournoi_by_id(idTournoi)
+    t.etatT=1
+    db.session.commit()
     listeId = []
     listeIdPartie = []
     listeIdPerMatchs = []
