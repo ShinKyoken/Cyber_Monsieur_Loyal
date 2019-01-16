@@ -19,6 +19,7 @@
                       <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/download_regles"><button class="btn btn-success btn-lg inputStyle col-md-11">Télécharger les règles</button></a>
                     {% if tournoi.etatT == 0 %}
                       <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi"><button class="btn btn-success btn-lg inputStyle col-md-11">Lancer le tournoi</button></a>
                     {% endif %}
@@ -50,9 +51,6 @@
                     <h2>
                         <strong>Réglement</strong>
                     </h2>
-                    <a>
-                      {{ tournoi.regleT }}
-                    </a>
                 </div>
                 <div>
                     <h2>

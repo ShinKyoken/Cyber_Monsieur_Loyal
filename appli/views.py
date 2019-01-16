@@ -1,11 +1,12 @@
 from .app import app
 from .models import *
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, send_file
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
 from flask import request
 from hashlib import sha256
+from io import BytesIO
 
 class LoginForm(FlaskForm):
         username = StringField('Username')
@@ -33,6 +34,11 @@ class LoginForm(FlaskForm):
 def home():
     return render_template(
         "home.html")
+
+@app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
+def download_regles(idTournoi):
+    tournoi = TOURNOI.query.filter_by(idT = idTournoi).first()
+    return send_file(BytesIO(tournoi.regleT), attachment_filename='regles.pdf', as_attachment=True)
 
 @app.route("/connexion",methods=["GET","POST"])
 def connect():
@@ -73,7 +79,7 @@ def test(tournoi):
 def confirmerTournoi():
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.form['regleT']
+    tournoi['regleT']            = request.files['regleT']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -85,7 +91,7 @@ def confirmerTournoi():
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 0
-    tournoi['idAdmin']           = 1
+    tournoi['idAdmin']           = current_user.idAdmin
     insert_tournoi(tournoi)
     return render_template("confirmerTournoi.html")
 
@@ -106,7 +112,7 @@ def modifierTournoi(id):
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 1
-    tournoi['idAdmin']           = 1
+    tournoi['idAdmin']           = current_user.idAdmin
     update_tournoi(tournoi,id)
     return render_template("modifierTournoi.html")
 
@@ -116,24 +122,21 @@ def voirCompetitionsActives():
     return render_template(
         "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
         dicoAdmin = get_nom_prenom_by_tournoi(1),
-        route="voirCompet"
-        )
+        route="voirCompet")
 
 @app.route("/voir_competitions_inactives")
 def voirCompetitionsInactives():
     return render_template(
         "voirCompetitionsInactives.html",tournois = get_All_Tournois_Inactifs(),
         dicoAdmin = get_nom_prenom_by_tournoi(0),
-        route="voirCompet"
-        )
+        route="voirCompet")
 
 @app.route("/voir_competitions_terminees")
 def voirCompetitionsTerminees():
     return render_template(
         "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
         dicoAdmin = get_nom_prenom_by_tournoi(2),
-        route="voirCompet"
-        )
+        route="voirCompet")
 
 @app.route("/voir_competition/<int:tournoi>")
 def voirCompet(tournoi):
@@ -181,8 +184,7 @@ def voirPhotos(tournoi):
         "photo.html",
         tournoi=get_Tournoi_by_id(tournoi),
         photos=get_All_Photos(tournoi),
-        route="tableau"
-    )
+        route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
 @login_required
@@ -212,8 +214,9 @@ def paramètre(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 @login_required
 def lancerCompet(tournoi):
-    return render_template("creation_matchs.html",
-                           tournoi = get_Tournoi_by_id(tournoi))
+    return render_template(
+        "creation_matchs.html",
+        tournoi = get_Tournoi_by_id(tournoi))
 
 @app.route("/listeAdmins")
 @login_required
