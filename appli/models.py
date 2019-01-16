@@ -134,7 +134,14 @@ def insert_tournoi(tournoi):
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
     lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
     db.session.add(newTournoi)
-    db.session.commit()
+    db.session.commiremote: Enumerating objects: 43, done.
+remote: Counting objects: 100% (43/43), done.
+remote: Compressing objects: 100% (15/15), done.
+remote: Total 31 (delta 21), reused 22 (delta 16)
+Dépaquetage des objets: 100% (31/31), fait.
+Depuis https://gitlab.com/Hugo_Pauthier/projet_2a22b_cyber_monsieur_loyale
+   eebcfe7..98b02cc  master     -> hugo/master
+empereur@info23-11:~/Bureau/Projet_Cyber_Monsieur_Lot()
 
 def update_tournoi(tournoi,id):
     tournoiUp=get_Tournoi_by_id(id)
@@ -160,10 +167,11 @@ def insert_participant(participant):
     return newParticipant.idP
 
 def insert_equipe(equipe):
-    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     db.session.add(newEquipe)
     db.session.commit()
+    return newEquipe.idE
 
 def insert_constituer(idEquipe, idParticipant):
     newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
