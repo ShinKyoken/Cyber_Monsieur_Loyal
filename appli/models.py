@@ -247,8 +247,16 @@ def getRechercheAllTournois(recherche):
     t=get_All_Tournois_Admin()
     return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
 
+def getRechercheTournoisInactif(recherche):
+    t = get_All_Tournois_Inactifs()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+
 def getRechercheTournoisActif(recherche):
     t = get_All_Tournois_Actifs()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+
+def getRechercheTournoisTerminee(recherche):
+    t = get_All_Tournois_Terminees()
     return t.filter(TOURNOI.intituleT.like(recherche +"%"))
 
 def get_constituer(idP, idE):
