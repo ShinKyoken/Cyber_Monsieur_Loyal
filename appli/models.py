@@ -151,7 +151,7 @@ def insert_participant(participant):
     return newParticipant.idP
 
 def insert_equipe(equipe):
-    newEquipe = EQUIPE(etatE = 0, nbParticipant = 3, idChefE = equipe['capitaine'],
+    newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     db.session.add(newEquipe)
     db.session.commit()
