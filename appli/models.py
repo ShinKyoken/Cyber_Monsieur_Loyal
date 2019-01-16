@@ -1,5 +1,6 @@
 from .app import db, login_manager
 from flask_login import UserMixin, current_user
+from sqlalchemy.dialects.mysql import MEDIUMBLOB
 import random
 import datetime
 
@@ -15,7 +16,7 @@ class ADMIN(UserMixin,db.Model):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.String(100))
+    regleT            = db.Column(db.LargeBinary(length = 2**24-1))
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -61,6 +62,7 @@ class PARTIE(db.Model):
     cartePartie   = db.Column(db.String(100))
     datePartie    = db.Column(db.DateTime, default=datetime.datetime.now())
     gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"))
+    etatPartie    = db.Column(db.Integer, default=0)
 
 class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
@@ -87,9 +89,6 @@ def get_Tournoi_by_id(id):
 
 def get_All_Equipes(idT):
     return EQUIPE.query.filter_by(idT = idT)
-
-def insert_regle(fichier):
-    newFile = TOURNOI(regleT = fichier.read())
 
 def count_tournoi():
     return TOURNOI.query.count()
@@ -140,11 +139,19 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = current_user.idAdmin, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
-    dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
-    typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
-    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
-    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
+    newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
+                         regleT = tournoi['regleT'].read(),
+                         dateT = tournoi['dateT'],dureeT = tournoi['dureeT'],
+                         intituleT = tournoi['intituleT'],
+                         descT = tournoi['descT'],
+                         typeT = tournoi['typeT'],
+                         etatT = tournoi['etatT'],
+                         nbEquipe = tournoi['nbEquipe'],
+                         nbParticipantsMax = tournoi['nbParticipantsMax'],
+                         disciplineT = tournoi['disciplineT'],
+                         lieuT = tournoi['lieuT'],
+                         logoT = tournoi['logoT'],
+                         stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
 
