@@ -88,6 +88,12 @@ def get_All_Equipes(idT):
 def insert_regle(fichier):
     newFile = TOURNOI(regleT = fichier.read())
 
+def get_Admin_by_nom(admin) :
+    for a in get_All_Admins() :
+        if admin == a.nomAdmin:
+            return a
+    return None
+
 def count_tournoi():
     return TOURNOI.query.count()
 
@@ -166,7 +172,7 @@ def insert_constituer(idEquipe, idParticipant):
 
 @login_manager.user_loader
 def load_user(username):
-        return ADMIN.query.get(username)
+        return get_Admin_by_nom(username)
 
 def insert_partie():
     newPartie = PARTIE(cartePartie = "Nuketown")

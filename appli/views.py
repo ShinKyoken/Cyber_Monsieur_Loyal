@@ -5,6 +5,7 @@ from flask_login import login_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
 from flask import request
+from hashlib import sha256
 
 class LoginForm(FlaskForm):
         username = StringField('Username')
@@ -13,14 +14,21 @@ class LoginForm(FlaskForm):
 
         def get_authenticated_user(self):
                 print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
-                user = ADMIN.query.get(self.username.data)
-                print(user)
+                for admin in get_All_Admins() :
+                    if admin.nomAdmin == self.username.data :
+                        user = admin
+                print(user.mdpAdmin)
                 if user is None :
                     return None
-                m = sha256()
-                m.update(self.password.data.encode())
-                passwd = m.hexdigest()
-                return user if passwd == user.password else None
+                # Décomenter en-dessous dès que le mdp est cripté dans la bd
+
+                # m = sha256()
+                # m.update(self.password.data.encode())
+                # passwd = m.hexdigest()
+                if self.password.data == user.mdpAdmin :
+                    print("azazeazeazeazeazea")
+                    return user
+                return None
 
 
 @app.route("/")
@@ -32,14 +40,12 @@ def home():
 def connect():
     form = LoginForm()
     if (not form.is_submitted()) :
-        f.next.data = request.args.get("next")
+        form.next.data = request.args.get("next")
     else :
         user = form.get_authenticated_user()
-        print("aaaaaaaaaaaaaaaaaaaaaa\n")
         if user :
             login_user(user)
             next = form.next.data or url_for("home")
-            print("bbbbbbbbbbbbbbbbbbbbbbb\n")
             return redirect(next)
     return render_template(
         "connexion.html",form = form)
