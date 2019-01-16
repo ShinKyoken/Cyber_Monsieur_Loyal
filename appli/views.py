@@ -14,9 +14,7 @@ class LoginForm(FlaskForm):
 
         def get_authenticated_user(self):
                 print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
-                for admin in get_All_Admins() :
-                    if admin.nomAdmin == self.username.data :
-                        user = admin
+                user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
                 print(user.mdpAdmin)
                 if user is None :
                     return None

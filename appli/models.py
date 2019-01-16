@@ -3,8 +3,8 @@ from flask_login import UserMixin
 import random
 import datetime
 
-class ADMIN(db.Model,UserMixin):
-    idAdmin        = db.Column(db.Integer, primary_key = True)
+class ADMIN(UserMixin,db.Model):
+    user_id        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
     dateNaissAdmin = db.Column(db.Date)
@@ -134,14 +134,7 @@ def insert_tournoi(tournoi):
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
     lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
     db.session.add(newTournoi)
-    db.session.commiremote: Enumerating objects: 43, done.
-remote: Counting objects: 100% (43/43), done.
-remote: Compressing objects: 100% (15/15), done.
-remote: Total 31 (delta 21), reused 22 (delta 16)
-Dépaquetage des objets: 100% (31/31), fait.
-Depuis https://gitlab.com/Hugo_Pauthier/projet_2a22b_cyber_monsieur_loyale
-   eebcfe7..98b02cc  master     -> hugo/master
-empereur@info23-11:~/Bureau/Projet_Cyber_Monsieur_Lot()
+    db.session.commit()
 
 def update_tournoi(tournoi,id):
     tournoiUp=get_Tournoi_by_id(id)
