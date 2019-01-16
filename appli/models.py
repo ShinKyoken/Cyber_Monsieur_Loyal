@@ -1,5 +1,5 @@
 from .app import db, login_manager
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 import random
 import datetime
 
@@ -80,7 +80,7 @@ def get_All_Tournois_Terminees():
     return TOURNOI.query.filter_by(etatT = 2)
 
 def get_All_Tournois_Admin():
-    return TOURNOI.query.filter_by(idAdmin = 1)
+    return TOURNOI.query.filter_by(idAdmin = current_user.idAdmin)
 
 def get_Tournoi_by_id(id):
     return TOURNOI.query.filter_by(idT = id)[0]
@@ -140,7 +140,7 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
+    newTournoi = TOURNOI(idAdmin = current_user.idAdmin, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
     dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
     typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
     nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
