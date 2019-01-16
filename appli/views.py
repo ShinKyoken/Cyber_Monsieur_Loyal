@@ -159,8 +159,9 @@ def membres_equipe(tournoi, equipe):
 
 @app.route("/tableau_de_bord/<int:tournoi>/parametres")
 def paramètre(tournoi):
+    t = get_Tournoi_by_id(tournoi)
     return render_template(
-        "parametres.html", tournoi=tournoi)
+        "parametres.html", tournoi=t)
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 def lancerCompet(tournoi):
@@ -242,6 +243,10 @@ def ajouterMembre(tournoi, equipe):
         p = insert_participant(participant)
         insert_constituer(equipe, p)
     return redirect(url_for("equipe",tournoi = tournoi))
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods={"POST"})
+def modifierEquipe(tournoi, equipe):
+    pass
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
 def ajouterPhoto(tournoi):

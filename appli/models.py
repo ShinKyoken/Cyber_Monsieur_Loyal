@@ -150,6 +150,13 @@ def insert_participant(participant):
     db.session.commit()
     return newParticipant.idP
 
+def update_participant(participant, idparticipant):
+    participantUp = get_participant_by_id(idParticipant)
+    participantUp.nomP = participant['nomP']
+    participantUp.prenomP = participant['prenomP']
+    participantUp.mailP = participant['mailP']
+    db.session.commit()
+
 def insert_equipe(equipe):
     newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
