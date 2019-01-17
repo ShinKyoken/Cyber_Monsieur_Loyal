@@ -16,15 +16,12 @@
     <div class="row center-block">
       {% for equipe in equipes %}
         <div class="col-md-4 col-sm-6 ">
-          <div class="thumbnail">
+          <div class="thumbnail_equipe">
              <h2>{{ equipe.nomE }}</h2>
-             {% for participant in participants %}
-               <p>{{ participant.nomP }}<p>
-             {% endfor %}
-
-
+             <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}'><button class="bouton center-block">Voir les membres <span class="glyphicon glyphicon-search"></span></button></a>
+             <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipe.idE}}'><button class="bouton center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
          </div>
-         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}'><button class="bouton center-block">Voir les membres <span class="glyphicon glyphicon-search"></span></button></a>
+
        </div><!-- /.col-lg-4 -->
       {% endfor %}
        </div><!-- /.row -->
