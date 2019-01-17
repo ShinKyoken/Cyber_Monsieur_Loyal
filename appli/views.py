@@ -75,6 +75,10 @@ def confirmer_ajout_admin():
     return render_template(
         "inscription.html",form = f)
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('connect'))
+
 
 @app.route("/creer_competition")
 @login_required
@@ -113,7 +117,7 @@ def confirmerTournoi():
 def modifierTournoi(id):
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.form['regleT']
+    tournoi['regleT']            = request.files['regleT']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -124,10 +128,11 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
+    tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     update_tournoi(tournoi,id)
-    return render_template("modifierTournoi.html")
+    return redirect(url_for(
+    "tournoi", tournoi = id))
 
 
 @app.route("/voir_competitions_actives")

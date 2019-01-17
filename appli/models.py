@@ -158,7 +158,7 @@ def insert_tournoi(tournoi):
 def update_tournoi(tournoi,id):
     tournoiUp=get_Tournoi_by_id(id)
     tournoiUp.intituleT=tournoi['intituleT']
-    tournoiUp.regleT=tournoi['regleT']
+    tournoiUp.regleT=tournoi['regleT'].read()
     tournoiUp.descT=tournoi['descT']
     tournoiUp.dateT=tournoi['dateT']
     tournoiUp.dureeT=tournoi['dureeT']
