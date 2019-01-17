@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipes.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirMatchs.css') }}">
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/uikit.min.js"></script>
+<script src="/static/js/uikit-icons.min.js"></script>
 {% endblock %}
 {% block main %}
 <div class="voirCompetition container-fluid">
@@ -12,23 +18,38 @@
     </form>
     <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton center-block">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
 </div>
-  <div class="container divCartes">
-    <div class="row center-block">
-      {% for equipe in equipes %}
-        <div class="col-md-4 col-sm-6 ">
-          <div class="thumbnail">
-             <h2>{{ equipe.nomE }}</h2>
-             {% for participant in participants %}
-               <p>{{ participant.nomP }}<p>
-             {% endfor %}
-
-
-         </div>
-         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}'><button class="bouton center-block">Voir les membres <span class="glyphicon glyphicon-search"></span></button></a>
-       </div><!-- /.col-lg-4 -->
-      {% endfor %}
-       </div><!-- /.row -->
+<div class="container liste_equipes">
+     <div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
+       <h3 class="text-center">Historique des matchs</h3>
+       <ul uk-accordion="collapsible: false; multiple: false">
+          {% for equipe in equipes %}
+             <li>
+                 <a class="uk-accordion-title" href="#">
+                   {{ equipe.nomE }}
+                 </a>
+                 <div class="uk-accordion-content">
+                   <table class="uk-table">
+                     <thead>
+                       <tr>
+                         <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                         <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                       </tr>
+                     </thead>
+                   {% for participant in participants[equipe.idE] %}
+                     <tbody>
+                       <tr>
+                         <td class="uk-text-center">{{ participant.nomP }}</td>
+                         <td class="uk-text-center">{{ participant.prenomP }}</td>
+                       </tr>
+                     </tbody>
+                   {% endfor %}
+                 </table>
+                 </div>
+             </li>
+         {% endfor %}
+       </ul>
      </div>
+   </div>
 </div>
 {% endblock %}
 

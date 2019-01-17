@@ -297,6 +297,7 @@ def get_participant_by_id(idParticipant):
 def get_membres_constituer(idEquipe):
     return CONSTITUER.query.filter_by(idE = idEquipe).all()
 
+
 def get_participant_by_id_equipe(idEquipe):
     membres = []
     listeParticipants = get_membres_constituer(idEquipe)
