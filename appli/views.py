@@ -62,6 +62,9 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('connect'))
 
 @app.route("/creer_competition")
 @login_required
