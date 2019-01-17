@@ -14,18 +14,14 @@ class LoginForm(FlaskForm):
         next = HiddenField()
 
         def get_authenticated_user(self):
-                print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
                 user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
-                print(user.mdpAdmin)
                 if user is None :
                     return None
-                # Décomenter en-dessous dès que le mdp est cripté dans la bd
 
-                # m = sha256()
-                # m.update(self.password.data.encode())
-                # passwd = m.hexdigest()
-                if self.password.data == user.mdpAdmin :
-                    print("azazeazeazeazeazea")
+                m = sha256()
+                m.update(self.password.data.encode())
+                passwd = m.hexdigest()
+                if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
                     return user
                 return None
 
@@ -49,8 +45,6 @@ def connect():
         user = form.get_authenticated_user()
         if user :
             login_user(user)
-            print(current_user.is_authenticated)
-            print(current_user.nomAdmin)
             next = form.next.data or url_for("home")
             return redirect(next)
     return render_template(
@@ -61,6 +55,25 @@ def connect():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/inscription",methods=["GET","POST"])
+def inscription():
+    form = LoginForm()
+    return render_template("inscription.html", form = form)
+
+@app.route("/confirmer_inscription",methods=["GET","POST"])
+def confirmer_ajout_admin():
+    f = LoginForm()
+    if f.validate_on_submit():
+        m = sha256()
+        m.update(f.password.data.encode())
+        passwd = m.hexdigest()
+        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin = "12/12/1999", mdpAdmin = passwd)
+        db.session.add(newAdmin)
+        db.session.commit()
+        return redirect(url_for("connect"))
+    return render_template(
+        "inscription.html",form = f)
 
 
 @app.route("/creer_competition")
