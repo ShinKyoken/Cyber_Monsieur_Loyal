@@ -315,3 +315,9 @@ def get_chef_by_id_equipe(idEquipe):
     idChef = e.idChefE
     participant_chef = get_participant_by_id(idChef)
     return participant_chef
+
+def get_admin_by_id(id):
+    t=get_Tournoi_by_id(id)
+    admin = ADMIN.query.filter_by(idAdmin = t.idAdmin)[0]
+    print(admin)
+    return admin
