@@ -16,7 +16,6 @@ class ADMIN(UserMixin,db.Model):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    idRegle           = db.Column(db.Integer, db.ForeignKey("REGLE.idRegle"))
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -31,8 +30,7 @@ class TOURNOI(db.Model):
     logoT             = db.Column(db.Text)
 
 class REGLE(db.Model):
-    idRegle = db.Column(db.Integer, primary_key = True)
-    idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), unique = True)
+    idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), primary_key = True)
     nomFic  = db.Column(db.String(100))
     data    = db.Column(db.LargeBinary(length = 2**24-1))
 
@@ -160,13 +158,11 @@ def insert_tournoi(tournoi):
                          stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
+
     newRegle = REGLE(idT = newTournoi.idT,
                      nomFic = tournoi['reglement'].filename,
                      data = tournoi['reglement'].read())
     db.session.add(newRegle)
-    db.session.commit()
-    tournoi = get_Tournoi_by_id(newTournoi.idT)
-    tournoi.idRegle = newRegle.idRegle
     db.session.commit()
 
 

@@ -114,12 +114,12 @@ def modifierTournoi(id):
     tournoi['idAdmin']           = current_user.idAdmin
 
     regle            = {}
-    regle['nomFic']  = request.files['reglement'].name
+    regle['nomFic']  = request.files['reglement'].filename
     regle['data']    = request.files['reglement'].read()
 
     update_tournoi(tournoi, id)
     update_regle(regle, id)
-    return render_template("modifierTournoi.html")
+    return redirect(url_for("tournoi", tournoi = id))
 
 
 
