@@ -20,17 +20,17 @@ class LoginForm(FlaskForm):
 
             return: (a remplire)
             """
-
-                user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
-                if user is None :
-                    return None
-
-                m = sha256()
-                m.update(self.password.data.encode())
-                passwd = m.hexdigest()
-                if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
-                    return user
+            user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
+            if user is None :
                 return None
+            m = sha256()
+            m.update(self.password.data.encode())
+            passwd = m.hexdigest()
+            if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
+                return user
+                return None
+
+
 
 
 @app.route("/")
@@ -48,8 +48,8 @@ def download_regles(idTournoi):
 
     Permet de telecharger les rêgles d'un tournoi.
     """
-    tournoi = TOURNOI.query.filter_by(idT = idTournoi).first()
-    return send_file(BytesIO(tournoi.regleT), attachment_filename='regles.pdf', as_attachment=True)
+    regle = get_Regle_by_id(idTournoi)
+    return send_file(BytesIO(regle.data), attachment_filename=regle.nomFic, as_attachment=True)
 
 @app.route("/connexion",methods=["GET","POST"])
 def connect():
@@ -129,7 +129,7 @@ def confirmerTournoi():
     """
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.files['regleT']
+    tournoi['reglement']         = request.files['reglement']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -155,7 +155,6 @@ def modifierTournoi(id):
     """
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.files['regleT']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -168,9 +167,15 @@ def modifierTournoi(id):
     tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
-    update_tournoi(tournoi,id)
-    return redirect(url_for(
-    "tournoi", tournoi = id))
+
+    regle            = {}
+    regle['nomFic']  = request.files['reglement'].filename
+    regle['data']    = request.files['reglement'].read()
+
+    update_tournoi(tournoi, id)
+    update_regle(regle, id)
+    return redirect(url_for("tournoi", tournoi = id))
+
 
 
 @app.route("/voir_competitions_actives")
@@ -213,6 +218,7 @@ def voirCompet(tournoi):
     return render_template(
         "tournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
+        admin = get_admin_by_id(tournoi),
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
@@ -226,9 +232,9 @@ def tableauDeBord():
         tournois= get_All_Tournois_Admin(),
         route="tableau")
 
-@app.route("/tableau_de_bord/<int:tournoi>")
+@app.route("/tableau_de_bord/<int:id>")
 @login_required
-def tournoi(tournoi):
+def tournoi(id):
     """
     param: tournoi (int), identifiant d'un tournoi.
 
@@ -236,7 +242,8 @@ def tournoi(tournoi):
     """
     return render_template(
         "tournoi.html",
-        tournoi=get_Tournoi_by_id(tournoi),
+        tournoi=get_Tournoi_by_id(id),
+        admin=get_admin_by_id(id),
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
@@ -317,8 +324,9 @@ def paramètre(tournoi):
     Redirige vers une page pour modifier un tournoi
     """
     t = get_Tournoi_by_id(tournoi)
+    regles = get_Regle_by_id(tournoi)
     return render_template(
-        "parametres.html", tournoi=t)
+        "parametres.html", tournoi=t, regles = regles)
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 @login_required
