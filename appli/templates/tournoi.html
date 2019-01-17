@@ -14,51 +14,52 @@
                     <p class="text-center">Fin : 12/06/2019</p>
                     <ul>
                     {% if route == "tableau" %}
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Matchs et classement</button></a>
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button></a>
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Ajouter / Voir équipes</button></a>
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button></a>
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/download_regles"><button class="btn btn-success btn-lg inputStyle col-md-11">Télécharger les règles</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Voir les matchs</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Stream</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Photos</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Equipes</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Modifier tournoi</button></a>
+
                     {% if tournoi.etatT == 0 %}
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi"><button class="btn btn-success btn-lg inputStyle col-md-11">Lancer le tournoi</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Lancer le tournoi</button></a>
                     {% endif %}
 
                     {% if tournoi.etatT == 1 %}
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/"><button class="btn btn-success btn-lg inputStyle col-md-11">Arrêter le tournoi</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Arrêter le tournoi</button></a>
                     {% endif %}
 
                     {% endif %}
                     {% if route == "voirCompet" %}
-                      <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button></a>
-                      <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button></a>
-                      <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
-                      <a href="/voir_competition/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Voir les matchs</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Stream</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Photos</button></a>
+                      <a href="/voir_competition/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Equipes</button></a>
                     {% endif %}
 
                     </ul>
                 </nav>
             </div>
             <div class="col-md-8">
-                <div>
-                    <h2>
-                        <strong>Description</strong>
-                    </h2>
-                    <p>{{ tournoi.descT }}
-                    </p>
-                </div>
-                <div>
-                    <h2>
-                        <strong>Réglement</strong>
-                    </h2>
-                </div>
-                <div>
-                    <h2>
-                        <strong>Historique</strong>
-                    </h2>
-                </div>
+                <ul>
+                    <li>
+                        <h2>
+                            <strong>Description</strong>
+                        </h2>
+                        <p>{{ tournoi.descT }}</p>
+                    </li>
+                    <li>
+                        <h2>
+                            <strong>Réglement</strong>
+                        </h2>
+                        <a class="btn btn-success inputStyle col-md-4" href="/tableau_de_bord/{{tournoi.idT}}/download_regles">Télécharger les règles</a><br>
+                    </li>
+                    <li>
+                        <h2>
+                            <strong>Historique</strong>
+                        </h2>
+                    </li>
+                </ul>
+                
             </div>
         </div>
-    </div>
-</div>
 {% endblock %}

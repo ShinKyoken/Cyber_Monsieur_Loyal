@@ -170,7 +170,6 @@ def insert_tournoi(tournoi):
 def update_tournoi(tournoi,id):
     tournoiUp                   = get_Tournoi_by_id(id)
     tournoiUp.intituleT         = tournoi['intituleT']
-    tournoiUp.regleT            = tournoi['regleT']
     tournoiUp.descT             = tournoi['descT']
     tournoiUp.dateT             = tournoi['dateT']
     tournoiUp.dureeT            = tournoi['dureeT']
@@ -184,9 +183,9 @@ def update_tournoi(tournoi,id):
     db.session.commit()
 
 def update_regle(regle, idTournoi):
-    regleUp = get_Regle_by_id(idTournoi)
+    regleUp        = get_Regle_by_id(idTournoi)
     regleUp.nomFic = regle['nomFic']
-    regleUp.data = regle['data']
+    regleUp.data   = regle['data']
     db.session.commit()
 
 def get_Regle_by_id(idTournoi):
