@@ -158,7 +158,7 @@ def insert_tournoi(tournoi):
 def update_tournoi(tournoi,id):
     tournoiUp=get_Tournoi_by_id(id)
     tournoiUp.intituleT=tournoi['intituleT']
-    tournoiUp.regleT=tournoi['regleT']
+    tournoiUp.regleT=tournoi['regleT'].read()
     tournoiUp.descT=tournoi['descT']
     tournoiUp.dateT=tournoi['dateT']
     tournoiUp.dureeT=tournoi['dureeT']
@@ -178,7 +178,7 @@ def insert_participant(participant):
     db.session.commit()
     return newParticipant.idP
 
-def update_participant(participant, idparticipant):
+def update_participant(participant, idParticipant):
     participantUp = get_participant_by_id(idParticipant)
     participantUp.nomP = participant['nomP']
     participantUp.prenomP = participant['prenomP']
@@ -276,7 +276,7 @@ def get_participant_by_id(idParticipant):
     return PARTICIPANT.query.filter_by(idP = idParticipant)[0]
 
 def get_membres_constituer(idEquipe):
-    return CONSTITUER.query.filter_by(idE = idEquipe)
+    return CONSTITUER.query.filter_by(idE = idEquipe).all()
 
 def get_participant_by_id_equipe(idEquipe):
     membres = []

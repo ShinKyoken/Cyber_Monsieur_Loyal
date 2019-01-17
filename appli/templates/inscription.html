@@ -5,10 +5,10 @@
 {% endblock %}
 {% block main %}
 <div class="text-center" id="centre">
-<form class="form-signin" method="post" role="form" action="{{ url_for('connect') }}">
+<form class="form-signin" method="post" role="form" action="{{ url_for('confirmer_ajout_admin') }}">
   {{ form.hidden_tag() }}
   <img class="mb-4" src="./static/icons/CML_Logo.png" alt="" width="72" height="72">
-  <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
+  <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
 
   <label for="login-name" class="sr-only">
     {{ form.username.label }}
@@ -23,9 +23,6 @@
     {{ form.password(size=50, class_="form-control", placeholder = "Password") }}
   </div>
 
-  <div class="checkbox mb-3">
-    <a href="/inscription">S'inscrire</a>
-  </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit" value="Log in">Connexion</button>
 </form>
 </div>

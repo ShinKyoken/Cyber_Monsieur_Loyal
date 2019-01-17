@@ -14,23 +14,21 @@ class LoginForm(FlaskForm):
         next = HiddenField()
 
         def get_authenticated_user(self):
+
             """
             param:
 
             return: (a remplire)
             """
-                print('\n '+ str(self.username.data) + ' ' + str(self.password.data)+'\n\n')
+
                 user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
-                print(user.mdpAdmin)
                 if user is None :
                     return None
-                # Décomenter en-dessous dès que le mdp est cripté dans la bd
 
-                # m = sha256()
-                # m.update(self.password.data.encode())
-                # passwd = m.hexdigest()
-                if self.password.data == user.mdpAdmin :
-                    print("azazeazeazeazeazea")
+                m = sha256()
+                m.update(self.password.data.encode())
+                passwd = m.hexdigest()
+                if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
                     return user
                 return None
 
@@ -65,8 +63,6 @@ def connect():
         user = form.get_authenticated_user()
         if user :
             login_user(user)
-            print(current_user.is_authenticated)
-            print(current_user.nomAdmin)
             next = form.next.data or url_for("home")
             return redirect(next)
     return render_template(
@@ -80,6 +76,29 @@ def logout():
     """
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/inscription",methods=["GET","POST"])
+def inscription():
+    form = LoginForm()
+    return render_template("inscription.html", form = form)
+
+@app.route("/confirmer_inscription",methods=["GET","POST"])
+def confirmer_ajout_admin():
+    f = LoginForm()
+    if f.validate_on_submit():
+        m = sha256()
+        m.update(f.password.data.encode())
+        passwd = m.hexdigest()
+        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin = "12/12/1999", mdpAdmin = passwd)
+        db.session.add(newAdmin)
+        db.session.commit()
+        return redirect(url_for("connect"))
+    return render_template(
+        "inscription.html",form = f)
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('connect'))
 
 
 @app.route("/creer_competition")
@@ -136,7 +155,7 @@ def modifierTournoi(id):
     """
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.form['regleT']
+    tournoi['regleT']            = request.files['regleT']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -147,10 +166,11 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
+    tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     update_tournoi(tournoi,id)
-    return render_template("modifierTournoi.html")
+    return redirect(url_for(
+    "tournoi", tournoi = id))
 
 
 @app.route("/voir_competitions_actives")
@@ -446,16 +466,40 @@ def ajouterMembre(tournoi, equipe):
         insert_constituer(equipe, p)
     return redirect(url_for("equipe",tournoi = tournoi))
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods={"POST"})
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods=("GET","POST",))
 @login_required
 def modifierEquipe(tournoi, equipe):
+
     """
     param: tournoi (int), identifiant d'un tournoi.
            equipe (int), identifiant d'une équipe.
 
     Modifie une équipe dans la BD
     """
-    pass
+
+    e = get_equipe_by_id(equipe)
+    t = get_Tournoi_by_id(tournoi)
+    liste = get_membres_constituer(equipe)
+    l = []
+    for part in liste:
+        l.append(get_participant_by_id(part.idP))
+    c = get_chef_by_id_equipe(equipe)
+    return render_template(
+        "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/valider_modification_equipe", methods={"POST"})
+def valider_modification_equipe(tournoi, equipe):
+    e = get_equipe_by_id(equipe)
+    l = get_membres_constituer(equipe)
+    t = get_Tournoi_by_id(tournoi)
+    for i in range(len(l)):
+        dico_participant = {}
+        dico_participant['nomP'] = request.form['nom_membre'+str(i)]
+        dico_participant['prenomP'] = request.form['prenom_membre'+str(i)]
+        dico_participant['mailP'] = request.form['mail_membre'+str(i)]
+        update_participant(dico_participant, l[i].idP)
+    return redirect(url_for("membres_equipe", tournoi = tournoi, equipe = equipe))
+
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
 @login_required

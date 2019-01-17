@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ajoutMembre.css') }}">
+{% endblock %}
+{% block main %}
+<div class="container-fluid" id="contmain">
+  <div class="container">
+    <h1 id="nom_equipe" > Modifier des participants à <b>{{ equipe.nomE }}</b></h1>
+      <!-- Example row of columns -->
+      <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/valider_modification_equipe">
+        <div class="row">
+        {% for x in range(liste_membres|length) %}
+        <div class="col-sm-6 col-md-6">
+          <div class="thumbnail">
+            <div class="caption">
+              {% if x == 0 %}
+              <h3>Chef d'équipe</h3>
+              {% else %}
+              <h3>Membre {{x}}</h3>
+              {% endif %}
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Nom</span>
+                  <input name="nom_membre{{x}}" type="text" class="form-control" id="" aria-describedby="basic-addon3" value="{{liste_membres[x].nomP}}">
+                </div>
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Prenom</span>
+                  <input name="prenom_membre{{x}}" type="text" class="form-control" id="" aria-describedby="basic-addon3" value="{{liste_membres[x].prenomP}}">
+                </div>
+                <div class="input-group" id="text_field_nom">
+                  <span class="input-group-addon" id="">Mail</span>
+                  <input name="mail_membre{{x}}" type="text" class="form-control" id="" aria-describedby="basic-addon3" value="{{liste_membres[x].mailP}}">
+                </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success btn-lg">Valider</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
