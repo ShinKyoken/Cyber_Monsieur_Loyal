@@ -100,7 +100,7 @@ def confirmerTournoi():
 def modifierTournoi(id):
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.form['regleT']
+    tournoi['regleT']            = request.files['regleT']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -111,10 +111,9 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
-    tournoi['idAdmin']           = current_user.idAdmin
     update_tournoi(tournoi,id)
-    return render_template("modifierTournoi.html")
+    return redirect(url_for(
+    "tournoi", tournoi = id))
 
 
 @app.route("/voir_competitions_actives")
