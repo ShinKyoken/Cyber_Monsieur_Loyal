@@ -111,6 +111,8 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
+    tournoi['etatT']             = 0
+    tournoi['idAdmin']           = current_user.idAdmin
     update_tournoi(tournoi,id)
     return redirect(url_for(
     "tournoi", tournoi = id))
@@ -306,10 +308,31 @@ def ajouterMembre(tournoi, equipe):
         insert_constituer(equipe, p)
     return redirect(url_for("equipe",tournoi = tournoi))
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods={"POST"})
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods=("GET","POST",))
 @login_required
 def modifierEquipe(tournoi, equipe):
-    pass
+    e = get_equipe_by_id(equipe)
+    t = get_Tournoi_by_id(tournoi)
+    liste = get_membres_constituer(equipe)
+    l = []
+    for part in liste:
+        l.append(get_participant_by_id(part.idP))
+    c = get_chef_by_id_equipe(equipe)
+    return render_template(
+        "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/valider_modification_equipe", methods={"POST"})
+def valider_modification_equipe(tournoi, equipe):
+    e = get_equipe_by_id(equipe)
+    l = get_membres_constituer(equipe)
+    t = get_Tournoi_by_id(tournoi)
+    for i in range(len(l)):
+        dico_participant = {}
+        dico_participant['nomP'] = request.form['nom_membre'+str(i)]
+        dico_participant['prenomP'] = request.form['prenom_membre'+str(i)]
+        dico_participant['mailP'] = request.form['mail_membre'+str(i)]
+        update_participant(dico_participant, l[i].idP)
+    return redirect(url_for("membres_equipe", tournoi = tournoi, equipe = equipe))
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
 @login_required
