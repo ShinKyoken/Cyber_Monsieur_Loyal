@@ -111,7 +111,7 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
-    tournoi['etatT']             = 1
+    tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     update_tournoi(tournoi,id)
     return render_template("modifierTournoi.html")

@@ -14,10 +14,10 @@
                     <p class="text-center">Fin : 12/06/2019</p>
                     <ul>
                     {% if route == "tableau" %}
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Voir les matchs</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11">Matchs et classement</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11">Stream</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11">Photos</button></a>
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Equipes</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-success btn-lg inputStyle col-md-11">Ajouter / Voir équipes</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11">Modifier tournoi</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/download_regles"><button class="btn btn-success btn-lg inputStyle col-md-11">Télécharger les règles</button></a>
                     {% if tournoi.etatT == 0 %}
