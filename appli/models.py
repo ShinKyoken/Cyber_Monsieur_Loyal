@@ -146,7 +146,8 @@ def get_nom_prenom_by_tournoi(etatT):
 
 def insert_tournoi(tournoi):
     newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
-                         dateT = tournoi['dateT'],dureeT = tournoi['dureeT'],
+                         dateT = tournoi['dateT'],
+                         dureeT = tournoi['dureeT'],
                          intituleT = tournoi['intituleT'],
                          descT = tournoi['descT'],
                          typeT = tournoi['typeT'],
@@ -159,7 +160,9 @@ def insert_tournoi(tournoi):
                          stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
-    newRegle = REGLE(idT = newTournoi.idT, nomFic = tournoi['regleT'].name, data = tournoi['regleT'].read())
+    newRegle = REGLE(idT = newTournoi.idT,
+                     nomFic = tournoi['reglement'].filename,
+                     data = tournoi['reglement'].read())
     db.session.add(newRegle)
     db.session.commit()
     tournoi = get_Tournoi_by_id(newTournoi.idT)
@@ -189,7 +192,7 @@ def update_regle(regle, idTournoi):
     db.session.commit()
 
 def get_Regle_by_id(idTournoi):
-    return REGLE.query.filter_by(idT = idTournoi).all()
+    return REGLE.query.filter_by(idT = idTournoi)[0]
 
 def insert_participant(participant):
     newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],

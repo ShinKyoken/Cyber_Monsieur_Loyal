@@ -37,8 +37,8 @@ def home():
 
 @app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
 def download_regles(idTournoi):
-    tournoi = TOURNOI.query.filter_by(idT = idTournoi).first()
-    return send_file(BytesIO(tournoi.regleT), attachment_filename='regles.pdf', as_attachment=True)
+    regle = get_Regle_by_id(idTournoi)
+    return send_file(BytesIO(regle.data), attachment_filename=regle.nomFic, as_attachment=True)
 
 @app.route("/connexion",methods=["GET","POST"])
 def connect():
@@ -79,7 +79,7 @@ def test(tournoi):
 def confirmerTournoi():
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.files['regleT']
+    tournoi['reglement']         = request.files['reglement']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -114,12 +114,13 @@ def modifierTournoi(id):
     tournoi['idAdmin']           = current_user.idAdmin
 
     regle            = {}
-    regle['nomFic']  = request.files['regleT'].name
-    regle['data']    = request.files['regleT'].read()
+    regle['nomFic']  = request.files['reglement'].name
+    regle['data']    = request.files['reglement'].read()
 
     update_tournoi(tournoi, id)
     update_regle(regle, id)
     return render_template("modifierTournoi.html")
+
 
 
 @app.route("/voir_competitions_actives")
@@ -213,8 +214,9 @@ def membres_equipe(tournoi, equipe):
 @login_required
 def paramètre(tournoi):
     t = get_Tournoi_by_id(tournoi)
+    regles = get_Regle_by_id(tournoi)
     return render_template(
-        "parametres.html", tournoi=t)
+        "parametres.html", tournoi=t, regles = regles)
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 @login_required
