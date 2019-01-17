@@ -16,7 +16,7 @@ class ADMIN(UserMixin,db.Model):
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.LargeBinary(length = 2**24-1))
+    idRegle           = db.Column(db.Integer, db.ForeignKey("REGLE.idRegle"))
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -29,6 +29,12 @@ class TOURNOI(db.Model):
     stream            = db.Column(db.Text)
     lieuT             = db.Column(db.String(30))
     logoT             = db.Column(db.Text)
+
+class REGLE(db.Model):
+    idRegle = db.Column(db.Integer, primary_key = True)
+    idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), unique = True)
+    nomFic  = db.Column(db.String(100))
+    data    = db.Column(db.LargeBinary(length = 2**24-1))
 
 class PARTICIPANT(db.Model):
     idP     = db.Column(db.Integer, primary_key = True)
@@ -140,8 +146,8 @@ def get_nom_prenom_by_tournoi(etatT):
 
 def insert_tournoi(tournoi):
     newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
-                         regleT = tournoi['regleT'].read(),
-                         dateT = tournoi['dateT'],dureeT = tournoi['dureeT'],
+                         dateT = tournoi['dateT'],
+                         dureeT = tournoi['dureeT'],
                          intituleT = tournoi['intituleT'],
                          descT = tournoi['descT'],
                          typeT = tournoi['typeT'],
@@ -154,22 +160,39 @@ def insert_tournoi(tournoi):
                          stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
+    newRegle = REGLE(idT = newTournoi.idT,
+                     nomFic = tournoi['reglement'].filename,
+                     data = tournoi['reglement'].read())
+    db.session.add(newRegle)
+    db.session.commit()
+    tournoi = get_Tournoi_by_id(newTournoi.idT)
+    tournoi.idRegle = newRegle.idRegle
+    db.session.commit()
+
 
 def update_tournoi(tournoi,id):
-    tournoiUp=get_Tournoi_by_id(id)
-    tournoiUp.intituleT=tournoi['intituleT']
-    tournoiUp.regleT=tournoi['regleT'].read()
-    tournoiUp.descT=tournoi['descT']
-    tournoiUp.dateT=tournoi['dateT']
-    tournoiUp.dureeT=tournoi['dureeT']
-    tournoiUp.typeT=tournoi['typeT']
-    tournoiUp.lieuT=tournoi['lieuT']
-    tournoiUp.disciplineT=tournoi['disciplineT']
-    tournoiUp.nbEquipe=tournoi['nbEquipe']
-    tournoiUp.nbParticipantsMax=tournoi['nbParticipantsMax']
-    tournoiUp.logoT=tournoi['logoT']
-    tournoiUp.stream=tournoi['stream']
+    tournoiUp                   = get_Tournoi_by_id(id)
+    tournoiUp.intituleT         = tournoi['intituleT']
+    tournoiUp.descT             = tournoi['descT']
+    tournoiUp.dateT             = tournoi['dateT']
+    tournoiUp.dureeT            = tournoi['dureeT']
+    tournoiUp.typeT             = tournoi['typeT']
+    tournoiUp.lieuT             = tournoi['lieuT']
+    tournoiUp.disciplineT       = tournoi['disciplineT']
+    tournoiUp.nbEquipe          = tournoi['nbEquipe']
+    tournoiUp.nbParticipantsMax = tournoi['nbParticipantsMax']
+    tournoiUp.logoT             = tournoi['logoT']
+    tournoiUp.stream            = tournoi['stream']
     db.session.commit()
+
+def update_regle(regle, idTournoi):
+    regleUp        = get_Regle_by_id(idTournoi)
+    regleUp.nomFic = regle['nomFic']
+    regleUp.data   = regle['data']
+    db.session.commit()
+
+def get_Regle_by_id(idTournoi):
+    return REGLE.query.filter_by(idT = idTournoi)[0]
 
 def insert_participant(participant):
     newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],
