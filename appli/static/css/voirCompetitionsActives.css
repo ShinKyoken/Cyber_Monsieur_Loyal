@@ -1,9 +1,7 @@
 .voirCompetition{
   padding-top: 15vh;
-  background: #FF5F6D;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   min-height: 100vh;
+  background-image: url("../images/gradient_sky_opaque.jpg");
 }
 
 h1{
@@ -29,7 +27,7 @@ img{
 
 
 .thumbnail{
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.4);
   max-width: 25vw;
   min-height:42vh;
   margin-left:2vh;

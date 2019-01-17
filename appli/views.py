@@ -1,10 +1,9 @@
 from .app import app
 from .models import *
-from flask import render_template, redirect, url_for, request, send_file
+from flask import render_template, redirect, url_for, request, send_file, make_response
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
-from flask import request
 from hashlib import sha256
 from io import BytesIO
 
@@ -119,6 +118,7 @@ def modifierTournoi(id):
 
     update_tournoi(tournoi, id)
     update_regle(regle, id)
+
     return redirect(url_for("tournoi", tournoi = id))
 
 
@@ -164,8 +164,8 @@ def tableauDeBord():
 def tournoi(tournoi):
     return render_template(
         "tournoi.html",
-        tournoi=get_Tournoi_by_id(tournoi),
-        route="tableau")
+        tournoi = get_Tournoi_by_id(tournoi),
+        route   = "tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
 @login_required

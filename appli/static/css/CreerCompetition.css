@@ -1,0 +1,17 @@
+.uk-container{
+  padding-top:3vh;
+}
+
+label{
+  text-align: center;
+}
+
+#radioBouton{
+  margin-top:10px;
+}
+
+#test{
+  padding-top:10vh;
+  background-image: url("../images/gradient_sky_opaque.jpg");
+  min-height:100vh;
+}
