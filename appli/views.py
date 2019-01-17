@@ -218,6 +218,7 @@ def voirCompet(tournoi):
     return render_template(
         "tournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
+        admin = get_admin_by_id(tournoi),
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
@@ -231,9 +232,9 @@ def tableauDeBord():
         tournois= get_All_Tournois_Admin(),
         route="tableau")
 
-@app.route("/tableau_de_bord/<int:tournoi>")
+@app.route("/tableau_de_bord/<int:id>")
 @login_required
-def tournoi(tournoi):
+def tournoi(id):
     """
     param: tournoi (int), identifiant d'un tournoi.
 
@@ -241,7 +242,8 @@ def tournoi(tournoi):
     """
     return render_template(
         "tournoi.html",
-        tournoi=get_Tournoi_by_id(tournoi),
+        tournoi=get_Tournoi_by_id(id),
+        admin=get_admin_by_id(id),
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
