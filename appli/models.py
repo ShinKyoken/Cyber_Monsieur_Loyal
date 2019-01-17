@@ -319,7 +319,7 @@ def load_user(username):
 
     recherche un admin qui a le nom recherché
     """
-        return ADMIN.query.get(username)
+    return ADMIN.query.get(username)
 
 def insert_partie(idTournoi):
     """
