@@ -4,11 +4,10 @@
       "billy": {"machine" : "machine2", "avatar": "shakespeare.png"},
       "mary": {"machine": "machine3", "avatar": "shelley.png"}
   },
-  
+
   "paramètres":
   {
       "map": "test.map",
       "n_tours": 12
   }
 }
-
