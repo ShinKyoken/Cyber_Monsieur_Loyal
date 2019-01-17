@@ -1,82 +1,130 @@
 {% extends "base.html" %}
-{% block styles %}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for("static", filename="css/creerCompetition.css") }}">
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
-{% endblock %}
 {% block main %}
-<div class="container-fluid" id="containerCreerCompetFluid">
-<div class="container" id="containerCreerCompet">
-<form method="post" action="/tableau_de_bord/{{tournoi.idT}}/modifier_competition">
-    <h1 class="text-center"><strong>Modifier le tournoi : {{tournoi.intituleT}} !</strong></h1>
-    <div>
-        <div class="form-group row">
-            <div class="col-md-4">
-                <label class="labelStyle">Nom du tournoi</label>
-                <input type="text" name="intituleT" class="form-control inputStyle" id="nomTournoi" value="{{tournoi.intituleT}}">
+
+<!--pip install Flask-UIkit-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nouveauCreerCompetition.css') }}">
+
+<div class="container-fluid" id="test"> <!-- container-fluid -->
+  <h1 class="text-center"><strong>Modifier votre tournoi !</strong></h1>
+  <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/modifier_competition" enctype="multipart/form-data">
+    <fieldset class="uk-fieldset">
+      <div class="uk-container"> <!-- uk-container-->
+
+          <div class="uk-column-1-3@m uk-column-1-1@s uk-column-divider"> <!-- uk-column-1-3 uk-column-divider -->
+
+            <div class="uk-margin">  <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text">Nom du tournoi</label>
+              <div class="uk-form-controls">
+                <input name="intituleT" class="uk-input" id="form-stacked-text" type="text" placeholder="Nom du tournoi" value="{{tournoi.intituleT}}" required>
+              </div>
+            </div>  <!-- uk-margin -->
+
+            <div class="uk-margin">  <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Discpline</label>
+              <div class="uk-form-controls">
+                <input name="disciplineT" class="uk-input" id="form-stacked-text" type="text" placeholder="Discipline" value="{{tournoi.disciplineT}}" required>
+              </div>
+            </div>  <!-- uk-margin -->
+
+            <div class="uk-margin">  <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Lieu</label>
+              <div class="uk-form-controls">
+                <input name="lieuT" class="uk-input" id="form-stacked-text" type="text" placeholder="Lieu" value="{{tournoi.lieuT}}" required>
+              </div>
+            </div>  <!-- uk-margin -->
+          </div> <!-- uk-column-1-3 uk-column-divider -->
+
+
+          <div class="uk-column-1-3@m uk-column-1-1@s  uk-column-divider"> <!-- uk-column-1-3 uk-column-divider -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text">Début du tournoi</label>
+              <div class="uk-form-controls">
+                <input name="dateT" class="uk-input" id="form-stacked-text" type="date" placeholder="Nom du tournoi" value="{{tournoi.dateT}}" required>
+              </div>
+            </div> <!-- uk-margin -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Fin du tournoi</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" id="form-stacked-text" type="date" placeholder="Discipline" required>
+              </div>
+            </div> <!-- uk-margin -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Durée du tournoi</label>
+              <div class="uk-form-controls">
+                <input name="dureeT" class="uk-input" id="form-stacked-text" type="number" placeholder="Durée du tournoi" value="{{tournoi.dureeT}}" required>
+              </div>
+            </div> <!-- uk-margin -->
+
+          </div> <!-- uk-column-1-3 uk-column-divider -->
+
+          <div class="uk-column-1-3@m uk-column-1-1@s uk-column-divider"> <!-- uk-column-1-3 uk-column-divider -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Nombre d'équipes</label>
+              <div class="uk-form-controls">
+                <input name="nbEquipe" class="uk-input" id="form-stacked-text" type="number" placeholder="Nombre d'équipes maximum" value="{{tournoi.nbEquipe}}" required>
+              </div>
+            </div> <!-- uk-margin -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Nombre de participants par équipe</label>
+              <div class="uk-form-controls">
+                <input name="nbParticipantsMax" class="uk-input" id="form-stacked-text" type="number" placeholder="Nombre participants" value="{{tournoi.nbParticipantsMax}}" required>
+              </div>
+            </div> <!-- uk-margin -->
+
+
+          <div class="uk-margin"> <!-- uk-margin -->
+            <label class="uk-form-label" for="form-stacked-text uk-text-center">Type de tournoi</label>
+            <div class="uk-form-controls" id="radioBouton">
+              <label><input class="uk-radio" type="radio" name="typeT" checked> Élimination directe</label>
+              <label><input class="uk-radio" type="radio" name="typeT"> Poule</label>
+              <label><input class="uk-radio" type="radio" name="typeT"> Championnat</label>
             </div>
-            <div class="col-md-4">
-                <label class="labelStyle">Lieu</label>
-                <input type="text" name="lieuT" class="form-control inputStyle" id="lieu" value="{{tournoi.lieuT}}">
-            </div>
-            <div class="col-md-4">
-                <label class="labelStyle">Discipline</label>
-                <input type="text" name="disciplineT" class="form-control inputStyle" id="discipline" value="{{tournoi.disciplineT}}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label class="labelStyle">Date du tournoi</label>
-                <input class="form-control inputStyle" name="dateT" type="date" id="dateDebut" value="{{tournoi.dateT}}">
-            </div>
-            <div class="col-md-6">
-                <label class="labelStyle">Durée du tournoi</label>
-                <input type="number" name="dureeT" class="form-control inputStyle" id="DureeTournoi" value="{{tournoi.dureeT}}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label class="labelStyle">Nombre d"équipes</label>
-                <input type="number" name="nbEquipe"  class="form-control inputStyle" id="nbEquipe" value="{{tournoi.nbEquipe}}">
-            </div>
-            <div class="col-md-6">
-                <label class="labelStyle">Nombre de membres par équipe</label>
-                <input type="number" name="nbParticipantsMax"  class="form-control inputStyle" id="nbMembre" value="{{tournoi.nbParticipantsMax}}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label class="labelStyle">Description</label>
-                <input type="textarea" name="descT"  class="form-control inputStyle" id="description" value="{{tournoi.descT}}">
-            </div>
-            <div class="col-md-6">
-                <label class="labelStyle">Réglement</label>
-                <input type="textarea" name="regleT"  class="form-control inputStyle" id="reglement" value="{{tournoi.regleT}}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label class="labelStyle">Nom de la chaîne Twitch</label>
-                <input type="text" name="stream" class="form-control inputStyle" id="urlStream" value="{{tournoi.stream}}">
-            </div>
-            <div class="col-md-6">
-                <label class="labelStyle">Logo</label>
-                <input type="text" name="logoT" class="form-control inputStyle" id="image" value="{{tournoi.logoT}}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="labelStyle">Type de tournoi : </label>
-            <select class="form-control inputStyle" name="typeT" id="sel1">
-                <option>Élimination directe</option>
-                <option>Phase de poule</option>
-                <option>Championnat</option>
-            </select>
-        </div>
-        <div class="form-group text-center">
+          </div> <!-- uk-margin -->
+
+        </div> <!-- uk-column-1-3 uk-column-divider -->
+
+        <hr class="uk-divider-icon ">
+
+        <div class="uk-column-1-2@m uk-column-1-1@s uk-column-divider"> <!-- uk-column-1-2 uk-column-divider -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Nom de la chaîne twitch</label>
+              <input name="stream" class="uk-input" id="form-stacked-text" type="text" placeholder="Nom de la chaîne twitch" value="{{tournoi.stream}}">
+            </div> <!-- uk-margin -->
+
+            <div class="uk-margin"> <!-- uk-margin -->
+              <label class="uk-form-label" for="form-stacked-text uk-text-center">Logo du tournoi</label>
+              <input name="logoT"class="uk-input" id="form-stacked-text" type="text" placeholder="Logo du tournoi" value="{{tournoi.logoT}}" required>
+            </div> <!-- uk-margin -->
+
+        </div> <!-- uk-column-1-3 uk-column-divider -->
+
+        <div class="uk-column-1-2@m uk-column-1-1@s uk-column-divider">
+
+          <div class="uk-margin"> <!-- uk-margin -->
+            <label class="uk-form-label" for="form-stacked-text uk-text-center">Description</label>
+            <textarea class="uk-textarea" name="descT" rows="5" placeholder="Description" required>{{tournoi.descT}}</textarea>
+          </div> <!-- uk-margin -->
+
+          <div class="uk-margin"> <!-- uk-margin -->
+            <label class="uk-form-label" for="form-stacked-text uk-text-center">Règles</label>
+            <input type="file" name="reglement" id="file" value="{{regles.nomFic}}"/>
+          </div> <!-- uk-margin -->
+        </div><!-- uk-column-1-3 uk-column-divider -->
+
+
+        <div class="form-group text-center uk-margin">
             <button type="submit" class="btn btn-success btn-lg inputStyle">Modifier le tournoi</button>
         </div>
-    </div>
-</form>
-</div>
-</div>
+      </div> <!-- uk-container-->
+    </fieldset>
+  </form>
+</div> <!-- container-fluid -->
+
 {% endblock %}

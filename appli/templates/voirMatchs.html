@@ -1,17 +1,20 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voirMatchs.css') }}">
 {% endblock %}
+{% block scripts %}
+<script src="/static/js/uikit.min.js"></script>
+<script src="/static/js/uikit-icons.min.js"></script>
+{% endblock %}
 {% block main %}
-<div class="voirMatches">
-
+<div class="voirMatches container">
 	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
 		<h2>Matchs du Tournois</h2>
 	</div>
- <div class="row">
-	<div class="block_classement col-md-6">      <!-- Partie de gauche, avec le classement équipes -->
-		<h3>Classement</h3>
+<div class="col-md-6">
+		<h3 class="text-center">Classement</h3>
 		<table class="table">
 			<thead>
 				<tr>
@@ -30,44 +33,37 @@
 			{% endfor %}
 			</tbody>
 		</table>
-	</div>
-	<div class="block_matchs col-md-4">
-		<div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
-			<h3>Historique des match</h3>
-			<div class="row">
+</div>
+<div class="">
 
-				<div class="col-md-10">
-		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-		 				<p class="text-center">Carte de la partie: { match.carte }</p>
-		 		</div>
-				<div class="col-md-10">
-		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-		 				<p class="text-center">Carte de la partie: { match.carte }</p>
-		 		</div>
-				<div class="col-md-10">
-		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-		 				<p class="text-center">Carte de la partie: { match.carte }</p>
-		 		</div>
-			</div>
+</div>
+
+<div class ="col-md-6">
+		<div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
+			<h3 class="text-center">Historique des matchs</h3>
+			<ul uk-accordion="collapsible: false; multiple: false">
+			{% for equipe in equipes2 %}
+			{% set x = "" %}
+						<li>
+								<a class="uk-accordion-title" href="#">
+									{% for i in range(1,(equipe|length)) %}
+										{% if i != (equipe|length)-1 %}
+											{% set x = x + (equipe[i].nomE + " contre ") %}
+											{{ x }}
+										{% else %}
+											{% set x = x + (equipe[i].nomE) %}
+											{{ x }}
+										{% endif %}
+									{% endfor %}
+								</a>
+								<div class="uk-accordion-content">
+									<p class="">La partie {{ equipe[0].idPartie}}
+					 				<p class="">Carte de la partie: {{ equipe[0].cartePartie}}</p>
+								</div>
+						</li>
+				{% endfor %}
+			</ul>
 		</div>
-		<div class="block_matchs_inter">
-			<h3>Matchs a venir</h3>
-			<div class="row">
-				<div class="col-md-10">
-		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-		 				<p class="text-center">Carte de la partie: { match.carte }</p>
-		 		</div>
-				<div class="col-md-10">
-		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-		 				<p class="text-center">Carte de la partie: { match.carte }</p>
-		 		</div>
-				<div class="col-md-10">
-		 				<p class="text-center">{ match.equipe1 } VS { match.equipe2 }</p>
-		 				<p class="text-center">Carte de la partie: { match.carte }</p>
-		 		</div>
-			</div>
-		</div>
-	</div>
 </div>
 </div>
 {% endblock %}

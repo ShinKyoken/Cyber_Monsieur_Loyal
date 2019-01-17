@@ -1,19 +1,21 @@
 from .app import db, login_manager
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
+from sqlalchemy.dialects.mysql import MEDIUMBLOB
 import random
 import datetime
 
-class ADMIN(db.Model):
+class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
     prenomAdmin    = db.Column(db.String(100))
     dateNaissAdmin = db.Column(db.Date)
     mdpAdmin       = db.Column(db.String(100))
+    def get_id(self) :
+        return self.idAdmin
 
 class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
-    regleT            = db.Column(db.String(100))
     dateT             = db.Column(db.Date)
     dureeT            = db.Column(db.String(5))
     intituleT         = db.Column(db.String(50))
@@ -26,6 +28,11 @@ class TOURNOI(db.Model):
     stream            = db.Column(db.Text)
     lieuT             = db.Column(db.String(30))
     logoT             = db.Column(db.Text)
+
+class REGLE(db.Model):
+    idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), primary_key = True)
+    nomFic  = db.Column(db.String(100))
+    data    = db.Column(db.LargeBinary(length = 2**24-1))
 
 class PARTICIPANT(db.Model):
     idP     = db.Column(db.Integer, primary_key = True)
@@ -54,10 +61,12 @@ class CONSTITUER(db.Model):
     idE = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"), primary_key=True)
 
 class PARTIE(db.Model):
-    idPartie   = db.Column(db.Integer, primary_key=True)
-    cartePartie = db.Column(db.String(100))
-    datePartie = db.Column(db.DateTime, default=datetime.datetime.now())
+    idPartie      = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False )
+    cartePartie   = db.Column(db.String(100))
+    datePartie    = db.Column(db.DateTime, default=datetime.datetime.now())
     gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"))
+    etatPartie    = db.Column(db.Integer, default=0)
 
 class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
@@ -65,40 +74,113 @@ class PARTICIPERPARTIE(db.Model):
     idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
 
 def get_All_Admins():
+    """
+    retourne la liste des Admins
+    """
     return ADMIN.query.all()
 
 def get_All_Tournois_Inactifs():
+    """
+    retourne la liste des tournois inactifs
+    """
     return TOURNOI.query.filter_by(etatT = 0)
 
 def get_All_Tournois_Actifs():
+    """
+    retourne la liste des tournois actifs
+    """
     return TOURNOI.query.filter_by(etatT = 1)
 
 def get_All_Tournois_Terminees():
+    """
+    retourne la liste des tournois terminé
+    """
     return TOURNOI.query.filter_by(etatT = 2)
 
 def get_All_Tournois_Admin():
-    return TOURNOI.query.filter_by(idAdmin = 1)
+    """
+    retourne la liste des tournois de l'admin connecté
+    """
+    return TOURNOI.query.filter_by(idAdmin = current_user.idAdmin)
 
 def get_Tournoi_by_id(id):
+    """
+    param: id (int), identifiant d'un tournoi
+
+    retourne un tournoi selon son identifiant
+    """
     return TOURNOI.query.filter_by(idT = id)[0]
 
 def get_All_Equipes(idT):
+    """
+    param: idT (int), identifiant d'un tournoi
+
+    retourne les équipes d'un tournoi
+    """
     return EQUIPE.query.filter_by(idT = idT)
 
 def count_tournoi():
+    """
+    retourne le nombre de tournoi
+    """
     return TOURNOI.query.count()
 
 def get_All_Photos(idTournoi):
+    """
+    param: idTournoi (int), identifiant d'un tournoi
+
+    retourne les photos d'un tournoi
+    """
     return PHOTO.query.filter_by(idT = idTournoi)
 
 def get_equipe_by_tournoi(idTournoi):
+    """
+    param: idTournoi (int), identifiant d'un tournoi
+
+    retourne les équipes d'un tournoi
+    """
     return EQUIPE.query.filter_by(idT = idTournoi).all()
 
 def get_equipe_by_id(id):
+    """
+    param: id (int), identifiant d'une équipe
+
+    retourne une équipe selon un identifiant d'équipe
+    """
     return EQUIPE.query.filter_by(idE = id)[0]
 
 def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tournoi
+    """
+    param: idT (int), identifiant d'un tournoi
+
+    retourne les équipe d'un tournoi, classé par points
+    """
     return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
+
+def get_All_partie_by_tournoi(idTournoi):
+    """
+    param: idTournoi (int), identifiant d'un tournoi
+
+    retourne les partie d'un tournoi
+    """
+    return PARTIE.query.filter_by(idT = idTournoi)
+
+def get_All_Equipe_by_partie(parties):
+    """
+    param: parties (int), identifiant d'une partie
+
+    retourne les équipes d'une partie
+    """
+    listeFinale = []
+    for partie in parties:
+        equipes = PARTICIPERPARTIE.query.filter_by(idPartie = partie.idPartie).all()
+        liste = [partie]
+        for i in range(len(equipes)):
+            participant = PARTICIPERPARTIE.query.filter_by(idPartie = partie.idPartie, idE = equipes[i].idE).one()
+            liste.append(EQUIPE.query.filter_by(idE = participant.idE).one())
+        listeFinale.append(liste)
+    return listeFinale
+
 #def get_All_Equipes_Classe():
 #    return EQUIPE.query.order_by(points)
 
@@ -106,6 +188,9 @@ def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tourn
 #    return EQUIPE.query.order_by(points)
 
 def get_nom_prenom_by_tournoi(etatT):
+    """
+    ???
+    """
     dico = {}
     if etatT == 0:
         tournois = get_All_Tournois_Inactifs()
@@ -119,38 +204,97 @@ def get_nom_prenom_by_tournoi(etatT):
     return dico
 
 def insert_tournoi(tournoi):
-    newTournoi = TOURNOI(idAdmin = 1, regleT = tournoi['regleT'], dateT = tournoi['dateT'],
-    dureeT = tournoi['dureeT'], intituleT = tournoi['intituleT'], descT = tournoi['descT'],
-    typeT = tournoi['typeT'],etatT = tournoi['etatT'], nbEquipe = tournoi['nbEquipe'],
-    nbParticipantsMax = tournoi['nbParticipantsMax'],disciplineT = tournoi['disciplineT'],
-    lieuT = tournoi['lieuT'], logoT = tournoi['logoT'], stream = tournoi['stream'])
+    """
+    param: tournoi (dictionnaire), représante un tournoi
+
+    insert un tournoi dans la BD
+    """
+    newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
+                         dateT = tournoi['dateT'],
+                         dureeT = tournoi['dureeT'],
+                         intituleT = tournoi['intituleT'],
+                         descT = tournoi['descT'],
+                         typeT = tournoi['typeT'],
+                         etatT = tournoi['etatT'],
+                         nbEquipe = tournoi['nbEquipe'],
+                         nbParticipantsMax = tournoi['nbParticipantsMax'],
+                         disciplineT = tournoi['disciplineT'],
+                         lieuT = tournoi['lieuT'],
+                         logoT = tournoi['logoT'],
+                         stream = tournoi['stream'])
     db.session.add(newTournoi)
     db.session.commit()
 
-def update_tournoi(tournoi,id):
-    tournoiUp=get_Tournoi_by_id(id)
-    tournoiUp.intituleT=tournoi['intituleT']
-    tournoiUp.regleT=tournoi['regleT']
-    tournoiUp.descT=tournoi['descT']
-    tournoiUp.dateT=tournoi['dateT']
-    tournoiUp.dureeT=tournoi['dureeT']
-    tournoiUp.typeT=tournoi['typeT']
-    tournoiUp.lieuT=tournoi['lieuT']
-    tournoiUp.disciplineT=tournoi['disciplineT']
-    tournoiUp.nbEquipe=tournoi['nbEquipe']
-    tournoiUp.nbParticipantsMax=tournoi['nbParticipantsMax']
-    tournoiUp.logoT=tournoi['logoT']
-    tournoiUp.stream=tournoi['stream']
+    newRegle = REGLE(idT = newTournoi.idT,
+                     nomFic = tournoi['reglement'].filename,
+                     data = tournoi['reglement'].read())
+    db.session.add(newRegle)
     db.session.commit()
 
+
+def update_tournoi(tournoi,id):
+
+    """
+    param: tournoi (dictionnaire), représante un tournoi
+           id (int), identifiant d'un tournoi
+
+    modifie un tournoi dans la BD
+    """
+
+    tournoiUp                   = get_Tournoi_by_id(id)
+    tournoiUp.intituleT         = tournoi['intituleT']
+    tournoiUp.descT             = tournoi['descT']
+    tournoiUp.dateT             = tournoi['dateT']
+    tournoiUp.dureeT            = tournoi['dureeT']
+    tournoiUp.typeT             = tournoi['typeT']
+    tournoiUp.lieuT             = tournoi['lieuT']
+    tournoiUp.disciplineT       = tournoi['disciplineT']
+    tournoiUp.nbEquipe          = tournoi['nbEquipe']
+    tournoiUp.nbParticipantsMax = tournoi['nbParticipantsMax']
+    tournoiUp.logoT             = tournoi['logoT']
+    tournoiUp.stream            = tournoi['stream']
+    db.session.commit()
+
+def update_regle(regle, idTournoi):
+    regleUp        = get_Regle_by_id(idTournoi)
+    regleUp.nomFic = regle['nomFic']
+    regleUp.data   = regle['data']
+    db.session.commit()
+
+def get_Regle_by_id(idTournoi):
+    return REGLE.query.filter_by(idT = idTournoi)[0]
+
 def insert_participant(participant):
+    """
+    param: participant (dictionaire), représante un membre d'un groupe dans un tournoi
+
+    insert un membre dans la BD
+    """
     newParticipant = PARTICIPANT(nomP = participant['nomP'], prenomP = participant['prenomP'],
     mailP = participant['mailP'])
     db.session.add(newParticipant)
     db.session.commit()
     return newParticipant.idP
 
+def update_participant(participant, idParticipant):
+    """
+    param: participant (dictionaire), représante un membre d'un groupe dans un tournoi
+           idParticipant (int), identifiant d'un membre
+
+    Modifie un membre dans la BD
+    """
+    participantUp = get_participant_by_id(idParticipant)
+    participantUp.nomP = participant['nomP']
+    participantUp.prenomP = participant['prenomP']
+    participantUp.mailP = participant['mailP']
+    db.session.commit()
+
 def insert_equipe(equipe):
+    """
+    param: equipe (dictionaire), représante un groupe dans un tournoi
+
+    insert une equipe dans la BD
+    """
     newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
     nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
     db.session.add(newEquipe)
@@ -158,28 +302,61 @@ def insert_equipe(equipe):
     return newEquipe.idE
 
 def insert_constituer(idEquipe, idParticipant):
+    """
+    param: idEquipe (int), identifiant d'une équipe
+           idParticipant (int), identifiant d'un participant
+
+    insert dans la BD le fait qu'un membre est dans une équipe
+    """
     newConstituer = CONSTITUER(idP = idParticipant, idE = idEquipe)
     db.session.add(newConstituer)
     db.session.commit()
 
 @login_manager.user_loader
 def load_user(username):
+    """
+    param: username (str), le nom d'un admin
+
+    recherche un admin qui a le nom recherché
+    """
         return ADMIN.query.get(username)
 
-def insert_partie():
-    newPartie = PARTIE(cartePartie = "Nuketown")
+def insert_partie(idTournoi):
+    """
+    param: idTournoi (int), identifiant d'un tournoi
+
+    insert une partie dans la BD
+    """
+    newPartie = PARTIE(cartePartie = "Nuketown", idT = idTournoi)
     db.session.add(newPartie)
     db.session.commit()
     return newPartie.idPartie
 
 def insert_participer_partie(idEquipe, idP, idTournoi):
+    """
+    param: idEquipe (int), identifiant d'une equipe
+           idP (int), identifiant d'une partie
+           idTournoi (int), identifiant d'un tournoi
+
+    insert une participation d'une équipe à un tournoi
+    """
     newParticiperPartie = PARTICIPERPARTIE(idE = idEquipe, idPartie = idP, idT = idTournoi)
     db.session.add(newParticiperPartie)
     db.session.commit()
 
 
 def automatique_match(idTournoi,nbMatchs,nbParticipants):
+    """
+    param: nbParticipants (int), nombre de d'équipe par match
+           nbMatchs (int), nompre de match par équipe
+           idTournoi (int), identifiant d'un tournoi
+
+    crée les match d'un tournoi
+    """
     listeEquipe = get_equipe_by_tournoi(idTournoi)
+    t=get_Tournoi_by_id(idTournoi)
+    t.etatT=1
+    db.session.commit()
     listeId = []
     listeIdPartie = []
     listeIdPerMatchs = []
@@ -194,10 +371,10 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
 
     if ((len(listeEquipe)*nbMatchs)/nbParticipants) > ((len(listeEquipe)*nbMatchs)//nbParticipants):
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)+1):
-            listeIdPartie.append(insert_partie())
+            listeIdPartie.append(insert_partie(idTournoi))
     else:
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)):
-            listeIdPartie.append(insert_partie())
+            listeIdPartie.append(insert_partie(idTournoi))
 
     for partie in listeIdPartie:
         for i in range (nbParticipants):
@@ -213,27 +390,77 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     return res
 
 def getRechercheAllTournois(recherche):
-    return TOURNOI.query.filter(
-        TOURNOI.intituleT.like(recherche +"%")
-    ).all()
+    """
+    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+
+    recherche dans les tournois
+    """
+    t=get_All_Tournois_Admin()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
+
+def getRechercheTournoisInactif(recherche):
+    """
+    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+
+    recherche dans les tournois inactifs
+    """
+    t = get_All_Tournois_Inactifs()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
 
 def getRechercheTournoisActif(recherche):
+    """
+    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+
+    recherche dans les tournois actifs
+    """
     t = get_All_Tournois_Actifs()
     return t.filter(TOURNOI.intituleT.like(recherche +"%"))
 
+def getRechercheTournoisTerminee(recherche):
+    """
+    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+
+    recherche dans les tournois terminé
+    """
+    t = get_All_Tournois_Terminees()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+
 def get_constituer(idP, idE):
+    """
+    ???
+    """
     return TOURNOI.query.filter_by(idP = idP, idE = idE)
 
 def delete_equipe(idEquipe):
+    """
+    param: idEquipe (int), identifiant d'une équipes
+
+    supprime une équipe dans la base de donnée
+    """
     return None
 
-def get_participant_by_id(idP):
-    return TOURNOI.query.filter_by(idP = idP)
+def get_participant_by_id(idParticipant):
+    """
+    param: idParticipant, identifiant d'un participant
+
+    retourne un participant a partir de son identifiant
+    """
+    return PARTICIPANT.query.filter_by(idP = idParticipant)[0]
 
 def get_membres_constituer(idEquipe):
-    return CONSTITUER.query.filter_by(idE = idEquipe)
+    """
+    param: idEquipe (int), identifiant d'une équipes
+
+    retourne une instance de la table constituer
+    """
+    return CONSTITUER.query.filter_by(idE = idEquipe).all()
 
 def get_participant_by_id_equipe(idEquipe):
+    """
+    param: idEquipe (int), identifiant d'une équipes
+
+    retourne la liste des membre d'une équipe
+    """
     membres = []
     listeParticipants = get_membres_constituer(idEquipe)
     for participant in listeParticipants:
@@ -241,7 +468,30 @@ def get_participant_by_id_equipe(idEquipe):
     return membres
 
 def delete_membre(idEquipe, idParticipant):
+    """
+    param: idEquipe (int), identifiant d'une équipes
+           idParticipant, identifiant d'un participant
+
+    supprime une un membre d'une équipe
+    """
     c = get_constituer(idEquipe, idParticipant)
     db.session.delete(c)
     p = get_participant_by_id(idParticipant)
     db.session.delete(p)
+
+def get_chef_by_id_equipe(idEquipe):
+    """
+    param: idEquipe (int), identifiant d'une équipes
+
+    retourne le chef de l'équipe passé en paramètre
+    """
+    e = get_equipe_by_id(idEquipe)
+    idChef = e.idChefE
+    participant_chef = get_participant_by_id(idChef)
+    return participant_chef
+
+def get_admin_by_id(id):
+    t=get_Tournoi_by_id(id)
+    admin = ADMIN.query.filter_by(idAdmin = t.idAdmin)[0]
+    print(admin)
+    return admin
