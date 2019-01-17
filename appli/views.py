@@ -100,7 +100,6 @@ def confirmerTournoi():
 def modifierTournoi(id):
     tournoi = {}
     tournoi['intituleT']         = request.form['intituleT']
-    tournoi['regleT']            = request.form['regleT']
     tournoi['descT']             = request.form['descT']
     tournoi['dateT']             = request.form['dateT']
     tournoi['dureeT']            = request.form['dureeT']
@@ -113,7 +112,13 @@ def modifierTournoi(id):
     tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
-    update_tournoi(tournoi,id)
+
+    regle            = {}
+    regle['nomFic']  = request.files['regleT'].name
+    regle['data']    = request.files['regleT'].read()
+
+    update_tournoi(tournoi, id)
+    update_regle(regle, id)
     return render_template("modifierTournoi.html")
 
 
