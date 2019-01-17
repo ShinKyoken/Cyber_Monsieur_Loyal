@@ -218,6 +218,7 @@ def voirCompet(tournoi):
     return render_template(
         "tournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
+        admin = get_admin_by_id(tournoi),
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
