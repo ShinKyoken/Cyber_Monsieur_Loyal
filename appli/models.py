@@ -469,6 +469,7 @@ def get_membres_constituer(idEquipe):
     """
     return CONSTITUER.query.filter_by(idE = idEquipe).all()
 
+
 def get_participant_by_id_equipe(idEquipe):
     """
     param: idEquipe (int), identifiant d'une équipes

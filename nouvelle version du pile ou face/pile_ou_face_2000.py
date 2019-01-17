@@ -3,8 +3,11 @@ import sys
 import random
 import json
 
+print("Là")
+with open("parametres_match.json") as json_file:
+    parametres = json.load(json_file)
+    print("ici")
 
-parametres = json.load(sys.stdin)
 noms_equipes = list(parametres["équipes"].keys())
 
 random.seed()
