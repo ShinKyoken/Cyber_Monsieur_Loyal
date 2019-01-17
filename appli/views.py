@@ -572,16 +572,13 @@ def rechercheTournoisTerminee():
         route="voirCompet"
         )
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/delete")
+@app.route("/supprimer_equipe/<int:tournoi>/<int:equipe>")
 @login_required
-def delete_equipe(tournoi, equipe):
+def supprime_equipe(equipe,tournoi):
     """
-    param: tournoi (int), identifiant d'un tournoi.
-           equipe (int), identifiant d'une équipe.
+    param: equipe (int), identifiant d'une équipe.
 
     supprime une equipe dans la BD
     """
-    t = get_Tournoi_by_id(tournoi)
-    db.session.delete(t)
-    db.session.commit()
-    return redirect(url_for("auteur"))
+    delete_equipe(equipe)
+    return redirect(url_for("equipe",tournoi=tournoi))

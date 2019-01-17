@@ -426,18 +426,32 @@ def getRechercheTournoisTerminee(recherche):
     return t.filter(TOURNOI.intituleT.like(recherche +"%"))
 
 def get_constituer(idP, idE):
-    """
-    ???
-    """
-    return TOURNOI.query.filter_by(idP = idP, idE = idE)
+    return CONSTITUER.query.filter_by(idP = idP, idE = idE)[0]
+
+def delete_chef(id):
+    chef = PARTICIPANT.query.filter_by(idP = id)[0]
+    db.session.delete(chef)
+    db.session.commit()
 
 def delete_equipe(idEquipe):
-    """
-    param: idEquipe (int), identifiant d'une équipes
+    membres = get_participant_by_id_equipe(idEquipe)
+    if len(membres) > 1 :
+        membres = membres[1:]
+        i=0
+        for m in membres :
+            print(str(i)+'\n')
+            i+=1
+            delete_membre(idEquipe,m.idP)
+    chef = get_participant_by_id_equipe(idEquipe)
+    chef = chef[0]
+    constituer = get_constituer(chef.idP,idEquipe)
+    db.session.delete(constituer)
+    db.session.commit()
+    a = get_equipe_by_id(idEquipe)
+    db.session.delete(a)
+    db.session.commit()
+    delete_chef(chef.idP)
 
-    supprime une équipe dans la base de donnée
-    """
-    return None
 
 def get_participant_by_id(idParticipant):
     """
@@ -468,6 +482,9 @@ def get_participant_by_id_equipe(idEquipe):
     return membres
 
 def delete_membre(idEquipe, idParticipant):
+<<<<<<< HEAD
+    c = get_constituer(idParticipant, idEquipe)
+=======
     """
     param: idEquipe (int), identifiant d'une équipes
            idParticipant, identifiant d'un participant
@@ -475,9 +492,12 @@ def delete_membre(idEquipe, idParticipant):
     supprime une un membre d'une équipe
     """
     c = get_constituer(idEquipe, idParticipant)
+>>>>>>> 28f908b4f65094c6e0a085e3dc09dfad21f30119
     db.session.delete(c)
+    db.session.commit()
     p = get_participant_by_id(idParticipant)
     db.session.delete(p)
+    db.session.commit()
 
 def get_chef_by_id_equipe(idEquipe):
     """
