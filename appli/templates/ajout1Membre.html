@@ -1,3 +1,9 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ajoutMembre.css') }}">
+{% endblock %}
+{% block main %}
 <div class="thumbnail">
         <div class="caption">
           <h3>Capitaine</h3>
@@ -15,3 +21,4 @@
             </div>
         </div>
       </div>
+{% endblock %}
