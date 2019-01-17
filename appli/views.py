@@ -20,17 +20,17 @@ class LoginForm(FlaskForm):
 
             return: (a remplire)
             """
-
-                user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
-                if user is None :
-                    return None
-
-                m = sha256()
-                m.update(self.password.data.encode())
-                passwd = m.hexdigest()
-                if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
-                    return user
+            user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
+            if user is None :
                 return None
+            m = sha256()
+            m.update(self.password.data.encode())
+            passwd = m.hexdigest()
+            if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
+                return user
+                return None
+
+
 
 
 @app.route("/")
