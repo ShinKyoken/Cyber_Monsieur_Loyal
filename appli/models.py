@@ -319,7 +319,7 @@ def load_user(username):
 
     recherche un admin qui a le nom recherché
     """
-        return ADMIN.query.get(username)
+    return ADMIN.query.get(username)
 
 def insert_partie(idTournoi):
     """
@@ -482,17 +482,13 @@ def get_participant_by_id_equipe(idEquipe):
     return membres
 
 def delete_membre(idEquipe, idParticipant):
-<<<<<<< HEAD
-    c = get_constituer(idParticipant, idEquipe)
-=======
     """
     param: idEquipe (int), identifiant d'une équipes
            idParticipant, identifiant d'un participant
 
-    supprime une un membre d'une équipe
+    supprime un membre d'une équipe
     """
-    c = get_constituer(idEquipe, idParticipant)
->>>>>>> 28f908b4f65094c6e0a085e3dc09dfad21f30119
+    c = get_constituer(idParticipant ,idEquipe)
     db.session.delete(c)
     db.session.commit()
     p = get_participant_by_id(idParticipant)
