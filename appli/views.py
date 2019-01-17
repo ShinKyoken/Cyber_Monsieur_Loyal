@@ -307,7 +307,7 @@ def ajouterMembre(tournoi, equipe):
         insert_constituer(equipe, p)
     return redirect(url_for("equipe",tournoi = tournoi))
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods={"POST"})
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/modifier_equipe", methods=("GET","POST",))
 @login_required
 def modifierEquipe(tournoi, equipe):
     e = get_equipe_by_id(equipe)

@@ -1,37 +1,17 @@
 .voirMatches{
-  padding: 5%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.panneau_haut{
-  display: flex;
-  justify-content: center;
-  flex: 1 1 100%;
-}
-
-.block_classement{
-  flex:1 1 50%;
-  padding: 2%;
-}
-
-.block_matchs{
-  /* flex:1 1 50%; */
-  padding: 2%;
 
 }
 
-
-h3 {
-  justify-content: center;
-}
-
-.row{
-  height:5em;
+.table{
+  /* background-color: white; */
+  border-radius: 1vh;
 }
 
 body {
-  background: #FF5F6D;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height:100vh;
+  background: #606c88;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #3f4c6b, #606c88);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #3f4c6b, #606c88); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
 }
