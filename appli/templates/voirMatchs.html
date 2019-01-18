@@ -48,7 +48,7 @@
 								<a class="uk-accordion-title" href="#">
 									{% for i in range(1,(equipe|length)) %}
 										{% if i != (equipe|length)-1 %}
-											{% set x = x + (equipe[i].nomE + " contre ") %}
+											{% set x = x + (equipe[i].nomE + " / ") %}
 											{{ x }}
 										{% else %}
 											{% set x = x + (equipe[i].nomE) %}
@@ -59,7 +59,8 @@
 								<div class="uk-accordion-content">
 									<p class="">La partie {{ equipe[0].idPartie}}
 					 				<p class="">Carte de la partie: {{ equipe[0].cartePartie}}</p>
-									<a href='/testmatch'><button class="bouton center-block">Lancer le match</button></a>								</div>
+									<a href='/{{equipe[0].idPartie}}/testmatch'><button class="bouton center-block">Lancer le match</button></a>
+								</div>
 						</li>
 				{% endfor %}
 			</ul>
