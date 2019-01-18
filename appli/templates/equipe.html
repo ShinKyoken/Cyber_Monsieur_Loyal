@@ -13,14 +13,14 @@
 {% block main %}
 <div class="voirCompetition container-fluid">
   <div class="container">
-    <form role="form" method="POST" action="voirCompetitionActives.html">
-      <h1 class="text-center">Voici les équipes inscrites!</h1>
-    </form>
+    <h1 class="text-center">Voici les équipes inscrites!</h1>
+    <h3 class="text-center">{{tournoi.intituleT}}</h3>
+    {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe>nbEquipe %}
     <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton center-block">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
+    {% endif %}
 </div>
 <div class="container liste_equipes">
      <div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
-       <h3 class="text-center">Historique des matchs</h3>
        <ul uk-accordion="collapsible: false; multiple: false">
           {% for equipe in equipes %}
              <li>
@@ -44,8 +44,10 @@
                      </tbody>
                    {% endfor %}
                  </table>
+                 {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
                  <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipe.idE}}'><button class="bouton center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                 {% endif %}
                  </div>
              </li>
          {% endfor %}

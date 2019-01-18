@@ -312,6 +312,7 @@ def equipe(tournoi):
         "equipe.html",
         equipes = equipes,
         tournoi = get_Tournoi_by_id(tournoi),
+        nbEquipe=count_equipe_by_tournoi(tournoi),
         participants = dico)
 
 
@@ -423,10 +424,17 @@ def voirCompet_equipe(tournoi):
 
     Redirige vers une page affichant les differantes équipes du tounoi
     """
+    dico = {}
+    equipes = get_equipe_by_tournoi(tournoi)
+    for equipe in equipes:
+        dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE)
+
     return render_template(
         "equipe.html",
         equipes=get_equipe_by_tournoi(tournoi),
-        tournoi=get_Tournoi_by_id(tournoi))
+        tournoi=get_Tournoi_by_id(tournoi),
+        nbEquipe = count_equipe_by_tournoi(tournoi),
+        participants=dico)
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
 @login_required
