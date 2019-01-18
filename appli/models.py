@@ -3,6 +3,7 @@ from flask_login import UserMixin, current_user
 from sqlalchemy.dialects.mysql import MEDIUMBLOB
 import random
 import datetime
+import json
 
 class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -50,11 +51,12 @@ class EQUIPE(db.Model):
     nomE          = db.Column(db.String(100))
 
 class PHOTO(db.Model):
-    idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
-    Photo     = db.Column(db.Text)
+    idPhoto   = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
+    Photo     = db.Column(db.LargeBinary(length=2**24-1))
+    titrePhoto= db.Column(db.String(60))
     descPhoto = db.Column(db.String(100))
-    datePhoto = db.Column(db.Date)
+    datePhoto = db.Column(db.DateTime, default = datetime.datetime.now())
 
 class CONSTITUER(db.Model):
     idP = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"),primary_key=True)
@@ -131,7 +133,7 @@ def get_All_Photos(idTournoi):
 
     retourne les photos d'un tournoi
     """
-    return PHOTO.query.filter_by(idT = idTournoi)
+    return PHOTO.query.filter_by(idT = idTournoi).all()
 
 def get_equipe_by_tournoi(idTournoi):
     """
@@ -167,9 +169,7 @@ def get_All_partie_by_tournoi(idTournoi):
 
 def get_All_Equipe_by_partie(parties):
     """
-    param: parties (int), identifiant d'une partie
-
-    retourne les équipes d'une partie
+    param : liste parties
     """
     listeFinale = []
     for partie in parties:
@@ -180,6 +180,14 @@ def get_All_Equipe_by_partie(parties):
             liste.append(EQUIPE.query.filter_by(idE = participant.idE).one())
         listeFinale.append(liste)
     return listeFinale
+
+def get_equipe_by_partie(idPartie):
+    liste = []
+    participants = PARTICIPERPARTIE.query.filter_by(idPartie = idPartie).all()
+    for equipe in participants:
+        liste.append(EQUIPE.query.filter_by(idE = equipe.idE)[0])
+    return liste
+
 
 #def get_All_Equipes_Classe():
 #    return EQUIPE.query.order_by(points)
@@ -229,6 +237,16 @@ def insert_tournoi(tournoi):
                      nomFic = tournoi['reglement'].filename,
                      data = tournoi['reglement'].read())
     db.session.add(newRegle)
+    db.session.commit()
+
+def insert_photo(photo):
+    newPhoto=PHOTO(
+        idT=photo["idT"],
+        Photo=photo["Photo"],
+        descPhoto=photo["descPhoto"],
+        titrePhoto=photo["titrePhoto"]
+    )
+    db.session.add(newPhoto)
     db.session.commit()
 
 
@@ -389,6 +407,15 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
                 break
     return res
 
+def lancer_match(idPartie):
+    equipes = get_equipe_by_partie(idPartie)
+    dico = {"equipes" : {}}
+    for equipe in equipes:
+        dico["equipes"][equipe.idE]
+    with open("parametres.json","w") as json_file:
+        json.dump(dico, json_file, indent=4)
+    return
+
 def getRechercheAllTournois(recherche):
     """
     param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
@@ -512,3 +539,7 @@ def get_admin_by_id(id):
     admin = ADMIN.query.filter_by(idAdmin = t.idAdmin)[0]
     print(admin)
     return admin
+
+def ajouter_participant(participant,e):
+    p = insert_participant(participant)
+    insert_constituer(e, p)

@@ -8,7 +8,7 @@
     <h1 class="text-center titre" id="nom_equipe"> Ajouter des photos à "{{ tournoi.intituleT }}"</h1>
     <div class="container divCenter">
         <!-- Example row of columns -->
-        <form method="post" action="reception.php" enctype="multipart/form-data">
+        <form method="post" action="/tableau_de_bord/{{ tournoi.idT}}/confirmer_photo" enctype="multipart/form-data">
 
             <label for="mon_fichier">Fichier (tous formats | max. 1 Mo) :</label><br />
 
