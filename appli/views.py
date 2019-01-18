@@ -502,7 +502,7 @@ def modifierEquipe(tournoi, equipe):
     return render_template(
         "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter1membre", methods=("GET","POST",))
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter_un_membre", methods=("GET","POST",))
 @login_required
 def ajouterMembre2(tournoi, equipe):
 
@@ -534,7 +534,7 @@ def valider_ajout_membre(tournoi, equipe):
     dico_participant['prenomP'] = request.form['prenom_membre']
     dico_participant['mailP'] = request.form['mail_membre']
     ajouter_participant(dico_participant,equipe)
-    return redirect(url_for("membres_equipe", tournoi = tournoi, equipe = equipe))
+    return redirect(url_for("equipe", tournoi = tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/valider_modification_equipe", methods={"POST"})
 def valider_modification_equipe(tournoi, equipe):
