@@ -502,6 +502,40 @@ def modifierEquipe(tournoi, equipe):
     return render_template(
         "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
 
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajouter_un_membre", methods=("GET","POST",))
+@login_required
+def ajouterMembre2(tournoi, equipe):
+
+    """
+    param: tournoi (int), identifiant d'un tournoi.
+           equipe (int), identifiant d'une équipe.
+
+    Modifie une équipe dans la BD
+    """
+
+
+    e = get_equipe_by_id(equipe)
+    t = get_Tournoi_by_id(tournoi)
+   # liste = get_membres_constituer(equipe)
+    #l = []
+    #for part in liste:
+        #l.append(get_participant_by_id(part.idP))
+    #c = get_chef_by_id_equipe(equipe)
+    return render_template(
+        "ajout1Membre.html", tournoi = t, equipe = e)
+
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/valider_ajout_membre", methods={"POST"})
+def valider_ajout_membre(tournoi, equipe):
+    e = get_equipe_by_id(equipe)
+    l = get_membres_constituer(equipe)
+    t = get_Tournoi_by_id(tournoi)
+    dico_participant = {}
+    dico_participant['nomP'] = request.form['nom_membre']
+    dico_participant['prenomP'] = request.form['prenom_membre']
+    dico_participant['mailP'] = request.form['mail_membre']
+    ajouter_participant(dico_participant,equipe)
+    return redirect(url_for("equipe", tournoi = tournoi))
+
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/valider_modification_equipe", methods={"POST"})
 def valider_modification_equipe(tournoi, equipe):
     e = get_equipe_by_id(equipe)
