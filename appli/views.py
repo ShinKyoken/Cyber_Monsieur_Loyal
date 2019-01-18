@@ -40,12 +40,19 @@ def home():
     return render_template(
         "home.html")
 
+@app.route("/<int:partie>/testmatch")
+def lancerMatch(partie):
+    lancer_match(partie)
+    return render_template("testMatch.html",
+                           equipes=get_equipe_by_partie(partie))
+
+
 @app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
 def download_regles(idTournoi):
     """
     param: idTournoi (int), l'identifiant d'un tournoi.
 
-    Permet de telecharger les rêgles d'un tournoi.
+    Permet de telecharger les règles d'un tournoi.
     """
     regle = get_Regle_by_id(idTournoi)
     return send_file(BytesIO(regle.data), attachment_filename=regle.nomFic, as_attachment=True)

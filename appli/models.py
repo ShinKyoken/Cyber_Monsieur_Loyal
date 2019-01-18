@@ -3,6 +3,7 @@ from flask_login import UserMixin, current_user
 from sqlalchemy.dialects.mysql import MEDIUMBLOB
 import random
 import datetime
+import sys
 import json
 
 class ADMIN(UserMixin,db.Model):
@@ -401,10 +402,25 @@ def lancer_match(idPartie):
     equipes = get_equipe_by_partie(idPartie)
     dico = {"equipes" : {}}
     for equipe in equipes:
-        dico["equipes"][equipe.idE]
+        dico["equipes"][equipe.idE] = None
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
-    return
+    gagnant = None
+
+    noms_equipes = list(dico["equipes"].keys())
+    random.seed()
+    random.shuffle(noms_equipes)
+    scores = { equipe : pos for pos, equipe in enumerate(noms_equipes)}
+    for equipe,points in scores.items():
+        if gagnant == None:
+            gagnant = (equipe,points)
+        if gagnant[1] < points:
+            gagnant = (equipe,points)
+    print(gagnant)
+
+
+
+
 
 def getRechercheAllTournois(recherche):
     """
