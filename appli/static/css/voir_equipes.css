@@ -1,0 +1,32 @@
+.voirCompetition{
+  padding-top: 15vh;
+  background: #FF5F6D;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  min-height: 100vh;
+}
+
+.bouton {
+   border-radius: 20px;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-size: 15px;
+   padding: 10px;
+   background-color: #51A4F6;
+   text-shadow: 1px 1px 20px #000000;
+   margin-bottom:20px;
+
+}
+
+.bouton:hover {
+   background: #1E62D0;
+}
+
+.uk-accordion > li {
+  padding-bottom: 2vh;
+}
+
+.liste_equipes {
+  align-items: center;
+  width: 50vw;
+}

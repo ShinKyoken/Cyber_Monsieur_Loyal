@@ -1,10 +1,9 @@
 from .app import app
 from .models import *
-from flask import render_template, redirect, url_for, request, send_file
+from flask import render_template, redirect, url_for, request, send_file, make_response
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
-from flask import request
 from hashlib import sha256
 from io import BytesIO
 
@@ -174,6 +173,7 @@ def modifierTournoi(id):
 
     update_tournoi(tournoi, id)
     update_regle(regle, id)
+
     return redirect(url_for("tournoi", tournoi = id))
 
 
@@ -294,10 +294,17 @@ def equipe(tournoi):
 
     Redirige vers une page affichant les differantes équipes du tounoi
     """
+    dico = {}
+    equipes = get_equipe_by_tournoi(tournoi)
+    for equipe in equipes:
+        dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE)
+
     return render_template(
         "equipe.html",
-        equipes=get_equipe_by_tournoi(tournoi),
-        tournoi=get_Tournoi_by_id(tournoi))
+        equipes = equipes,
+        tournoi = get_Tournoi_by_id(tournoi),
+        participants = dico)
+
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>")
 @login_required
@@ -606,16 +613,13 @@ def rechercheTournoisTerminee():
         route="voirCompet"
         )
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/delete")
+@app.route("/supprimer_equipe/<int:tournoi>/<int:equipe>")
 @login_required
-def delete_equipe(tournoi, equipe):
+def supprime_equipe(equipe,tournoi):
     """
-    param: tournoi (int), identifiant d'un tournoi.
-           equipe (int), identifiant d'une équipe.
+    param: equipe (int), identifiant d'une équipe.
 
     supprime une equipe dans la BD
     """
-    t = get_Tournoi_by_id(tournoi)
-    db.session.delete(t)
-    db.session.commit()
-    return redirect(url_for("auteur"))
+    delete_equipe(equipe)
+    return redirect(url_for("equipe",tournoi=tournoi))

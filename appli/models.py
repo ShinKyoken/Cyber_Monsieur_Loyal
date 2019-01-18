@@ -52,7 +52,8 @@ class EQUIPE(db.Model):
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
     idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
-    Photo     = db.Column(db.Text)
+    Photo     = db.Column(db.LargeBinary(length=2**24-1))
+    titrePhoto= db.Column(db.String(60))
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
 
@@ -426,18 +427,32 @@ def getRechercheTournoisTerminee(recherche):
     return t.filter(TOURNOI.intituleT.like(recherche +"%"))
 
 def get_constituer(idP, idE):
-    """
-    ???
-    """
-    return TOURNOI.query.filter_by(idP = idP, idE = idE)
+    return CONSTITUER.query.filter_by(idP = idP, idE = idE)[0]
+
+def delete_chef(id):
+    chef = PARTICIPANT.query.filter_by(idP = id)[0]
+    db.session.delete(chef)
+    db.session.commit()
 
 def delete_equipe(idEquipe):
-    """
-    param: idEquipe (int), identifiant d'une équipes
+    membres = get_participant_by_id_equipe(idEquipe)
+    if len(membres) > 1 :
+        membres = membres[1:]
+        i=0
+        for m in membres :
+            print(str(i)+'\n')
+            i+=1
+            delete_membre(idEquipe,m.idP)
+    chef = get_participant_by_id_equipe(idEquipe)
+    chef = chef[0]
+    constituer = get_constituer(chef.idP,idEquipe)
+    db.session.delete(constituer)
+    db.session.commit()
+    a = get_equipe_by_id(idEquipe)
+    db.session.delete(a)
+    db.session.commit()
+    delete_chef(chef.idP)
 
-    supprime une équipe dans la base de donnée
-    """
-    return None
 
 def get_participant_by_id(idParticipant):
     """
@@ -454,6 +469,7 @@ def get_membres_constituer(idEquipe):
     retourne une instance de la table constituer
     """
     return CONSTITUER.query.filter_by(idE = idEquipe).all()
+
 
 def get_participant_by_id_equipe(idEquipe):
     """
@@ -472,12 +488,14 @@ def delete_membre(idEquipe, idParticipant):
     param: idEquipe (int), identifiant d'une équipes
            idParticipant, identifiant d'un participant
 
-    supprime une un membre d'une équipe
+    supprime un membre d'une équipe
     """
-    c = get_constituer(idEquipe, idParticipant)
+    c = get_constituer(idParticipant ,idEquipe)
     db.session.delete(c)
+    db.session.commit()
     p = get_participant_by_id(idParticipant)
     db.session.delete(p)
+    db.session.commit()
 
 def get_chef_by_id_equipe(idEquipe):
     """
