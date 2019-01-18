@@ -510,7 +510,7 @@ def ajouterMembre2(tournoi, equipe):
     param: tournoi (int), identifiant d'un tournoi.
            equipe (int), identifiant d'une équipe.
 
-    Modifie une équipe dans la BD
+    Ajoute un membre à une équipe dans la BD
     """
 
 
