@@ -3,6 +3,7 @@ from flask_login import UserMixin, current_user
 from sqlalchemy.dialects.mysql import MEDIUMBLOB
 import random
 import datetime
+import json
 
 class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -168,9 +169,7 @@ def get_All_partie_by_tournoi(idTournoi):
 
 def get_All_Equipe_by_partie(parties):
     """
-    param: parties (int), identifiant d'une partie
-
-    retourne les équipes d'une partie
+    param : liste parties
     """
     listeFinale = []
     for partie in parties:
@@ -181,6 +180,14 @@ def get_All_Equipe_by_partie(parties):
             liste.append(EQUIPE.query.filter_by(idE = participant.idE).one())
         listeFinale.append(liste)
     return listeFinale
+
+def get_equipe_by_partie(idPartie):
+    liste = []
+    participants = PARTICIPERPARTIE.query.filter_by(idPartie = idPartie).all()
+    for equipe in participants:
+        liste.append(EQUIPE.query.filter_by(idE = equipe.idE)[0])
+    return liste
+
 
 #def get_All_Equipes_Classe():
 #    return EQUIPE.query.order_by(points)
@@ -389,6 +396,15 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
                 res = "Votre tournoi à bien été crée, cependant un match ne sera pas complet"
                 break
     return res
+
+def lancer_match(idPartie):
+    equipes = get_equipe_by_partie(idPartie)
+    dico = {"equipes" : {}}
+    for equipe in equipes:
+        dico["equipes"][equipe.idE]
+    with open("parametres.json","w") as json_file:
+        json.dump(dico, json_file, indent=4)
+    return
 
 def getRechercheAllTournois(recherche):
     """

@@ -4,7 +4,7 @@ import random
 import json
 
 print("Là")
-with open("parametres_match.json") as json_file:
+with open("parametres.json") as json_file:
     parametres = json.load(json_file)
     print("ici")
 
