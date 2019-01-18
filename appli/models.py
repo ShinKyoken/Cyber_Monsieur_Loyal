@@ -50,12 +50,12 @@ class EQUIPE(db.Model):
     nomE          = db.Column(db.String(100))
 
 class PHOTO(db.Model):
-    idPhoto   = db.Column(db.Integer, primary_key = True)
-    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
+    idPhoto   = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
     Photo     = db.Column(db.LargeBinary(length=2**24-1))
     titrePhoto= db.Column(db.String(60))
     descPhoto = db.Column(db.String(100))
-    datePhoto = db.Column(db.Date)
+    datePhoto = db.Column(db.DateTime, default = datetime.datetime.now())
 
 class CONSTITUER(db.Model):
     idP = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"),primary_key=True)
@@ -132,7 +132,7 @@ def get_All_Photos(idTournoi):
 
     retourne les photos d'un tournoi
     """
-    return PHOTO.query.filter_by(idT = idTournoi)
+    return PHOTO.query.filter_by(idT = idTournoi).all()
 
 def get_equipe_by_tournoi(idTournoi):
     """
@@ -230,6 +230,16 @@ def insert_tournoi(tournoi):
                      nomFic = tournoi['reglement'].filename,
                      data = tournoi['reglement'].read())
     db.session.add(newRegle)
+    db.session.commit()
+
+def insert_photo(photo):
+    newPhoto=PHOTO(
+        idT=photo["idT"],
+        Photo=photo["Photo"],
+        descPhoto=photo["descPhoto"],
+        titrePhoto=photo["titrePhoto"]
+    )
+    db.session.add(newPhoto)
     db.session.commit()
 
 

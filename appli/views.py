@@ -6,6 +6,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, validators, PasswordField
 from hashlib import sha256
 from io import BytesIO
+import io
+from PIL import Image
+import base64
 
 class LoginForm(FlaskForm):
         username = StringField('Username')
@@ -280,10 +283,16 @@ def voirPhotos(tournoi):
 
     Redirige vers une page affichant les photo du tournoi
     """
+    photos = get_All_Photos(tournoi)
+    listeImages = []
+    for photo in photos:
+        image = base64.b64decode(photo.Photo)
+        listeImages.append(image)
     return render_template(
         "photo.html",
         tournoi=get_Tournoi_by_id(tournoi),
         photos=get_All_Photos(tournoi),
+        images = listeImages,
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
@@ -623,3 +632,18 @@ def supprime_equipe(equipe,tournoi):
     """
     delete_equipe(equipe)
     return redirect(url_for("equipe",tournoi=tournoi))
+
+@app.route("/tableau_de_bord/<int:tournoi>/confirmer_photo", methods={"POST"})
+@login_required
+def confirmerPhoto(tournoi):
+    """
+    Crée une photo et l'ajoute dans la BD.
+    """
+    photo = {}
+    photo['idT']               = tournoi
+    photo['Photo']             = request.files['mon_fichier'].read()
+    photo['descPhoto']         = request.form['description']
+    photo['titrePhoto']        = request.form['titre']
+
+    insert_photo(photo)
+    return redirect(url_for("voirPhotos",tournoi=tournoi))
