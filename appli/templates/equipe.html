@@ -15,7 +15,9 @@
       <form role="form" method="POST" action="voirCompetitionActives.html">
         <h1 class="text-center">Voici les équipes inscrites!</h1>
       </form>
+      {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe>nbEquipe %}
       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton center-block">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
+      {% endif %}
     </div>
   <div class="container liste_equipes">
   <div class="container divCartes">
@@ -46,7 +48,10 @@
                           </tbody>
                         {% endfor %}
                       </table>
+                      {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
                       <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                      {% endif %}
                       </div>
                   </li>
                   {% if (((equipes|length)%3) > 0) and j == 0 %}
@@ -71,7 +76,10 @@
                         </tbody>
                         {% endfor %}
                       </table>
+                      {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
                       <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                      {% endif %}
                     </div>
                   </li>
                   {% endif %}
@@ -105,7 +113,10 @@
                           </tbody>
                         {% endfor %}
                       </table>
+                      {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
                       <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                      {% endif %}
                       </div>
                   </li>
                   {% if (((equipes|length)%3) == 2) and j == 3 %}
@@ -130,7 +141,10 @@
                         </tbody>
                         {% endfor %}
                       </table>
+                      {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
                       <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-2].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-2].idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                      {% endif %}
                     </div>
                   </li>
                   {% endif %}
@@ -163,7 +177,10 @@
                           </tbody>
                         {% endfor %}
                       </table>
+                      {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
                       <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                      {% endif %}
                       </div>
                   </li>
                 {% endfor %}

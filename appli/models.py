@@ -127,6 +127,9 @@ def count_tournoi():
     """
     return TOURNOI.query.count()
 
+def count_equipe_by_tournoi(idTournoi):
+    return EQUIPE.query.filter_by(idT = idTournoi).count()
+
 def get_All_Photos(idTournoi):
     """
     param: idTournoi (int), identifiant d'un tournoi
