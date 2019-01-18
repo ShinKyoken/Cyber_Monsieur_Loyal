@@ -26,6 +26,35 @@
         <div class="col-md-4 col-sm-6 ">
           <div class="">
             <ul uk-accordion>
+              {% if (equipes|length) == 1 %}
+              <li>
+                  <a class="uk-accordion-title" href="#">
+                    {{ equipes[0].nomE }}
+                  </a>
+                  <div class="uk-accordion-content">
+                    <table class="uk-table">
+                      <thead>
+                        <tr>
+                          <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                          <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                        </tr>
+                      </thead>
+                    {% for participant in participants[equipes[0].idE] %}
+                      <tbody>
+                        <tr>
+                          <td class="uk-text-center">{{ participant.nomP }}</td>
+                          <td class="uk-text-center">{{ participant.prenomP }}</td>
+                        </tr>
+                      </tbody>
+                    {% endfor %}
+                  </table>
+                  {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
+                  <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[0].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/ajouter_un_membre'><button class="bouton center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                  {% endif %}
+                  </div>
+              </li>
+              {% endif %}
               {% for j in range((equipes|length)//3) %}
                   <li>
                       <a class="uk-accordion-title" href="#">
@@ -54,7 +83,8 @@
                       {% endif %}
                       </div>
                   </li>
-                  {% if (((equipes|length)%3) > 0) and j == 0 %}
+                {% endfor %}
+                  {% if (((equipes|length)%3) == 1 or ((equipes|length)%3) == 2) %}
                   <li>
                     <a class="uk-accordion-title" href="#">
                       {{ equipes[-1].nomE }}
@@ -83,7 +113,7 @@
                     </div>
                   </li>
                   {% endif %}
-                {% endfor %}
+
             </ul>
          </div>
        </div><!-- /.col-lg-4 -->
@@ -91,6 +121,7 @@
         <div class="col-md-4 col-sm-6 ">
           <div class="">
             <ul uk-accordion>
+
               {% for j in range((equipes|length)//3, (((equipes|length)//3)*2)) %}
                   <li>
                       <a class="uk-accordion-title" href="#">
@@ -119,7 +150,8 @@
                       {% endif %}
                       </div>
                   </li>
-                  {% if (((equipes|length)%3) == 2) and j == 3 %}
+                {% endfor %}
+                  {% if (((equipes|length)%3) == 2)%}
                   <li>
                     <a class="uk-accordion-title" href="#">
                       {{ equipes[-2].nomE }}
@@ -148,7 +180,6 @@
                     </div>
                   </li>
                   {% endif %}
-                {% endfor %}
             </ul>
          </div>
        </div><!-- /.col-lg-4 -->
