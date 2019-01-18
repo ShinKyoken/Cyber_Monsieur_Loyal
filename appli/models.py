@@ -495,3 +495,7 @@ def get_admin_by_id(id):
     admin = ADMIN.query.filter_by(idAdmin = t.idAdmin)[0]
     print(admin)
     return admin
+
+def ajouter_participant(participant,e):
+    p = insert_participant(participant)
+    insert_constituer(e, p)
