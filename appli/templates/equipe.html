@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipes.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voirMatchs.css') }}">
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/uikit.min.js"></script>
@@ -12,46 +11,167 @@
 {% endblock %}
 {% block main %}
 <div class="voirCompetition container-fluid">
-  <div class="container">
-    <form role="form" method="POST" action="voirCompetitionActives.html">
-      <h1 class="text-center">Voici les équipes inscrites!</h1>
-    </form>
-    <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton center-block">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
-</div>
-<div class="container liste_equipes">
-     <div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
-       <h3 class="text-center">Historique des matchs</h3>
-       <ul uk-accordion="collapsible: false; multiple: false">
-          {% for equipe in equipes %}
-             <li>
-                 <a class="uk-accordion-title" href="#">
-                   {{ equipe.nomE }}
-                 </a>
-                 <div class="uk-accordion-content">
-                   <table class="uk-table">
-                     <thead>
-                       <tr>
-                         <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
-                         <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
-                       </tr>
-                     </thead>
-                   {% for participant in participants[equipe.idE] %}
-                     <tbody>
-                       <tr>
-                         <td class="uk-text-center">{{ participant.nomP }}</td>
-                         <td class="uk-text-center">{{ participant.prenomP }}</td>
-                       </tr>
-                     </tbody>
-                   {% endfor %}
-                 </table>
-                 <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipe.idE}}'><button class="bouton center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
-                 </div>
-             </li>
-         {% endfor %}
-       </ul>
+    <div class="container">
+      <form role="form" method="POST" action="voirCompetitionActives.html">
+        <h1 class="text-center">Voici les équipes inscrites!</h1>
+      </form>
+      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton center-block">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
+    </div>
+  <div class="container liste_equipes">
+  <div class="container divCartes">
+    <div class="row center-block">
+
+        <div class="col-md-4 col-sm-6 ">
+          <div class="">
+            <ul uk-accordion>
+              {% for j in range((equipes|length)//3) %}
+                  <li>
+                      <a class="uk-accordion-title" href="#">
+                        {{ equipes[j].nomE }}
+                      </a>
+                      <div class="uk-accordion-content">
+                        <table class="uk-table">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                              <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                            </tr>
+                          </thead>
+                        {% for participant in participants[equipes[j].idE] %}
+                          <tbody>
+                            <tr>
+                              <td class="uk-text-center">{{ participant.nomP }}</td>
+                              <td class="uk-text-center">{{ participant.prenomP }}</td>
+                            </tr>
+                          </tbody>
+                        {% endfor %}
+                      </table>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      </div>
+                  </li>
+                  {% if (((equipes|length)%3) > 0) and j == 0 %}
+                  <li>
+                    <a class="uk-accordion-title" href="#">
+                      {{ equipes[-1].nomE }}
+                    </a>
+                    <div class="uk-accordion-content">
+                      <table class="uk-table">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                            <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                          </tr>
+                        </thead>
+                        {% for participant in participants[equipes[-1].idE] %}
+                        <tbody>
+                          <tr>
+                            <td class="uk-text-center">{{ participant.nomP }}</td>
+                            <td class="uk-text-center">{{ participant.prenomP }}</td>
+                          </tr>
+                        </tbody>
+                        {% endfor %}
+                      </table>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                    </div>
+                  </li>
+                  {% endif %}
+                {% endfor %}
+            </ul>
+         </div>
+       </div><!-- /.col-lg-4 -->
+
+        <div class="col-md-4 col-sm-6 ">
+          <div class="">
+            <ul uk-accordion>
+              {% for j in range((equipes|length)//3, (((equipes|length)//3)*2)) %}
+                  <li>
+                      <a class="uk-accordion-title" href="#">
+                        {{ equipes[j].nomE }}
+                      </a>
+                      <div class="uk-accordion-content">
+                        <table class="uk-table">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                              <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                            </tr>
+                          </thead>
+                        {% for participant in participants[equipes[j].idE] %}
+                          <tbody>
+                            <tr>
+                              <td class="uk-text-center">{{ participant.nomP }}</td>
+                              <td class="uk-text-center">{{ participant.prenomP }}</td>
+                            </tr>
+                          </tbody>
+                        {% endfor %}
+                      </table>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      </div>
+                  </li>
+                  {% if (((equipes|length)%3) == 2) and j == 3 %}
+                  <li>
+                    <a class="uk-accordion-title" href="#">
+                      {{ equipes[-2].nomE }}
+                    </a>
+                    <div class="uk-accordion-content">
+                      <table class="uk-table">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                            <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                          </tr>
+                        </thead>
+                        {% for participant in participants[equipes[-2].idE] %}
+                        <tbody>
+                          <tr>
+                            <td class="uk-text-center">{{ participant.nomP }}</td>
+                            <td class="uk-text-center">{{ participant.prenomP }}</td>
+                          </tr>
+                        </tbody>
+                        {% endfor %}
+                      </table>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-2].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                    </div>
+                  </li>
+                  {% endif %}
+                {% endfor %}
+            </ul>
+         </div>
+       </div><!-- /.col-lg-4 -->
+        <div class="col-md-4 col-sm-6 ">
+          <div class="">
+            <ul uk-accordion>
+              {% for j in range(((equipes|length)//3)*2, ((equipes|length)//3)*3) %}
+                  <li>
+                      <a class="uk-accordion-title" href="#">
+                        {{ equipes[j].nomE }}
+                      </a>
+                      <div class="uk-accordion-content">
+                        <table class="uk-table">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
+                              <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Prenom</th>
+                            </tr>
+                          </thead>
+                        {% for participant in participants[equipes[j].idE] %}
+                          <tbody>
+                            <tr>
+                              <td class="uk-text-center">{{ participant.nomP }}</td>
+                              <td class="uk-text-center">{{ participant.prenomP }}</td>
+                            </tr>
+                          </tbody>
+                        {% endfor %}
+                      </table>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}'><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      </div>
+                  </li>
+                {% endfor %}
+            </ul>
+         </div>
+       </div><!-- /.col-lg-4 -->
+       </div><!-- /.row -->
      </div>
    </div>
 </div>
 {% endblock %}
-
- {{equipe.idE}}
