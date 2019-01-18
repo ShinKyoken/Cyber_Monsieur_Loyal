@@ -52,7 +52,8 @@ class EQUIPE(db.Model):
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True)
     idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True)
-    Photo     = db.Column(db.Text)
+    Photo     = db.Column(db.LargeBinary(length=2**24-1))
+    titrePhoto= db.Column(db.String(60))
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.Date)
 
