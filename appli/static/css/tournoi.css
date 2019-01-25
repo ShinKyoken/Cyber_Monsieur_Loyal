@@ -3,16 +3,14 @@
 }
 
 #containerSidebar{
-    margin-top:5vh;
-    padding-top:2vh;
-    background: #FF5F6D;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-image: url("../images/gradient_sky_opaque.jpg");
+    padding-top: 6vh;
 }
 
-.sidebar{
-    height : 93vh;
 
+
+.sidebar{
+    height : 94vh;
 }
 
 
