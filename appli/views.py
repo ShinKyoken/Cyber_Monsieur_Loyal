@@ -481,7 +481,6 @@ def ajout_membre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     t = get_Tournoi_by_id(tournoi)
     c = get_chef_by_id_equipe(equipe)
-    print(c.nomP)
     return render_template(
         "ajoutMembre.html", equipe = e, tournoi = t, chef = c)
 
@@ -495,7 +494,6 @@ def ajouterMembre(tournoi, equipe):
     Ajoute des membre a une équipe dans la BD
     """
     e = get_equipe_by_id(equipe)
-    print(e.nbParticipant)
     for i in range(1, e.nbParticipant):
         participant = {}
         participant['nomP'] = request.form['nom_membre'+str(i)]
@@ -592,7 +590,6 @@ def rechercheTournois():
     Redirige vers la page d'ajout de photo
     """
     a = request.form['search']
-    print(a)
     return render_template(
         "tableauDeBord.html", tournois= getRechercheAllTournois(a), route="tableau")
 
@@ -602,7 +599,6 @@ def rechercheTournoisActif():
     Redirige vers la page de recherche de competition active
     """
     a = request.form['search']
-    print(a)
     return render_template(
         "voirCompetitionsActives.html",
         tournois = getRechercheTournoisActif(a),
@@ -616,7 +612,6 @@ def rechercheTournoisInactif():
     Redirige vers la page de recherche de competition inactive
     """
     a = request.form['search']
-    print(a)
     return render_template(
         "voirCompetitionsInactives.html",
         tournois = getRechercheTournoisInactif(a),
@@ -629,7 +624,6 @@ def rechercheTournoisTerminee():
     Redirige vers la page de recherche de competition terminé
     """
     a = request.form['search']
-    print(a)
     return render_template(
         "voirCompetitionsTerminees.html",
         tournois = getRechercheTournoisTerminee(a),
