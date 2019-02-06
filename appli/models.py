@@ -409,7 +409,11 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
             except IndexError:
                 res = "Votre tournoi à bien été crée, cependant un match ne sera pas complet"
                 break
+            # except MySQLdb.IntegrityError
     return res
+    # except MySQLdb.IntegrityError pour gérer erreur de duplicate entry
+    # si erreur effacer tout ce qu'il y a dans la table partie et relancer le code
+    # ajouter un except directement
 
 def lancer_match(idPartie):
     equipes = get_equipe_by_partie(idPartie)
@@ -430,6 +434,7 @@ def lancer_match(idPartie):
         if gagnant[1] < points:
             gagnant = (equipe,points)
     print(gagnant)
+
 
 
 
