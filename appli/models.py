@@ -433,7 +433,6 @@ def lancer_match(idPartie):
             gagnant = (equipe,points)
         if gagnant[1] < points:
             gagnant = (equipe,points)
-    print(gagnant)
 
 
 
@@ -490,7 +489,6 @@ def delete_equipe(idEquipe):
         membres = membres[1:]
         i=0
         for m in membres :
-            print(str(i)+'\n')
             i+=1
             delete_membre(idEquipe,m.idP)
     chef = get_participant_by_id_equipe(idEquipe)
@@ -561,7 +559,6 @@ def get_chef_by_id_equipe(idEquipe):
 def get_admin_by_id(id):
     t=get_Tournoi_by_id(id)
     admin = ADMIN.query.filter_by(idAdmin = t.idAdmin)[0]
-    print(admin)
     return admin
 
 def ajouter_participant(participant,e):
