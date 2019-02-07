@@ -242,6 +242,8 @@ def insert_tournoi(tournoi):
                      data = tournoi['reglement'].read())
     db.session.add(newRegle)
     db.session.commit()
+    id=newTournoi.idT
+    return id
 
 def insert_photo(photo):
     newPhoto=PHOTO(
