@@ -7,7 +7,6 @@ from wtforms import StringField, HiddenField, validators, PasswordField
 from hashlib import sha256
 from io import BytesIO
 import io
-from PIL import Image
 import base64
 
 class LoginForm(FlaskForm):
@@ -75,7 +74,9 @@ def connect():
             next = form.next.data or url_for("home")
             return redirect(next)
     return render_template(
-        "connexion.html",form = form)
+        "connexion.html",
+        form = form,
+        route="connexion")
 
 @app.route("/logout/")
 @login_required
@@ -116,7 +117,8 @@ def creerCompetition():
     """
     Redirige vers la page de création de competition.
     """
-    return render_template("creerCompetition.html")
+    return render_template("creerCompetition.html",
+                           route="creer")
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/test",methods={"POST"})
 @login_required
