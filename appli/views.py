@@ -151,8 +151,9 @@ def confirmerTournoi():
     tournoi['stream']            = request.form['stream']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
-    insert_tournoi(tournoi)
-    return render_template("confirmerTournoi.html")
+    id=insert_tournoi(tournoi)
+    print(str(id)+"DU TOURNOI")
+    return redirect(url_for("tournoi", id = int(id)))
 
 @app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
 @login_required
@@ -184,7 +185,7 @@ def modifierTournoi(id):
     update_tournoi(tournoi, id)
     update_regle(regle, id)
 
-    return redirect(url_for("tournoi", tournoi = id))
+    return redirect(url_for("tournoi", id = id))
 
 
 
