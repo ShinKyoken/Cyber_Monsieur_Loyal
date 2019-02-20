@@ -8,7 +8,7 @@
     <h1 class="text-center titre" id="nom_equipe"> Ajouter des photos à "{{ tournoi.intituleT }}"</h1>
     <div class="container divCenter">
         <!-- Example row of columns -->
-        <form method="post" action="/tableau_de_bord/{{ tournoi.idT}}/confirmer_photo" enctype="multipart/form-data">
+        <form method="post" action="/tableau_de_bord/{{ tournoi.idT}}/confirmer_photo" enctype="multipart/form-data" onsubmit=" return confirmerValidation();">
 
             <label for="mon_fichier">Fichier (tous formats | max. 1 Mo) :</label><br />
 
@@ -31,4 +31,14 @@
         </form>
     </div>
 </div>
+<script>
+    function confirmerValidation(){
+      check=window.confirm("Voulez vous vraiment vous inscrire ?");
+      res=false;
+      if (check){
+        res=true;
+      }
+      return res;
+    }
+  </script>
 {% endblock %}
