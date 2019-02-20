@@ -5,7 +5,7 @@
 {% endblock %}
 {% block main %}
 <div class="text-center" id="centre">
-<form class="form-signin" method="post" role="form" action="{{ url_for('confirmer_ajout_admin') }}">
+<form class="form-signin" method="post" role="form" action="{{ url_for('confirmer_ajout_admin') }}" onsubmit=" return confirmerValidation();">
   {{ form.hidden_tag() }}
   <img class="mb-4" src="./static/icons/CML_Logo.png" alt="" width="72" height="72">
   <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
@@ -26,4 +26,15 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit" value="Log in">Connexion</button>
 </form>
 </div>
+<script>
+  function confirmerValidation(){
+    check=window.confirm("Voulez vous vraiment vous inscrire ?");
+    res=false;
+    if (check){
+      res=true;
+    }
+    return res;
+  }
+</script>
 {% endblock %}
+
