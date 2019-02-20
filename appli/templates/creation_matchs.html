@@ -28,10 +28,18 @@
 <script>
   function confirmerValidation(){
     check=window.confirm("Voulez vous vraiment lancer le match ?");
+    nbEquipe = document.querySelector("input[name='nbEquipe']").value;
+    nbMatchs = document.querySelector("input[name='nbMatchs']").value;
     res=false;
     if (check){
       res=true;
     }
+
+    if (nbEquipe=="0" || nbMatchs=="0"){
+      window.alert("Veuillez selectionner d'autres valeurs pour le nombre d'équipes et de matchs.");
+      res=false;
+    }
+    
     return res;
   }
 </script>
