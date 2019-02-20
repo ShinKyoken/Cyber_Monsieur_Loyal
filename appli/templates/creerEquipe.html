@@ -8,7 +8,7 @@
   <div class="container">
     <h1 id="nom_equipe" > Ajouter une équipe à "{{ tournoi.intituleT }}"</h1>
       <!-- Example row of columns -->
-      <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/confirmer_equipe">
+      <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/confirmer_equipe" onsubmit=" return confirmerValidation();">
         <div class="input-group" id="text_field_nom">
           <span class="input-group-addon" id="">Nom de l'équipe</span>
           <input name="nom_equipe" type="text" class="form-control" id="" aria-describedby="basic-addon3">
@@ -44,4 +44,14 @@
     </form>
   </div>
 </div>
+<script>
+  function confirmerValidation(){
+    check=window.confirm("Voulez vous vraiment ajouter cette équipe ?");
+    res=false;
+    if (check){
+      res=true;
+    }
+    return res;
+  }
+</script>
 {% endblock %}
