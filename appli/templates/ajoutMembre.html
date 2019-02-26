@@ -8,7 +8,7 @@
   <div class="container">
     <h1 id="nom_equipe" > Ajouter des participants à "{{ equipe.nomE }}"</h1>
       <!-- Example row of columns -->
-      <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/ajouter_membre">
+      <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/ajouter_membre" onsubmit=" return confirmerValidation();">
       <div class="row">
         <div class="col-sm-6 col-md-6">
           <div class="thumbnail">
@@ -58,4 +58,14 @@
     </form>
   </div>
 </div>
+<script>
+  function confirmerValidation(){
+    check=window.confirm("Voulez vous vraiment ajouter ce(s) membre(s) ?");
+    res=false;
+    if (check){
+      res=true;
+    }
+    return res;
+  }
+</script>
 {% endblock %}

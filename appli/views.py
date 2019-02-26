@@ -99,7 +99,7 @@ def confirmer_ajout_admin():
         m = sha256()
         m.update(f.password.data.encode())
         passwd = m.hexdigest()
-        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin = "12/12/1999", mdpAdmin = passwd)
+        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin =None , mdpAdmin = passwd)
         db.session.add(newAdmin)
         db.session.commit()
         return redirect(url_for("connect"))
@@ -366,6 +366,23 @@ def lancerCompet(tournoi):
     return render_template(
         "creation_matchs.html",
         tournoi = get_Tournoi_by_id(tournoi))
+
+@app.route("/tableau_de_bord/<int:tournoi>/arreter_tournoi")
+@login_required
+def arreterCompet(tournoi):
+    """
+    param: tournoi (int), identifiant d'un tournoi.
+    Arrete le tournoi
+    """
+    t=get_Tournoi_by_id(tournoi)
+    t.etatT=2
+    db.session.commit()
+    return redirect(url_for(
+    "tournoi", id = tournoi))
+
+    """ return render_template(
+        "creation_matchs.html",
+        tournoi = get_Tournoi_by_id(tournoi)) """
 
 @app.route("/listeAdmins")
 @login_required

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creation_match.css') }}">
 {% endblock %} {% block main %}
 <div class="container" id="contMain">
-<form method="post" action="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi/test">
+<form method="post" action="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi/test" onsubmit=" return confirmerValidation();">
     <h1 class="text-center"><strong>Lancer le tournoi : {{tournoi.intituleT}} !</strong></h1>
     <div class="row">
       <div class="form-group row">
@@ -25,4 +25,22 @@
     </div>
   </form>
 </div>
+<script>
+  function confirmerValidation(){
+    check=window.confirm("Voulez vous vraiment lancer le match ?");
+    nbEquipe = document.querySelector("input[name='nbEquipe']").value;
+    nbMatchs = document.querySelector("input[name='nbMatchs']").value;
+    res=false;
+    if (check){
+      res=true;
+    }
+
+    if (nbEquipe=="0" || nbMatchs=="0"){
+      window.alert("Veuillez selectionner d'autres valeurs pour le nombre d'équipes et de matchs.");
+      res=false;
+    }
+    
+    return res;
+  }
+</script>
 {% endblock %}

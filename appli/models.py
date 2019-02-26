@@ -424,17 +424,9 @@ def lancer_match(idPartie):
         dico["equipes"][equipe.idE] = None
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
-    gagnant = None
 
-    noms_equipes = list(dico["equipes"].keys())
-    random.seed()
-    random.shuffle(noms_equipes)
-    scores = { equipe : pos for pos, equipe in enumerate(noms_equipes)}
-    for equipe,points in scores.items():
-        if gagnant == None:
-            gagnant = (equipe,points)
-        if gagnant[1] < points:
-            gagnant = (equipe,points)
+    subprocess.call(["python3", "./script_prof/pile_ou_face_2000.py", "parametres.json"])
+    
 
 
 

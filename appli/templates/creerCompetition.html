@@ -7,7 +7,7 @@
 
 <div class="container-fluid" id="test"> <!-- container-fluid -->
   <h1 class="text-center"><strong>Créer votre tournoi !</strong></h1>
-  <form method="post" action="/confirmer_competition" enctype="multipart/form-data">
+  <form method="post" action="/confirmer_competition" enctype="multipart/form-data" onsubmit="return confirmerValidation();">
     <fieldset class="uk-fieldset">
       <div class="uk-container"> <!-- uk-container-->
 
@@ -126,5 +126,15 @@
     </fieldset>
   </form>
 </div> <!-- container-fluid -->
+<script>
+  function confirmerValidation(){
+    check=window.confirm("Voulez vous vraiment créer ce tournoi ?");
+    res=false;
+    if (check){
+      res=true;
+    }
+    return res;
+  }
+</script>
 
 {% endblock %}
