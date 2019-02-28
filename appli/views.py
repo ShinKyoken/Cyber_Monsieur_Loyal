@@ -324,6 +324,7 @@ def equipe(tournoi):
         equipes = equipes,
         tournoi = get_Tournoi_by_id(tournoi),
         nbEquipe=count_equipe_by_tournoi(tournoi),
+        route = "tableau",
         participants = dico)
 
 
@@ -462,6 +463,7 @@ def voirCompet_equipe(tournoi):
         equipes=get_equipe_by_tournoi(tournoi),
         tournoi=get_Tournoi_by_id(tournoi),
         nbEquipe = count_equipe_by_tournoi(tournoi),
+        route="voirCompet",
         participants=dico)
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})

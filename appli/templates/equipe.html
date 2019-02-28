@@ -12,7 +12,13 @@
 {% block main %}
 <div class="voirCompetition container-fluid">
     <div class="container">
+      {% if route == "tableau" %}
       <a href="/tableau_de_bord/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
+      {% endif %}
+
+      {% if route == "voirCompet" %}
+      <a href="/voir_competition/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
+      {% endif %}
       <form role="form" method="POST" action="voirCompetitionActives.html">
         <h1 class="text-center">Voici les équipes inscrites!</h1>
       </form>
