@@ -19,7 +19,7 @@ class LoginForm(FlaskForm):
             """
             param:
 
-            return: (a remplire)
+            return: (a remplir)
             """
             user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
             if user is None :
