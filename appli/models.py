@@ -5,6 +5,7 @@ import random
 import datetime
 import sys
 import json
+import os
 
 class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -46,7 +47,7 @@ class EQUIPE(db.Model):
     idE           = db.Column(db.Integer, primary_key = True, autoincrement=True)
     idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
     etatE         = db.Column(db.Integer)
-    points        = db.Column(db.Integer)
+    points        = db.Column(db.Integer, default = 0)
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
@@ -424,11 +425,20 @@ def lancer_match(idPartie):
         dico["equipes"][equipe.idE] = None
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
+    os.system("python3 code_test.py > resultat.json")
+    with open("resultat.json","r") as json_res:
+        resultat = json.load(json_res)
+    for id,score in resultat["equipes"].items():
+        setPointsbyIdEquipe(id,score)
 
-    subprocess.call(["python3", "./script_prof/pile_ou_face_2000.py", "parametres.json"])
-    
 
 
+
+def setPointsbyIdEquipe(idEquipe,score):
+    equipe = get_equipe_by_id(idEquipe)
+    equipe.points += int(score)
+    db.session.commit()
+    print("Je passe ici")
 
 
 
