@@ -269,6 +269,7 @@ def voirMatchs(tournoi):
     """
     return render_template(
         "voirMatchs.html",
+        tournoi = get_Tournoi_by_id(tournoi),
         equipes = get_All_Equipes_Classe(tournoi),
         equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)))
 
