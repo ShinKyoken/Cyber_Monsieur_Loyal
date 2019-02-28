@@ -571,11 +571,15 @@ def valider_ajout_membre(tournoi, equipe):
     e = get_equipe_by_id(equipe)
     l = get_membres_constituer(equipe)
     t = get_Tournoi_by_id(tournoi)
+
     dico_participant = {}
     dico_participant['nomP'] = request.form['nom_membre']
     dico_participant['prenomP'] = request.form['prenom_membre']
     dico_participant['mailP'] = request.form['mail_membre']
     ajouter_participant(dico_participant,equipe)
+    e.nbParticipant += 1
+    update_Equipe(e,equipe)
+
     return redirect(url_for("equipe", tournoi = tournoi))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/valider_modification_equipe", methods={"POST"})
