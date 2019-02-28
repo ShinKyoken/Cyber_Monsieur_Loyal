@@ -10,7 +10,7 @@
     <div class="row retour">
         {% if route == "tableau" %}
         <a href="/tableau_de_bord/{{tournoi.idT}}">
-            <button class=" btn btn-success btn-lg inputStyle col-md-2">Retour</button>
+            <button class=" btn btn-success btn-lg inputStyle col-md-2" id="retourAdmin">Retour</button>
         </a>
         {% endif %}
         {% if route == "voirCompet" %}
@@ -29,4 +29,14 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+  if(document.querySelector('#retourAdmin')){
+    document.querySelector('#Tableau').setAttribute("class","active");
+  }
+  else{
+    document.querySelector('#dropdown').setAttribute("class","active");
+  }
+
+</script>
 {% endblock %}

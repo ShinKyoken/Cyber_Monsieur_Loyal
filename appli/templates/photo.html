@@ -13,7 +13,7 @@
                 <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Retour</button>
             </a>
             <a href="/tableau_de_bord/{{tournoi.idT}}/ajouter_photo">
-                <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2">Ajouter une photo</button>
+                <button class="boutonMenu btn btn-success btn-lg inputStyle col-md-2" id="addPhoto">Ajouter une photo</button>
             </a>
             {% endif %}
 
@@ -35,5 +35,12 @@
         </div><!-- /.row -->
     </div>
 </div>
-
+<script type="text/javascript">
+    if(document.querySelector('#addPhoto')){
+      document.querySelector('#Tableau').setAttribute("class","active");
+    }
+    else{
+      document.querySelector('#dropdown').setAttribute("class","active");
+    }
+</script>
 {% endblock %}
