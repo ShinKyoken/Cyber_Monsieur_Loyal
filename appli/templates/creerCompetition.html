@@ -127,6 +127,7 @@
   </form>
 </div> <!-- container-fluid -->
 <script>
+
   function confirmerValidation(){
     check=window.confirm("Voulez vous vraiment créer ce tournoi ?");
     res=false;
@@ -135,6 +136,9 @@
     }
     return res;
   }
+
+  document.querySelector("#Creer").setAttribute("class","active");
+
 </script>
 
 {% endblock %}
