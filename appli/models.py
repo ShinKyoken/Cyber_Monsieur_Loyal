@@ -1,6 +1,7 @@
 from .app import db, login_manager
 from flask_login import UserMixin, current_user
 from sqlalchemy.dialects.mysql import MEDIUMBLOB
+from sqlalchemy import exc
 import random
 import datetime
 import sys
@@ -412,11 +413,24 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
             except IndexError:
                 res = "Votre tournoi à bien été crée, cependant un match ne sera pas complet"
                 break
-            # except MySQLdb.IntegrityError
+            except exc.IntegrityError:
+                delete_All_Parties_by_id_tournoi(idTournoi)
+                res = "bug"
+    if res == "bug":
+        automatique_match(idTournoi,nbMatchs,nbParticipants)
     return res
-    # except MySQLdb.IntegrityError pour gérer erreur de duplicate entry
-    # si erreur effacer tout ce qu'il y a dans la table partie et relancer le code
-    # ajouter un except directement
+
+def delete_All_Parties_by_id_tournoi(idTournoi):
+    db.session.rollback()
+    parties = get_All_partie_by_tournoi(idTournoi)
+    allParticiper = get_All_ParticiperParties_by_id_tournoi(idTournoi)
+    for participer in allParticiper:
+        db.session.delete(participer)
+        db.session.commit()
+    for partie in parties:
+        db.session.delete(partie)
+        db.session.commit()
+
 
 def lancer_match(idPartie):
     equipes = get_equipe_by_partie(idPartie)
@@ -431,8 +445,8 @@ def lancer_match(idPartie):
     for id,score in resultat["equipes"].items():
         setPointsbyIdEquipe(id,score)
 
-
-
+def get_All_ParticiperParties_by_id_tournoi(idTournoi):
+    return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
 
 def setPointsbyIdEquipe(idEquipe,score):
     equipe = get_equipe_by_id(idEquipe)
