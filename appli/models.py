@@ -76,7 +76,7 @@ class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
     idPartie = db.Column(db.Integer, db.ForeignKey("PARTIE.idPartie"),primary_key=True)
     idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
-
+db.session.commit()
 def get_All_Admins():
     """
     retourne la liste des Admins
@@ -280,6 +280,19 @@ def update_tournoi(tournoi,id):
     tournoiUp.stream            = tournoi['stream']
     db.session.commit()
 
+def update_Equipe(equipe,id):
+
+    equipeUp                        = get_equipe_by_id(id)
+    equipeUp.idE                    = equipe.idE
+    equipeUp.idT                    = equipe.idT
+    equipeUp.etatE                  = equipe.etatE
+    equipeUp.points                 = equipe.points
+    equipeUp.nbParticipant          = equipe.nbParticipant
+    equipeUp.idChefE                = equipe.idChefE
+    equipeUp.nomE                   = equipe.nomE
+    db.session.commit()
+
+
 def update_regle(regle, idTournoi):
     regleUp        = get_Regle_by_id(idTournoi)
     regleUp.nomFic = regle['nomFic']
@@ -477,7 +490,7 @@ def getRechercheTournoisTerminee(recherche):
     recherche dans les tournois terminé
     """
     t = get_All_Tournois_Terminees()
-    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+    return t.filter(TOURNOI.intituleTdb.session.commit().like(recherche +"%"))
 
 def get_constituer(idP, idE):
     return CONSTITUER.query.filter_by(idP = idP, idE = idE)[0]
@@ -534,7 +547,7 @@ def get_participant_by_id_equipe(idEquipe):
     for participant in listeParticipants:
         membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
     return membres
-
+db.session.commit()
 def delete_membre(idEquipe, idParticipant):
     """
     param: idEquipe (int), identifiant d'une équipes
@@ -552,7 +565,7 @@ def delete_membre(idEquipe, idParticipant):
 def get_chef_by_id_equipe(idEquipe):
     """
     param: idEquipe (int), identifiant d'une équipes
-
+db.session.commit()
     retourne le chef de l'équipe passé en paramètre
     """
     e = get_equipe_by_id(idEquipe)
