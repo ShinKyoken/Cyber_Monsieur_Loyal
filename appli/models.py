@@ -457,15 +457,25 @@ def lancer_match(idPartie):
         resultat = json.load(json_res)
     for id,score in resultat["equipes"].items():
         setPointsbyIdEquipe(id,score)
+    set_Etat_Partie(idPartie)
+
 
 def get_All_ParticiperParties_by_id_tournoi(idTournoi):
     return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
+
+def set_Etat_Partie(idPartie):
+    partie = get_Partie_by_id(idPartie)
+    partie.etatPartie = 1
+    db.session.commit()
+
+
+def get_Partie_by_id(idPartie):
+    return PARTIE.query.filter_by(idPartie = idPartie).one()
 
 def setPointsbyIdEquipe(idEquipe,score):
     equipe = get_equipe_by_id(idEquipe)
     equipe.points += int(score)
     db.session.commit()
-    print("Je passe ici")
 
 
 
