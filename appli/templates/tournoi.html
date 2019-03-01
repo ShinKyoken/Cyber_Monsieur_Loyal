@@ -21,11 +21,11 @@
                       <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Modifier tournoi</button></a>
 
                     {% if tournoi.etatT == 0 %}
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Lancer le tournoi</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Lancer le tournoi</button></a>
                     {% endif %}
 
                     {% if tournoi.etatT == 1 %}
-                      <a href="/tableau_de_bord/{{tournoi.idT}}/arreter_tournoi" onclick="return confirmerValidation()"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Arrêter le tournoi</button></a>
+                      <a href="/tableau_de_bord/{{tournoi.idT}}/arreter_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Arrêter le tournoi</button></a>
                     {% endif %}
 
                     {% endif %}
@@ -76,5 +76,13 @@
             }
             return res;
           }
+
+          if(document.querySelector("#buttonAdmin")){
+            document.querySelector("#Tableau").setAttribute("class","active");
+          }
+          else{
+            document.querySelector("#dropdown").setAttribute("class","active");
+          }
+
         </script>
 {% endblock %}

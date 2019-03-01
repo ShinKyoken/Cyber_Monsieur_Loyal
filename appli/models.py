@@ -1,10 +1,12 @@
 from .app import db, login_manager
 from flask_login import UserMixin, current_user
 from sqlalchemy.dialects.mysql import MEDIUMBLOB
+from sqlalchemy import exc
 import random
 import datetime
 import sys
 import json
+import os
 
 class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
@@ -46,7 +48,7 @@ class EQUIPE(db.Model):
     idE           = db.Column(db.Integer, primary_key = True, autoincrement=True)
     idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
     etatE         = db.Column(db.Integer)
-    points        = db.Column(db.Integer)
+    points        = db.Column(db.Integer, default = 0)
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
@@ -75,7 +77,7 @@ class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
     idPartie = db.Column(db.Integer, db.ForeignKey("PARTIE.idPartie"),primary_key=True)
     idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
-
+db.session.commit()
 def get_All_Admins():
     """
     retourne la liste des Admins
@@ -279,6 +281,19 @@ def update_tournoi(tournoi,id):
     tournoiUp.stream            = tournoi['stream']
     db.session.commit()
 
+def update_Equipe(equipe,id):
+
+    equipeUp                        = get_equipe_by_id(id)
+    equipeUp.idE                    = equipe.idE
+    equipeUp.idT                    = equipe.idT
+    equipeUp.etatE                  = equipe.etatE
+    equipeUp.points                 = equipe.points
+    equipeUp.nbParticipant          = equipe.nbParticipant
+    equipeUp.idChefE                = equipe.idChefE
+    equipeUp.nomE                   = equipe.nomE
+    db.session.commit()
+
+
 def update_regle(regle, idTournoi):
     regleUp        = get_Regle_by_id(idTournoi)
     regleUp.nomFic = regle['nomFic']
@@ -411,11 +426,24 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
             except IndexError:
                 res = "Votre tournoi à bien été crée, cependant un match ne sera pas complet"
                 break
-            # except MySQLdb.IntegrityError
+            except exc.IntegrityError:
+                delete_All_Parties_by_id_tournoi(idTournoi)
+                res = "bug"
+    if res == "bug":
+        automatique_match(idTournoi,nbMatchs,nbParticipants)
     return res
-    # except MySQLdb.IntegrityError pour gérer erreur de duplicate entry
-    # si erreur effacer tout ce qu'il y a dans la table partie et relancer le code
-    # ajouter un except directement
+
+def delete_All_Parties_by_id_tournoi(idTournoi):
+    db.session.rollback()
+    parties = get_All_partie_by_tournoi(idTournoi)
+    allParticiper = get_All_ParticiperParties_by_id_tournoi(idTournoi)
+    for participer in allParticiper:
+        db.session.delete(participer)
+        db.session.commit()
+    for partie in parties:
+        db.session.delete(partie)
+        db.session.commit()
+
 
 def lancer_match(idPartie):
     equipes = get_equipe_by_partie(idPartie)
@@ -424,11 +452,20 @@ def lancer_match(idPartie):
         dico["equipes"][equipe.idE] = None
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
+    os.system("python3 code_test.py > resultat.json")
+    with open("resultat.json","r") as json_res:
+        resultat = json.load(json_res)
+    for id,score in resultat["equipes"].items():
+        setPointsbyIdEquipe(id,score)
 
-    subprocess.call(["python3", "./script_prof/pile_ou_face_2000.py", "parametres.json"])
-    
+def get_All_ParticiperParties_by_id_tournoi(idTournoi):
+    return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
 
-
+def setPointsbyIdEquipe(idEquipe,score):
+    equipe = get_equipe_by_id(idEquipe)
+    equipe.points += int(score)
+    db.session.commit()
+    print("Je passe ici")
 
 
 
@@ -467,7 +504,7 @@ def getRechercheTournoisTerminee(recherche):
     recherche dans les tournois terminé
     """
     t = get_All_Tournois_Terminees()
-    return t.filter(TOURNOI.intituleT.like(recherche +"%"))
+    return t.filter(TOURNOI.intituleTdb.session.commit().like(recherche +"%"))
 
 def get_constituer(idP, idE):
     return CONSTITUER.query.filter_by(idP = idP, idE = idE)[0]
@@ -524,7 +561,7 @@ def get_participant_by_id_equipe(idEquipe):
     for participant in listeParticipants:
         membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
     return membres
-
+db.session.commit()
 def delete_membre(idEquipe, idParticipant):
     """
     param: idEquipe (int), identifiant d'une équipes
@@ -542,7 +579,7 @@ def delete_membre(idEquipe, idParticipant):
 def get_chef_by_id_equipe(idEquipe):
     """
     param: idEquipe (int), identifiant d'une équipes
-
+db.session.commit()
     retourne le chef de l'équipe passé en paramètre
     """
     e = get_equipe_by_id(idEquipe)
