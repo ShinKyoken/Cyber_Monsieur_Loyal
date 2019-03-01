@@ -271,7 +271,9 @@ def voirMatchs(tournoi):
         "voirMatchs.html",
         tournoi = get_Tournoi_by_id(tournoi),
         equipes = get_All_Equipes_Classe(tournoi),
-        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)))
+        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
+        route="tableau"
+        )
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 @login_required
@@ -418,8 +420,11 @@ def voirCompet_Matchs(tournoi):
     """
     return render_template(
         "voirMatchs.html",
-        tournoi=get_Tournoi_by_id(tournoi),
-        route="voirCompet")
+        tournoi = get_Tournoi_by_id(tournoi),
+        equipes = get_All_Equipes_Classe(tournoi),
+        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
+        route="voirCompet"
+        )
 
 @app.route("/voir_competition/<int:tournoi>/stream")
 def voirCompet_Stream(tournoi):

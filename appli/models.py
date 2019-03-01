@@ -163,7 +163,7 @@ def get_All_Equipes_Classe(idT):  #à changer pour prendr les équipe d'un tourn
 
     retourne les équipe d'un tournoi, classé par points
     """
-    return EQUIPE.query.order_by(EQUIPE.points).filter_by(idT = idT)
+    return EQUIPE.query.order_by(EQUIPE.points.desc()).filter_by(idT = idT)
 
 def get_All_partie_by_tournoi(idTournoi):
     """
@@ -466,9 +466,6 @@ def setPointsbyIdEquipe(idEquipe,score):
     equipe.points += int(score)
     db.session.commit()
     print("Je passe ici")
-
-
-
 
 def getRechercheAllTournois(recherche):
     """
