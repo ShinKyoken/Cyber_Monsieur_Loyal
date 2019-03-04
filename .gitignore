@@ -2,3 +2,5 @@ venv/
 venvino/
 __pycache__/
 .vscode/
+parametres.json
+resultat.json

@@ -70,7 +70,7 @@ class PARTIE(db.Model):
     idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False )
     cartePartie   = db.Column(db.String(100))
     datePartie    = db.Column(db.DateTime, default=datetime.datetime.now())
-    gagnantPartie = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"))
+    gagnantPartie = db.Column(db.String(100))
     etatPartie    = db.Column(db.Integer, default=0)
 
 class PARTICIPERPARTIE(db.Model):
@@ -171,7 +171,7 @@ def get_All_partie_by_tournoi(idTournoi):
 
     retourne les partie d'un tournoi
     """
-    return PARTIE.query.filter_by(idT = idTournoi)
+    return PARTIE.query.filter_by(idT = idTournoi, etatPartie = 0)
 
 def get_All_Equipe_by_partie(parties):
     """
@@ -448,6 +448,8 @@ def delete_All_Parties_by_id_tournoi(idTournoi):
 def lancer_match(idPartie):
     equipes = get_equipe_by_partie(idPartie)
     dico = {"equipes" : {}}
+    scoreMax = None
+    gagnant = None
     for equipe in equipes:
         dico["equipes"][equipe.idE] = None
     with open("parametres.json","w") as json_file:
@@ -457,17 +459,23 @@ def lancer_match(idPartie):
         resultat = json.load(json_res)
     for id,score in resultat["equipes"].items():
         setPointsbyIdEquipe(id,score)
-    set_Etat_Partie(idPartie)
+        if scoreMax == None or gagnant == None or score > scoreMax :
+            scoreMax = score
+            gagnant = (EQUIPE.query.filter_by(idE = id).one()).nomE
+    set_Etat_Partie(idPartie,gagnant)
 
 
 def get_All_ParticiperParties_by_id_tournoi(idTournoi):
     return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
 
-def set_Etat_Partie(idPartie):
+def set_Etat_Partie(idPartie, equipeGagnante):
     partie = get_Partie_by_id(idPartie)
     partie.etatPartie = 1
+    partie.gagnantPartie = equipeGagnante
     db.session.commit()
 
+def get_All_Parties_Terminees(idTournoi):
+    return PARTIE.query.filter_by(idT = idTournoi, etatPartie = 1).all()
 
 def get_Partie_by_id(idPartie):
     return PARTIE.query.filter_by(idPartie = idPartie).one()
@@ -571,7 +579,7 @@ def get_participant_by_id_equipe(idEquipe):
     for participant in listeParticipants:
         membres.append(PARTICIPANT.query.filter_by(idP = participant.idP).all()[0])
     return membres
-db.session.commit()
+
 def delete_membre(idEquipe, idParticipant):
     """
     param: idEquipe (int), identifiant d'une équipes

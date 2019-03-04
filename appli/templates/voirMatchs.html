@@ -11,7 +11,7 @@
 {% block main %}
 <div class="voirMatches container">
 	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
-		<h2>Matchs du Tournois</h2>
+		<h2>Matchs du Tournoi</h2>
 	</div>
 <div class="col-md-6">
 		<h3 class="text-center">Classement</h3>
@@ -40,7 +40,12 @@
 
 <div class ="col-md-6">
 		<div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
-			<h3 class="text-center">Historique des matchs</h3>
+			<h3 class="text-center">Matchs à venir</h3>
+			{% if equipes2|length == 0 %}
+			<p>
+				Tous les matchs sont terminés.
+			</p>
+			{% else %}
 			<ul uk-accordion="collapsible: false; multiple: false">
 			{% for equipe in equipes2 %}
 			{% set x = "" %}
@@ -61,6 +66,23 @@
 					 				<p class="">Carte de la partie: {{ equipe[0].cartePartie}}</p>
 									<a href='/{{equipe[0].idPartie}}/testmatch'><button class="bouton center-block">Lancer le match</button></a>
 									<a href="/tableau_de_bord/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
+								</div>
+						</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</div>
+</div>
+
+<div class ="col-md-6">
+		<div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
+			<h3 class="text-center">Parties terminées</h3>
+			<ul uk-accordion="collapsible: false; multiple: false">
+			{% for partie in partiesFinies %}
+						<li>
+								<a class="uk-accordion-title" href="#">La partie {{ partie.idPartie }}</a>
+								<div class="uk-accordion-content">
+									<p class=""> Gagnant : {{ partie.gagnantPartie }} </p>
 								</div>
 						</li>
 				{% endfor %}
