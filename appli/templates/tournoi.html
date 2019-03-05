@@ -13,7 +13,7 @@
                     <p class="text-center">Début : {{ tournoi.dateT }}</p>
                     <p class="text-center">Fin : 12/06/2019</p>
                     <ul>
-                    {% if route == "tableau" %}
+                    {% if route == "tableau" or (current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
                       <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Voir les matchs</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Stream</button></a>
                       <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Photos</button></a>
@@ -29,7 +29,7 @@
                     {% endif %}
 
                     {% endif %}
-                    {% if route == "voirCompet" %}
+                    {% if route == "voirCompet" and not(current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
                       <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Voir les matchs</button></a>
                       <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Stream</button></a>
                       <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-success btn-lg inputStyle col-md-11" id="button">Photos</button></a>
