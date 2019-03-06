@@ -3,13 +3,6 @@
     src: url("../fonts/Adrenaline-Regular.woff2");
 }
 
-.voirCompetition{
-  padding-top: 15vh;
-  background-image: url("../images/gradient_sky_opaque.jpg");
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
 h1.title {
   margin-bottom: 1em;
   font-family: Adrenaline;
@@ -27,27 +20,17 @@ p.small {
   font-size: 1.3em;
 }
 
-#main{
-  /* padding-top: 20vh; */
-}
 
-#banner
+body
 {
-  padding-top: 10vh;
-  /* background: #FF5F6D;
-  background: -webkit-linear-gradient(to left, #FFC371, #FF5F6D);
-  background: linear-gradient(to left, #FFC371, #FF5F6D); */
   background-image: url("../images/gradient_sky.jpg");
   background-size: 100vw 100vh;
   text-align: center;
 
   color: #F7F7F7;
-  /* min-height: 100vh; */
 }
 #service
 {
-  /* min-height: 100vh; */
-  /* padding-top: 5vh; */
   background: #7474BF;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #348AC7, #7474BF);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to top, #348AC7, #7474BF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -58,12 +41,8 @@ p.small {
     background-color: transparent;
 }
 
-.item {
-}
-
 .foot {
-  /* min-height: 90vh; */
-  /* padding-top: 50px; */
+
   padding: 10vh 0vh 10vh 0vh;
 }
 
