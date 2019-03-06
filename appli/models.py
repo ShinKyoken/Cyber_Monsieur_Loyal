@@ -70,7 +70,6 @@ class PARTIE(db.Model):
     idT           = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"), primary_key = True, autoincrement = False )
     cartePartie   = db.Column(db.String(100))
     datePartie    = db.Column(db.DateTime, default=datetime.datetime.now())
-    gagnantPartie = db.Column(db.String(100))
     etatPartie    = db.Column(db.Integer, default=0)
 
 class PARTICIPERPARTIE(db.Model):
@@ -447,7 +446,8 @@ def delete_All_Parties_by_id_tournoi(idTournoi):
 
 def lancer_match(idPartie):
     equipes = get_equipe_by_partie(idPartie)
-    dico = {"equipes" : {}}
+    dico = {"equipes" : {},
+            "idPartie": idPartie}
     scoreMax = None
     gagnant = None
     for equipe in equipes:
@@ -455,23 +455,24 @@ def lancer_match(idPartie):
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
     os.system("python3 code_test.py > resultat.json")
+
+def arreterMatch_setScore():
+    res_dico = {}
     with open("resultat.json","r") as json_res:
         resultat = json.load(json_res)
-    for id,score in resultat["equipes"].items():
-        setPointsbyIdEquipe(id,score)
-        if scoreMax == None or gagnant == None or score > scoreMax :
-            scoreMax = score
-            gagnant = (EQUIPE.query.filter_by(idE = id).one()).nomE
-    set_Etat_Partie(idPartie,gagnant)
+        for id,score in resultat["equipes"].items():
+            setPointsbyIdEquipe(id,score)
+            res_dico[get_equipe_by_id(id)] = score
+    set_Etat_Partie(resultat["idPartie"])
+    return res_dico
 
 
 def get_All_ParticiperParties_by_id_tournoi(idTournoi):
     return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
 
-def set_Etat_Partie(idPartie, equipeGagnante):
+def set_Etat_Partie(idPartie):
     partie = get_Partie_by_id(idPartie)
     partie.etatPartie = 1
-    partie.gagnantPartie = equipeGagnante
     db.session.commit()
 
 def get_All_Parties_Terminees(idTournoi):
@@ -487,7 +488,7 @@ def setPointsbyIdEquipe(idEquipe,score):
 
 def getRechercheAllTournois(recherche):
     """
-    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+    param: recherche (str), ce que l'utilisateur a entré dans la barre de rechercheTournois
 
     recherche dans les tournois
     """
