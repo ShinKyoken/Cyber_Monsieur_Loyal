@@ -1,63 +1,54 @@
+.boutonMenu{
+  margin-left:2vh;
+}
 
-  .boutonMenu{
-    margin-left:2vh;
-  }
+h1{
+  color:black;
+  font-weight: bold;
+}
 
-  h1{
-    color:black;
-    font-weight: bold;
-  }
+.divCartes{
+  padding-top: 5vh;
+}
 
-  .divCartes{
-    padding-top: 5vh;
-  }
+.cartes{
+  max-width: 35vh;
+  margin-left:2vh;
+  min-height:31vh;
+}
 
-  .cartes{
-    max-width: 35vh;
-    margin-left:2vh;
-    min-height:31vh;
-  }
-
-  img{
-    max-width: 15vh;
-    max-height: 15vh;
-  }
+img{
+  max-width: 15vh;
+  max-height: 15vh;
+}
 
 
-  .thumbnail{
-    background-color: rgba(255,255,255,0.2);
-      }
+.thumbnail{
+  background-color: rgba(255,255,255,0.2);
+}
 
-  h2{
-    color:black;
-    font-weight: bold;
-    font-family: Paytone One;
-    font-size: 24px;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 700;
-    line-height: 26.4px;
-    text-align:center;
-  }
+h2{
+  color:black;
+  font-weight: bold;
+  font-family: Paytone One;
+  font-size: 24px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 700;
+  line-height: 26.4px;
+  text-align:center;
+}
 
-  /* .panel{
-    background-color: rgba(255,255,255,0.2);
-    border: 2px solid black;
-    margin-left:6vh;
-    padding-top:1vh;
-    padding-bottom: 1vh;
-  } */
+.bouton {
+   border-radius: 20px;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-size: 15px;
+   padding: 10px;
+   background-color: #51A4F6;
+   text-shadow: 1px 1px 20px #000000;
+}
 
-  .bouton {
-     border-radius: 20px;
-     color: #FFFFFF;
-     font-family: Arial;
-     font-size: 15px;
-     padding: 10px;
-     background-color: #51A4F6;
-     text-shadow: 1px 1px 20px #000000;
-  }
-
-  .bouton:hover {
-     background: #1E62D0;
-  }
+.bouton:hover {
+   background: #1E62D0;
+}
