@@ -1,7 +1,10 @@
-
 body {
   padding-top : 10vh;
   background-image: url("../images/gradient_sky_opaque.jpg");
   background-attachment: fixed;
   min-height: 100vh;
+}
+
+#text_field_nom {
+  padding-bottom: 2vh;
 }
