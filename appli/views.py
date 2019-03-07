@@ -692,17 +692,14 @@ def confirmerPhoto(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/bilan")
 @login_required
 def bilan(tournoi):
-    dico = {}
-    equipesT = get_equipe_by_tournoi(tournoi)
-    for equipe in equipesT:
-        dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE)
-
+    # dico = {}
+    # equipesT = get_equipe_by_tournoi(tournoi)
+    # for equipe in equipesT:
+    #     dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE)
     return render_template(
-        "voirCompetitionsTerminees.html",
-        equipes=get_equipe_by_tournoi(tournoi),
-        participants=dico,
+        "bilan.html"
+        equipes=get_All_Equipes_Classe(tournoi),
+        participants=get_participant_by_id_equipe(equipes[0].idE),
         tournoi = get_Tournoi_by_id(tournoi),
-        equipesClasse = get_All_Equipes_Classe(tournoi),
-        parties = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
         route="tableau"
         )
