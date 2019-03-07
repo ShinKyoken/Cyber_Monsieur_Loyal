@@ -1,10 +1,32 @@
-body {
+
+
+#text_field_nom {
+  padding-bottom: 2vh;
+}
+
+.navbar {
+  background-color: rgba(0,0,0,0.2);
+  border-color:rgba(0,0,0,0);
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #FFFFFF;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color:rgba(0,0,0,0.2)
+}
+
+.navbar-default .dropdown-toggle:hover,
+.navbar-default .dropdown-toggle:focus {
+  background-color: red;
+}
+
+#main
+{
   padding-top : 10vh;
   background-image: url("../images/gradient_sky_opaque.jpg");
   background-attachment: fixed;
   min-height: 100vh;
-}
-
-#text_field_nom {
-  padding-bottom: 2vh;
 }

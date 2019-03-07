@@ -229,7 +229,7 @@ def voirCompet(tournoi):
     Redirige vers la page d'un tournoi dont l'utilisateur est l'administrateur
     """
     return render_template(
-        "tournoi.html",
+        "newTournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
         admin = get_admin_by_id(tournoi),
         route="voirCompet")
@@ -254,7 +254,7 @@ def tournoi(id):
     Redirige vers la page d'un tournoi pour un utilisateur non connecté
     """
     return render_template(
-        "tournoi.html",
+        "newTournoi.html",
         tournoi=get_Tournoi_by_id(id),
         admin=get_admin_by_id(id),
         route="tableau")
@@ -271,10 +271,7 @@ def voirMatchs(tournoi):
         "voirMatchs.html",
         tournoi = get_Tournoi_by_id(tournoi),
         equipes = get_All_Equipes_Classe(tournoi),
-        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
-        partiesFinies = get_All_Parties_Terminees(tournoi),
-        route="tableau"
-        )
+        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)))
 
 @app.route("/tableau_de_bord/<int:tournoi>/stream")
 @login_required
@@ -421,11 +418,8 @@ def voirCompet_Matchs(tournoi):
     """
     return render_template(
         "voirMatchs.html",
-        tournoi = get_Tournoi_by_id(tournoi),
-        equipes = get_All_Equipes_Classe(tournoi),
-        equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
-        route="voirCompet"
-        )
+        tournoi=get_Tournoi_by_id(tournoi),
+        route="voirCompet")
 
 @app.route("/voir_competition/<int:tournoi>/stream")
 def voirCompet_Stream(tournoi):

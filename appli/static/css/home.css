@@ -4,10 +4,6 @@
 }
 
 h1.title {
-  margin-bottom: 1em;
-  font-family: Adrenaline;
-}
-h1.title {
   font-size: 6em;
   margin-bottom: 1em;
   font-family: Adrenaline;
@@ -21,14 +17,21 @@ p.small {
 }
 
 
-body
+#banner
 {
+  padding-top: 10vh;
   background-image: url("../images/gradient_sky.jpg");
   background-size: 100vw 100vh;
   text-align: center;
 
   color: #F7F7F7;
 }
+
+#main
+{
+  padding-top: 0vh;
+}
+
 #service
 {
   background: #7474BF;  /* fallback for old browsers */
@@ -57,25 +60,6 @@ body
 .text-muted {
   margin: 20px 0;
   color: black;
-}
-
-.navbar {
-  background-color: rgba(0,0,0,0.2);
-  border-color:rgba(0,0,0,0);
-}
-
-.navbar-default .navbar-nav > li > a {
-  color: #FFFFFF;
-}
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  background-color:rgba(0,0,0,0.2)
-}
-
-.navbar-default .dropdown-toggle:hover,
-.navbar-default .dropdown-toggle:focus {
-  background-color: red;
 }
 
 .thumbnail img {
