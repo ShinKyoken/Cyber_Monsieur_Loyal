@@ -694,7 +694,7 @@ def bilan(tournoi):
     # for equipe in equipesT:
     #     dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE)
     return render_template(
-        "bilan.html"
+        "bilan.html",
         equipes=get_All_Equipes_Classe(tournoi),
         participants=get_participant_by_id_equipe(equipes[0].idE),
         tournoi = get_Tournoi_by_id(tournoi),

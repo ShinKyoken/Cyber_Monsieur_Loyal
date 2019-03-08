@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super()}}
+<link rel="stylesheet" href="/static/css/newTournoi.css">
+{% endblock %}
+{% block main %}
+
+<div class="container-fluid banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <img class="" src="{{ tournoi.logoT }}" alt="Generic placeholder image" width="160" height="160">
+      </div>
+      <h1 class="title text-center">{{ tournoi.intituleT }}</h1>
+      <div class="col-md-12">
+        <p class="sousTitre col-md-3">Organisateur : {{ admin.nomAdmin }}</p>
+        <p class="sousTitre col-md-3">Lieu : {{ tournoi.lieuT }}</p>
+        <p class="sousTitre col-md-3">Début : {{ tournoi.dateT }}</p>
+        <p class="sousTitre col-md-3">Fin : 12/06/2019</p>
+        <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+
+<br>
+
+  <div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+
+    {% if route == "tableau" or (current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
+    <div class="col-sm-6 col-md-2">
+      <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-primary btn-lg col-md-11" id="button">Voir les matchs</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-primary btn-lg col-md-11" id="button">Stream</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-primary btn-lg col-md-11" id="button">Photos</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-primary btn-lg col-md-11" id="button">Equipes</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-primary btn-lg col-md-11" id="button">Modifier tournoi</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      {% if tournoi.etatT == 0 %}
+        <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-success btn-lg " id="button">Lancer le tournoi</button></a>
+      {% endif %}
+
+      {% if tournoi.etatT == 1 %}
+        <a href="/tableau_de_bord/{{tournoi.idT}}/arreter_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-danger btn-lg " id="button">Arrêter le tournoi</button></a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if route == "voirCompet" and not(current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
+    <div class="col-sm-6 col-md-2">
+      <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-primary btn-lg col-md-11" id="button">Voir les matchs</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-primary btn-lg col-md-11" id="button">Stream</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-primary btn-lg col-md-11" id="button">Photos</button></a>
+
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <a href="/voir_competition/{{tournoi.idT}}/equipes"><button class="btn btn-primary btn-lg col-md-11" id="button">Equipes</button></a>
+
+    </div>
+    {% endif %}
+  </div>
+
+  <br>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="thumbnail">
+          <div class="caption">
+            <h3>Description :</h3>
+            <p>{{ tournoi.descT }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="thumbnail">
+          <div class="caption">
+            <h3>Infos :</h3>
+            <p>Nombre d'équipes</p>
+            <p>Nombre de participants</p>
+            <p>Nombre de matchs terminés</p>
+            <a class="btn btn-warning" href="/tableau_de_bord/{{tournoi.idT}}/download_regles">Télécharger les règles</a><br>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <br>
+
+  <footer>
+    <p>&copy; 2016 Company, Inc.</p>
+  </footer>
+</div>
+
+
+<script type="text/javascript">
+  document.querySelector("#Accueil").setAttribute("class","active");
+</script>
+{% endblock %}
