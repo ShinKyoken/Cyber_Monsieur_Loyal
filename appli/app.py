@@ -9,13 +9,6 @@ from flask_uikit import UIkit
 UIkit(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
-import os.path
-def mkpath(p):
-        return os.path.normpath(
-                os.path.join(
-                        os.path.dirname(__file__),
-                        p))
-
 from flask_sqlalchemy import *
 import pymysql
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True

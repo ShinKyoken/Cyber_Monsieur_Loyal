@@ -9,8 +9,8 @@
 <script src="/static/js/uikit-icons.min.js"></script>
 {% endblock %}
 {% block main %}
-<div class="voirMatches container">
-	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les bouttons -->
+<div class="voirMatchs container">
+	<div class="panneau_haut">    <!-- Partie du haut, avec le titre et les boutons -->
 		<h2>Matchs du Tournoi</h2>
 	</div>
 <div class="col-md-6">
@@ -67,7 +67,7 @@
 									<p class="">La partie {{ equipe[0].idPartie}}
 					 				<p class="">Carte de la partie: {{ equipe[0].cartePartie}}</p>
 									{% if route == "tableau" %}
-									<a href='/{{equipe[0].idPartie}}/testmatch'><button class="bouton center-block">Lancer le match</button></a>
+									<a href='/tableau_de_bord/{{tournoi.idT}}/matchs/{{equipe[0].idPartie}}/lancer_match'><button class="bouton center-block">Lancer le match</button></a>
 									{% endif %}
 								</div>
 						</li>
