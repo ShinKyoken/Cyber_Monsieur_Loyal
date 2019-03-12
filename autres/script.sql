@@ -4,6 +4,7 @@ drop table PHOTO;
 drop table PARTIE;
 drop table EQUIPE;
 drop table PARTICIPANT;
+drop table REGLE;
 drop table TOURNOI;
 drop table ADMIN;
 
