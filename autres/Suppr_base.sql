@@ -1,0 +1,9 @@
+drop table PARTICIPERPARTIE;
+drop table CONSTITUER;
+drop table PHOTO;
+drop table PARTIE;
+drop table EQUIPE;
+drop table REGLE;
+drop table PARTICIPANT;
+drop table TOURNOI;
+drop table ADMIN;
