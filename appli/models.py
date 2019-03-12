@@ -21,7 +21,7 @@ class TOURNOI(db.Model):
     idT               = db.Column(db.Integer, primary_key = True)
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
     dateT             = db.Column(db.Date)
-    dureeT            = db.Column(db.String(5))
+    dateFinT          = db.Column(db.Date)
     intituleT         = db.Column(db.String(50))
     descT             = db.Column(db.String(100))
     typeT             = db.Column(db.String(30))
@@ -52,6 +52,7 @@ class EQUIPE(db.Model):
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
+    commandShell  = db.Column(db.String(100))
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True, autoincrement=True)
@@ -76,6 +77,7 @@ class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
     idPartie = db.Column(db.Integer, db.ForeignKey("PARTIE.idPartie"),primary_key=True)
     idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
+    
 db.session.commit()
 def get_All_Admins():
     """
