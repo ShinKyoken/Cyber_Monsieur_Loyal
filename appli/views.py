@@ -109,7 +109,7 @@ def confirmer_ajout_admin():
         m = sha256()
         m.update(f.password.data.encode())
         passwd = m.hexdigest()
-        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin =None , mdpAdmin = passwd)
+        newAdmin = ADMIN(nomAdmin = f.username.data, mdpAdmin = passwd)
         db.session.add(newAdmin)
         db.session.commit()
         return redirect(url_for("connect"))
