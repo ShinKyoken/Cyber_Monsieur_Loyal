@@ -711,3 +711,18 @@ def bilan(tournoi):
         tournoi = get_Tournoi_by_id(tournoi),
         route="tableau"
         )
+
+@app.route("/voir_competition/<int:tournoi>/bilan")
+def voirBilan(tournoi):
+    dico = {}
+    equipesT = get_All_Equipes_Classe(tournoi)
+    print("bonjour")
+    """ for equipe in equipesT:
+        dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE) """
+    return render_template(
+        "bilan.html",
+        equipes=equipesT,
+        participants=get_participant_by_id_equipe(equipesT[0].idE),
+        tournoi = get_Tournoi_by_id(tournoi),
+        route="voirCompet"
+        )
