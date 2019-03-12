@@ -42,11 +42,21 @@ def home():
     return render_template(
         "home.html")
 
-@app.route("/<int:partie>/testmatch")
-def lancerMatch(partie):
+@app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/lancer_match")
+def lancerMatch(tournoi, partie):
     lancer_match(partie)
-    return render_template("testMatch.html",
-                           equipes=get_equipe_by_partie(partie))
+    return render_template("lancerMatch.html",
+                           equipes=get_equipe_by_partie(partie),
+                           tournoi = tournoi,
+                           partie = partie)
+
+@app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/resultat")
+def resultatMatch(tournoi, partie):
+    resultat = arreterMatch_setScore()
+    return render_template("resultatMatch.html",
+                           dico_resultat = resultat,
+                           partie = partie,
+                           tournoi = tournoi)
 
 
 @app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
@@ -265,7 +275,7 @@ def voirMatchs(tournoi):
     """
     param: tournoi (int), identifiant d'un tournoi.
 
-    Redirige vers une page affichant les differant matchs du tounoi ainsi qu'un classement.
+    Redirige vers une page affichant les different matchs du tounoi ainsi qu'un classement.
     """
     return render_template(
         "voirMatchs.html",
