@@ -225,7 +225,7 @@ def insert_tournoi(tournoi):
     """
     newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
                          dateT = tournoi['dateT'],
-                         dateFinT = tournoi['dateFinT']
+                         dateFinT = tournoi['dateFinT'],
                          intituleT = tournoi['intituleT'],
                          descT = tournoi['descT'],
                          etatT = tournoi['etatT'],
