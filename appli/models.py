@@ -225,10 +225,9 @@ def insert_tournoi(tournoi):
     """
     newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
                          dateT = tournoi['dateT'],
-                         dureeT = tournoi['dureeT'],
+                         dateFinT = tournoi['dateFinT']
                          intituleT = tournoi['intituleT'],
                          descT = tournoi['descT'],
-                         typeT = tournoi['typeT'],
                          etatT = tournoi['etatT'],
                          nbEquipe = tournoi['nbEquipe'],
                          nbParticipantsMax = tournoi['nbParticipantsMax'],
@@ -271,8 +270,7 @@ def update_tournoi(tournoi,id):
     tournoiUp.intituleT         = tournoi['intituleT']
     tournoiUp.descT             = tournoi['descT']
     tournoiUp.dateT             = tournoi['dateT']
-    tournoiUp.dureeT            = tournoi['dureeT']
-    tournoiUp.typeT             = tournoi['typeT']
+    tournoiUp.dateFinT          = tournoi['dateFinT']
     tournoiUp.lieuT             = tournoi['lieuT']
     tournoiUp.disciplineT       = tournoi['disciplineT']
     tournoiUp.nbEquipe          = tournoi['nbEquipe']
