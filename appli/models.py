@@ -11,8 +11,6 @@ import os
 class ADMIN(UserMixin,db.Model):
     idAdmin        = db.Column(db.Integer, primary_key = True)
     nomAdmin       = db.Column(db.String(100))
-    prenomAdmin    = db.Column(db.String(100))
-    dateNaissAdmin = db.Column(db.Date)
     mdpAdmin       = db.Column(db.String(100))
     def get_id(self) :
         return self.idAdmin
@@ -214,7 +212,7 @@ def get_nom_prenom_by_tournoi(etatT):
         tournois = get_All_Tournois_Terminees()
     for tournoi in tournois:
         admin = ADMIN.query.filter_by(idAdmin=tournoi.idAdmin)[0]
-        dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin,admin.prenomAdmin]
+        dico[tournoi.idT] = [tournoi.idAdmin,admin.nomAdmin]
     return dico
 
 def insert_tournoi(tournoi):
