@@ -112,10 +112,13 @@
 <script>
 
   function confirmerValidation(){
-    check=window.confirm("Voulez vous vraiment créer ce tournoi ?");
-    res=false;
+    var dateDebut = new Date(document.getElementsByName('dateT')[0].value);
+    var dateFin = new Date(document.getElementsByName('dateFinT')[0].value);
+    console.log(Math.abs(dateFin.getTime() - dateDebut.getTime()));
+    check = window.confirm("Voulez vous vraiment créer ce tournoi ?");
+    res = false;
     if (check){
-      res=true;
+      res = true;
     }
     return res;
   }
