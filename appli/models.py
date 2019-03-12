@@ -24,7 +24,6 @@ class TOURNOI(db.Model):
     dateFinT          = db.Column(db.Date)
     intituleT         = db.Column(db.String(50))
     descT             = db.Column(db.String(100))
-    typeT             = db.Column(db.String(30))
     etatT             = db.Column(db.Integer)
     nbEquipe          = db.Column(db.Integer)
     nbParticipantsMax = db.Column(db.Integer)
@@ -77,7 +76,7 @@ class PARTICIPERPARTIE(db.Model):
     idE      = db.Column(db.Integer, db.ForeignKey("EQUIPE.idE"),primary_key=True)
     idPartie = db.Column(db.Integer, db.ForeignKey("PARTIE.idPartie"),primary_key=True)
     idT      = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"),primary_key=True)
-    
+
 db.session.commit()
 def get_All_Admins():
     """
