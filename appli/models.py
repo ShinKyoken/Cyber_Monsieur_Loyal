@@ -337,7 +337,7 @@ def insert_equipe(equipe):
     insert une equipe dans la BD
     """
     newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
-    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'])
+    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'], commandShell = equipe['shell'])
     db.session.add(newEquipe)
     db.session.commit()
     return newEquipe.idE

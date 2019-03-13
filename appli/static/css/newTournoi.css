@@ -5,14 +5,14 @@
 
 #main
 {
-  padding-top: 0vh;
-  background-image: None;
+  /* padding-top: 0vh; */
+  /* background-image: None; */
 
 }
 
 .thumbnail
 {
-    height: 25vh;
+    background-color: rgba(255,255,255,0.4);
 }
 
 h1.title {
@@ -31,14 +31,10 @@ h1.title {
   font-size: 18pt;
 }
 
-.banner
-{
-  color: #f2f2f2;
-  padding-top: 10vh;
-  background-image: url("../images/gradient_sky.jpg");
-  background-size: 100vw 100vh;
-  text-align: center;
+.banner {
+  color: #FFFFFF;
 }
+
 
 body
 {

@@ -109,7 +109,7 @@ def confirmer_ajout_admin():
         m = sha256()
         m.update(f.password.data.encode())
         passwd = m.hexdigest()
-        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin =None , mdpAdmin = passwd)
+        newAdmin = ADMIN(nomAdmin = f.username.data, mdpAdmin = passwd)
         db.session.add(newAdmin)
         db.session.commit()
         return redirect(url_for("connect"))
@@ -244,6 +244,7 @@ def voirCompet(tournoi):
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
         admin = get_admin_by_id(tournoi),
+        nbPartieTerminee=len(get_All_Parties_Terminees(tournoi)),
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
@@ -269,6 +270,7 @@ def tournoi(id):
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(id),
         admin=get_admin_by_id(id),
+        nbPartieTerminee=len(get_All_Parties_Terminees(id)),
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
@@ -500,11 +502,15 @@ def confirmerEquipe(tournoi):
     equipe['capitaine']    = idChef
     equipe['idTournoi']    = t.idT
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
+    equipe['shell']        = request.form['shell']
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
     insert_constituer(idEquipe, idChef)
-    return redirect(url_for(
-    "ajout_membre", tournoi = tournoi, equipe = idEquipe))
+    if int(request.form['nbParticipant']) == 0 :
+        return redirect(url_for("equipe",tournoi = tournoi))
+    else :
+        return redirect(url_for(
+        "ajout_membre", tournoi = tournoi, equipe = idEquipe))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajout_membre")
 @login_required
@@ -701,14 +707,30 @@ def confirmerPhoto(tournoi):
 @app.route("/tableau_de_bord/<int:tournoi>/bilan")
 @login_required
 def bilan(tournoi):
-    # dico = {}
-    # equipesT = get_equipe_by_tournoi(tournoi)
-    # for equipe in equipesT:
-    #     dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE)
+    dico = {}
+    equipesT = get_All_Equipes_Classe(tournoi)
+    print("bonjour")
+    """ for equipe in equipesT:
+        dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE) """
     return render_template(
         "bilan.html",
-        equipes=get_All_Equipes_Classe(tournoi),
-        participants=get_participant_by_id_equipe(equipes[0].idE),
+        equipes=equipesT,
+        participants=get_participant_by_id_equipe(equipesT[0].idE),
         tournoi = get_Tournoi_by_id(tournoi),
         route="tableau"
+        )
+
+@app.route("/voir_competition/<int:tournoi>/bilan")
+def voirBilan(tournoi):
+    dico = {}
+    equipesT = get_All_Equipes_Classe(tournoi)
+    print("bonjour")
+    """ for equipe in equipesT:
+        dico[equipe.idE] = get_participant_by_id_equipe(equipe.idE) """
+    return render_template(
+        "bilan.html",
+        equipes=equipesT,
+        participants=get_participant_by_id_equipe(equipesT[0].idE),
+        tournoi = get_Tournoi_by_id(tournoi),
+        route="voirCompet"
         )

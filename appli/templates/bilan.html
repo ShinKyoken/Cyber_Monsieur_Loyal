@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bilan.css') }}">
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/uikit.min.js"></script>
+<script src="/static/js/uikit-icons.min.js"></script>
+{% endblock %}
+{% block main %}
+<article class="container-fluid">
+  <div id="titre" class="container">
+    <h1 class="text-center">Bilan</h1>
+    <h2 class="text-center">{{tournoi.intituleT}}</h2>
+    <p id="route" hidden> {{route}}</p>
+  </div>
+  <div id="Gagnant" class="container">
+    <div class="row ">
+      <div class="col-md-offset-4 col-md-4 ">
+        <div class="thumbnail">
+          <img class="center-block" src="https://images.emojiterra.com/google/android-oreo/128px/1f947.png" alt="Logo" width="140" height="140">
+            <h2 class="text-center">{{equipes[0].nomE}}</h2>
+            {% for participant in participants%}
+              <p class="text-center">{{participant.nomP}} {{participant.prenomP}}</p>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="classement" class="container">
+    <h3 class="text-center">Classement</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Place</th>
+					<th scope="col">Nom d'equipe</th>
+					<th scope="col">Points</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for equipe in equipes %}
+
+				<tr>
+					<td>{{ loop.index }}</td>
+				  <td>{{ equipe.nomE }}</td>
+					<td>{{ equipe.points }}</td>
+				</tr>
+
+			{% endfor %}
+			</tbody>
+		</table>
+  </div>
+  <div id="partie" class="container">
+    <div class="row">
+      <div class="col-md-4 ">
+
+      </div>
+    </div>
+  </div>
+</article>
+<script>
+  if(document.querySelector("#route").innerText==" tableau"){
+    document.querySelector("#Tableau").setAttribute("class","active");
+  }
+  else{
+    document.querySelector("#dropdown").setAttribute("class","active");
+  }
+</script>
+{% endblock %}
