@@ -223,18 +223,22 @@ def insert_tournoi(tournoi):
 
     insert un tournoi dans la BD
     """
-    newTournoi = TOURNOI(idAdmin = tournoi['idAdmin'],
-                         dateT = tournoi['dateT'],
-                         dateFinT = tournoi['dateFinT'],
-                         intituleT = tournoi['intituleT'],
-                         descT = tournoi['descT'],
-                         etatT = tournoi['etatT'],
-                         nbEquipe = tournoi['nbEquipe'],
-                         nbParticipantsMax = tournoi['nbParticipantsMax'],
-                         disciplineT = tournoi['disciplineT'],
-                         lieuT = tournoi['lieuT'],
-                         logoT = tournoi['logoT'],
-                         stream = tournoi['stream'])
+    newTournoi = TOURNOI(
+        idAdmin           = tournoi['idAdmin'],
+        dateT             = tournoi['dateT'],
+        dateFinT          = tournoi['dateFinT'],
+        intituleT         = tournoi['intituleT'],
+        descT             = tournoi['descT'],
+        etatT             = tournoi['etatT'],
+        nbEquipe          = tournoi['nbEquipe'],
+        nbParticipantsMax = tournoi['nbParticipantsMax'],
+        disciplineT       = tournoi['disciplineT'],
+        lieuT             = tournoi['lieuT'],
+        logoT             = tournoi['logoT'],
+        stream            = tournoi['stream'],
+        nbTours           = tournoi['nbTours'],
+        cheminMaps        = tournoi['cheminMaps']
+    )
     db.session.add(newTournoi)
     db.session.commit()
 
@@ -248,10 +252,10 @@ def insert_tournoi(tournoi):
 
 def insert_photo(photo):
     newPhoto=PHOTO(
-        idT=photo["idT"],
-        Photo=photo["Photo"],
-        descPhoto=photo["descPhoto"],
-        titrePhoto=photo["titrePhoto"]
+        idT        = photo["idT"],
+        Photo      = photo["Photo"],
+        descPhoto  = photo["descPhoto"],
+        titrePhoto = photo["titrePhoto"]
     )
     db.session.add(newPhoto)
     db.session.commit()
@@ -358,13 +362,13 @@ def load_user(username):
     """
     return ADMIN.query.get(username)
 
-def insert_partie(idTournoi):
+def insert_partie(idTournoi, nomMap):
     """
     param: idTournoi (int), identifiant d'un tournoi
 
     insert une partie dans la BD
     """
-    newPartie = PARTIE(cartePartie = "Nuketown", idT = idTournoi)
+    newPartie = PARTIE(cartePartie = nomMap, idT = idTournoi)
     db.session.add(newPartie)
     db.session.commit()
     return newPartie.idPartie
@@ -391,8 +395,9 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     crée les match d'un tournoi
     """
     listeEquipe = get_equipe_by_tournoi(idTournoi)
-    t=get_Tournoi_by_id(idTournoi)
-    t.etatT=1
+    t = get_Tournoi_by_id(idTournoi)
+    listeMaps = os.listdir(t.cheminMaps)
+    t.etatT = 1
     db.session.commit()
     listeId = []
     listeIdPartie = []
@@ -408,10 +413,12 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
 
     if ((len(listeEquipe)*nbMatchs)/nbParticipants) > ((len(listeEquipe)*nbMatchs)//nbParticipants):
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)+1):
-            listeIdPartie.append(insert_partie(idTournoi))
+            numeroMap = random.randint(0,len(listeMaps))
+            listeIdPartie.append(insert_partie(idTournoi,listeMaps[numeroMap]))
     else:
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)):
-            listeIdPartie.append(insert_partie(idTournoi))
+            numeroMap = random.randint(0,len(listeMaps))
+            listeIdPartie.append(insert_partie(idTournoi,listeMaps[numeroMap]))
 
     for partie in listeIdPartie:
         for i in range (nbParticipants):
@@ -428,7 +435,7 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
                 delete_All_Parties_by_id_tournoi(idTournoi)
                 res = "bug"
     if res == "bug":
-        automatique_match(idTournoi,nbMatchs,nbParticipants)
+        automatique_match(idTournoi,nbMatchs,nbParticipants, listeMaps)
     return res
 
 def delete_All_Parties_by_id_tournoi(idTournoi):

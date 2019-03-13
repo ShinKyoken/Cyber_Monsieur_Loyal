@@ -160,9 +160,11 @@ def confirmerTournoi():
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
+    tournoi['nbTours']           = request.form['nbTours']
+    tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
-    id=insert_tournoi(tournoi)
+    id = insert_tournoi(tournoi)
     print(str(id)+"DU TOURNOI")
     return redirect(url_for("tournoi", id = int(id)))
 
@@ -185,6 +187,8 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
+    tournoi['nbTours']           = request.form['nbTours']
+    tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
 
