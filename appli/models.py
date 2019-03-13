@@ -29,6 +29,8 @@ class TOURNOI(db.Model):
     stream            = db.Column(db.Text)
     lieuT             = db.Column(db.String(30))
     logoT             = db.Column(db.Text)
+    cheminMaps        = db.Column(db.String(200))
+    nbTours           = db.Column(db.Integer, default = 0)
 
 class REGLE(db.Model):
     idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), primary_key = True)

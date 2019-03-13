@@ -114,11 +114,26 @@
   function confirmerValidation(){
     var dateDebut = new Date(document.getElementsByName('dateT')[0].value);
     var dateFin = new Date(document.getElementsByName('dateFinT')[0].value);
-    console.log(Math.abs(dateFin.getTime() - dateDebut.getTime()));
-    check = window.confirm("Voulez vous vraiment créer ce tournoi ?");
-    res = false;
-    if (check){
-      res = true;
+    var dateActuelMoins1 = new Date();
+    var nomFichier = document.getElementsByName('reglement')[0].type;
+    console.log(nomFichier)
+    dateActuelMoins1.setDate(dateActuelMoins1.getDate()-1);
+    var res = false;
+    if (dateFin.getTime() - dateDebut.getTime() < 0){
+      window.alert("La date de fin est plus tôt que la date de début du tournoi ! \nVous devez les modifier pour que le tournoi soit valide.");
+    }
+    else if (dateDebut.getTime() - dateActuelMoins1.getTime() < 0) {
+      window.alert("La date de début n'est pas correcte, elle est inférieur à la date actuelle");
+    }
+    else if (dateFin.getTime() - dateActuelMoins1.getTime() < 0) {
+      window.alert("La date de fin n'est pas correcte, elle est inférieur à la date actuelle");
+    }
+    else{
+      check = window.confirm("Voulez vous vraiment créer ce tournoi ?");
+      res = false;
+      if (check){
+        res = true;
+      }
     }
     return res;
   }
