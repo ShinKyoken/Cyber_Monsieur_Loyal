@@ -240,6 +240,7 @@ def voirCompet(tournoi):
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
         admin = get_admin_by_id(tournoi),
+        nbPartieTerminee=len(get_All_Parties_Terminees(tournoi)),
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
@@ -265,6 +266,7 @@ def tournoi(id):
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(id),
         admin=get_admin_by_id(id),
+        nbPartieTerminee=len(get_All_Parties_Terminees(id)),
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
