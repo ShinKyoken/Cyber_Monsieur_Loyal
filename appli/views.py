@@ -109,7 +109,7 @@ def confirmer_ajout_admin():
         m = sha256()
         m.update(f.password.data.encode())
         passwd = m.hexdigest()
-        newAdmin = ADMIN(nomAdmin = f.username.data, prenomAdmin = "Michel", dateNaissAdmin =None , mdpAdmin = passwd)
+        newAdmin = ADMIN(nomAdmin = f.username.data, mdpAdmin = passwd)
         db.session.add(newAdmin)
         db.session.commit()
         return redirect(url_for("connect"))
@@ -496,11 +496,15 @@ def confirmerEquipe(tournoi):
     equipe['capitaine']    = idChef
     equipe['idTournoi']    = t.idT
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
+    equipe['shell']        = request.form['shell']
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
     insert_constituer(idEquipe, idChef)
-    return redirect(url_for(
-    "ajout_membre", tournoi = tournoi, equipe = idEquipe))
+    if int(request.form['nbParticipant']) == 0 :
+        return redirect(url_for("equipe",tournoi = tournoi))
+    else :
+        return redirect(url_for(
+        "ajout_membre", tournoi = tournoi, equipe = idEquipe))
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajout_membre")
 @login_required
