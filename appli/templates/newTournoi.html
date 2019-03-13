@@ -108,6 +108,7 @@
             <h3>Infos :</h3>
             <p>Nombre d'équipes maximum : {{tournoi.nbEquipe}}</p>
             <p>Nombre d'équipes actuel : {{nbEquipeActuel}}</p>
+            <p id="nbEquipe" hidden>{{nbEquipeActuel}}</p>
             <p>Nombre de participants maximum par équipe : {{tournoi.nbParticipantsMax}} </p>
             <p>Nombre de participants actuel : {{nbParticipant}} </p>
             <p>Nombre de matchs terminés : {{nbPartieTerminee}}</p>
@@ -127,17 +128,26 @@
 
 <script>
   function confirmerValidation(){
-    if(document.querySelector("#button").innerText == "Lancer le tournoi"){
-      check=window.confirm("Voulez vous vraiment démarrer le tournoi ?");
+    var check=false;
+    if(document.querySelector("#buttonAdmin").innerText == "Lancer le tournoi"){
+      console.log("ok")
+      if(parseInt(document.querySelector("#nbEquipe").innerText) > 1){
+        check=window.confirm("Voulez vous vraiment démarrer le tournoi ?");
+      }
+      else{
+        console.log("ok")
+        window.alert("Il faut au moins 2 équipes pour pouvoir commencer un tournoi !")
+      }
     }
     if(document.querySelector("#button").innerText == "Arrêter le tournoi"){
       check=window.confirm("Voulez vous vraiment arreter le tournoi ?");
     }
-    res=false;
-    if (check){
-      res=true;
-    }
-    return res;
+    // res=false;
+    // if (check){
+    //   res=true;
+    // }
+    // return res;
+    return check
   }
 
   if(document.querySelector("#buttonAdmin")){
