@@ -47,10 +47,11 @@
       <a href="/tableau_de_bord/{{tournoi.idT}}/equipes"><button class="btn btn-primary btn-lg col-md-11" id="button">Equipes</button></a>
 
     </div>
+    {% if tournoi.etatT == 0 %}
     <div class="col-sm-6 col-md-2">
       <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-primary btn-lg col-md-11" id="button">Modifier tournoi</button></a>
-
     </div>
+    {% endif %}
     <div class="col-sm-6 col-md-2">
       {% if tournoi.etatT == 0 %}
         <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-success btn-lg " id="button">Lancer le tournoi</button></a>
