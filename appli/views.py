@@ -241,6 +241,7 @@ def voirCompet(tournoi):
         tournoi=get_Tournoi_by_id(tournoi),
         admin = get_admin_by_id(tournoi),
         nbPartieTerminee=len(get_All_Parties_Terminees(tournoi)),
+        nbEquipeActuel=len(get_equipe_by_tournoi(tournoi)),
         route="voirCompet")
 
 @app.route("/tableau_de_bord")
@@ -262,11 +263,20 @@ def tournoi(id):
 
     Redirige vers la page d'un tournoi pour un utilisateur non connecté
     """
+    participants=[]
+    equipes=get_equipe_by_tournoi(id)
+    for equipe in equipes:
+        participantEquipe=get_participant_by_id_equipe(equipe.idE)
+        for participant in participantEquipe :
+            participants.append(participant)
+
     return render_template(
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(id),
         admin=get_admin_by_id(id),
         nbPartieTerminee=len(get_All_Parties_Terminees(id)),
+        nbEquipeActuel=len(get_equipe_by_tournoi(id)),
+        nbParticipant=len(participants),
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs")
