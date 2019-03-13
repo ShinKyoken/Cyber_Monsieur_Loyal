@@ -35,10 +35,11 @@
       <a href="/tableau_de_bord/{{tournoi.idT}}/matchs"><button class="btn btn-primary btn-lg col-md-11" id="button">Voir les matchs</button></a>
 
     </div>
+    {% if tournoi.stream != "" %}
     <div class="col-sm-6 col-md-2">
       <a href="/tableau_de_bord/{{tournoi.idT}}/stream"><button class="btn btn-primary btn-lg col-md-11" id="button">Stream</button></a>
-
     </div>
+    {% endif %}
     <div class="col-sm-6 col-md-2">
       <a href="/tableau_de_bord/{{tournoi.idT}}/photos"><button class="btn btn-primary btn-lg col-md-11" id="button">Photos</button></a>
 
@@ -72,10 +73,11 @@
       <a href="/voir_competition/{{tournoi.idT}}/matchs"><button class="btn btn-primary btn-lg col-md-11" id="button">Voir les matchs</button></a>
 
     </div>
+    {% if tournoi.stream != "" %}
     <div class="col-sm-6 col-md-2">
       <a href="/voir_competition/{{tournoi.idT}}/stream"><button class="btn btn-primary btn-lg col-md-11" id="button">Stream</button></a>
-
     </div>
+    {% endif %}
     <div class="col-sm-6 col-md-2">
       <a href="/voir_competition/{{tournoi.idT}}/photos"><button class="btn btn-primary btn-lg col-md-11" id="button">Photos</button></a>
 
