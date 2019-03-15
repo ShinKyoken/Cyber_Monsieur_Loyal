@@ -20,7 +20,7 @@ class TOURNOI(db.Model):
     idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
     dateT             = db.Column(db.Date)
     dateFinT          = db.Column(db.Date)
-    intituleT         = db.Column(db.String(50))
+    intituleT         = db.Column(db.String(100))
     descT             = db.Column(db.String(100))
     etatT             = db.Column(db.Integer)
     nbEquipe          = db.Column(db.Integer)
@@ -281,6 +281,8 @@ def update_tournoi(tournoi,id):
     tournoiUp.nbParticipantsMax = tournoi['nbParticipantsMax']
     tournoiUp.logoT             = tournoi['logoT']
     tournoiUp.stream            = tournoi['stream']
+    tournoiUp.nbTours           = tournoi['nbTours']
+    tournoiUp.cheminMaps        = tournoi['cheminMaps']
     db.session.commit()
 
 def update_Equipe(equipe,id):
@@ -293,6 +295,7 @@ def update_Equipe(equipe,id):
     equipeUp.nbParticipant          = equipe.nbParticipant
     equipeUp.idChefE                = equipe.idChefE
     equipeUp.nomE                   = equipe.nomE
+    equipeUp.commandShell           = equipe.commandShell
     db.session.commit()
 
 
@@ -362,13 +365,13 @@ def load_user(username):
     """
     return ADMIN.query.get(username)
 
-def insert_partie(idTournoi, nomMap):
+def insert_partie(idTournoi):
     """
     param: idTournoi (int), identifiant d'un tournoi
 
     insert une partie dans la BD
     """
-    newPartie = PARTIE(cartePartie = nomMap, idT = idTournoi)
+    newPartie = PARTIE(idT = idTournoi)
     db.session.add(newPartie)
     db.session.commit()
     return newPartie.idPartie
@@ -396,7 +399,6 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     """
     listeEquipe = get_equipe_by_tournoi(idTournoi)
     t = get_Tournoi_by_id(idTournoi)
-    listeMaps = os.listdir(t.cheminMaps)
     t.etatT = 1
     db.session.commit()
     listeId = []
@@ -413,12 +415,10 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
 
     if ((len(listeEquipe)*nbMatchs)/nbParticipants) > ((len(listeEquipe)*nbMatchs)//nbParticipants):
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)+1):
-            numeroMap = random.randint(0,len(listeMaps))
-            listeIdPartie.append(insert_partie(idTournoi,listeMaps[numeroMap]))
+            listeIdPartie.append(insert_partie(idTournoi))
     else:
         for i in range(((len(listeEquipe)*nbMatchs)//nbParticipants)):
-            numeroMap = random.randint(0,len(listeMaps))
-            listeIdPartie.append(insert_partie(idTournoi,listeMaps[numeroMap]))
+            listeIdPartie.append(insert_partie(idTournoi))
 
     for partie in listeIdPartie:
         for i in range (nbParticipants):
@@ -449,18 +449,33 @@ def delete_All_Parties_by_id_tournoi(idTournoi):
         db.session.delete(partie)
         db.session.commit()
 
+def get_All_Maps(idTournoi):
+    tournoi = get_Tournoi_by_id(idTournoi)
+    listeMaps = os.listdir(tournoi.cheminMaps)
+    return listeMaps
 
-def lancer_match(idPartie):
+def set_Map(idPartie, mapPartie):
+    partie = get_Partie_by_id(idPartie)
+    partie.cartePartie = mapPartie
+    db.session.commit()
+
+def lancer_match(idPartie, mapPartie):
     equipes = get_equipe_by_partie(idPartie)
+    set_Map(idPartie, mapPartie)
+    partie = get_Partie_by_id(idPartie)
+    tournoi = get_Tournoi_by_id(partie.idT)
     dico = {"equipes" : {},
-            "idPartie": idPartie}
-    scoreMax = None
-    gagnant = None
+            "parametres": {
+                "map" : partie.cartePartie,
+                "n_tours" : tournoi.nbTours,
+                "idPartie": idPartie
+                }
+            }
     for equipe in equipes:
-        dico["equipes"][equipe.idE] = None
+        dico["equipes"][equipe.idE] = {"machine" : equipe.commandShell}
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
-    os.system("python3 code_test.py > resultat.json")
+    # os.system("python3 code_test.py > resultat.json")
 
 def arreterMatch_setScore():
     res_dico = {}
