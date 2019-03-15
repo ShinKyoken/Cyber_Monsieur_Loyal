@@ -10,8 +10,11 @@ UIkit(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 from flask_sqlalchemy import *
+from sqlalchemy import create_engine
 import pymysql
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql+pymysql://root:pauthier@localhost/test')
 db=SQLAlchemy(app)
+
+engine = create_engine('mysql+pymysql://pandion:pandion@servinfo-mariadb/DBpandion')
 app.config['SECRET_KEY'] = "3ec22ed8-06fd-455e-8132-94b9fc65ba51"

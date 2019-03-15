@@ -65,10 +65,16 @@
 								</a>
 								<div class="uk-accordion-content">
 									<p class="">La partie {{ equipe[0].idPartie}}
-					 				<p class="">Carte de la partie: {{ equipe[0].cartePartie}}</p>
+									<form method="post" action="/tableau_de_bord/{{tournoi.idT}}/matchs/{{equipe[0].idPartie}}/lancer_match">
+						            <select name="cartePartie" class="uk-select uk-margin-small-bottom" id="form-horizontal-select">
+													{% for map in listeMaps %}
+						                <option>{{map}}</option>
+													{% endfor %}
+						            </select>
 									{% if route == "tableau" %}
-									<a href='/tableau_de_bord/{{tournoi.idT}}/matchs/{{equipe[0].idPartie}}/lancer_match'><button class="bouton center-block">Lancer le match</button></a>
+										<button type="submit" class="uk-button uk-button-primary text-center">Lancer le match</button>
 									{% endif %}
+									</form>
 								</div>
 						</li>
 				{% endfor %}
