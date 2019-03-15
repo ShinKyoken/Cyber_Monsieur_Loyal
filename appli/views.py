@@ -559,13 +559,13 @@ def modifierEquipe(tournoi, equipe):
     l = []
     for part in liste:
         l.append(get_participant_by_id(part.idP))
-    for i in range(len(l)):
-        l[i].nomP    = request.form["nom_membre"+str(i)]
-        l[i].prenomP = request.form["prenom_membre"+str(i)]
-        l[i].mailP   = request.form["mailP"+str(i)]
-    c = get_chef_by_id_equipe(equipe)
-    e.commandShell = request.form["commandShell"]
-    update_Equipe(e,e.idEquipe)
+    # for i in range(len(l)):
+    #     l[i].nomP    = request.form["nom_membre"+str(i)]
+    #     l[i].prenomP = request.form["prenom_membre"+str(i)]
+    #     l[i].mailP   = request.form["mailP"+str(i)]
+    # c = get_chef_by_id_equipe(equipe)
+    # e.commandShell = request.form["commandShell"]
+    # update_Equipe(e,e.idEquipe)
     return render_template(
         "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
 
@@ -617,8 +617,12 @@ def valider_modification_equipe(tournoi, equipe):
         dico_participant['nomP'] = request.form['nom_membre'+str(i)]
         dico_participant['prenomP'] = request.form['prenom_membre'+str(i)]
         dico_participant['mailP'] = request.form['mail_membre'+str(i)]
+
+        e.commandShell = request.form["commandShell"]
+        update_Equipe(e,e.idE)
         update_participant(dico_participant, l[i].idP)
-    return redirect(url_for("membres_equipe", tournoi = tournoi, equipe = equipe))
+
+    return redirect(url_for("voirCompet_equipe", tournoi = tournoi))
 
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})

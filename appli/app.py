@@ -13,7 +13,7 @@ from flask_sqlalchemy import *
 from sqlalchemy import create_engine
 import pymysql
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql+pymysql://root:pauthier@localhost/test')
+app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql+pymysql://pandion:pandion@servinfo-mariadb/DBpandion')
 db=SQLAlchemy(app)
 
 engine = create_engine('mysql+pymysql://pandion:pandion@servinfo-mariadb/DBpandion')
