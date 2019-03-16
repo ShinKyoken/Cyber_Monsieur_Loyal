@@ -53,7 +53,7 @@ def lancerMatch(tournoi, partie):
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/resultat")
 def resultatMatch(tournoi, partie):
-    resultat = arreterMatch_setScore()
+    resultat = arreterMatch_setScore(partie)
     return render_template("resultatMatch.html",
                            dico_resultat = resultat,
                            partie = partie,
