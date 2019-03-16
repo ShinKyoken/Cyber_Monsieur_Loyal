@@ -466,7 +466,7 @@ def lancer_match(idPartie, mapPartie):
     tournoi = get_Tournoi_by_id(partie.idT)
     dico = {"equipes" : {},
             "parametres": {
-                "map" : partie.cartePartie,
+                "map" : tournoi.cheminMaps + partie.cartePartie,
                 "n_tours" : tournoi.nbTours,
                 "idPartie": idPartie
                 }
