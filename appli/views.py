@@ -42,9 +42,10 @@ def home():
     return render_template(
         "home.html")
 
-@app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/lancer_match")
+@app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/lancer_match", methods=("POST",))
 def lancerMatch(tournoi, partie):
-    lancer_match(partie)
+    cartePartie = request.form["cartePartie"]
+    lancer_match(partie, cartePartie)
     return render_template("lancerMatch.html",
                            equipes=get_equipe_by_partie(partie),
                            tournoi = tournoi,
@@ -52,7 +53,7 @@ def lancerMatch(tournoi, partie):
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/resultat")
 def resultatMatch(tournoi, partie):
-    resultat = arreterMatch_setScore()
+    resultat = arreterMatch_setScore(partie)
     return render_template("resultatMatch.html",
                            dico_resultat = resultat,
                            partie = partie,
@@ -130,7 +131,7 @@ def creerCompetition():
     return render_template("creerCompetition.html",
                            route="creer")
 
-@app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/test",methods={"POST"})
+@app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi/tournoi_lance",methods={"POST"})
 @login_required
 def test(tournoi):
     """
@@ -140,7 +141,7 @@ def test(tournoi):
      Génère les matchs D'un tournoi passé en paramètre
     """
     automatique_match(tournoi,int(request.form['nbMatchs']),int(request.form['nbEquipe']))
-    return render_template("letest.html")
+    return render_template("versMatchs.html",tournoi = tournoi)
 
 @app.route("/confirmer_competition", methods={"POST"})
 @login_required
@@ -160,10 +161,11 @@ def confirmerTournoi():
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
+    tournoi['nbTours']           = request.form['nbTours']
+    tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
-    id=insert_tournoi(tournoi)
-    print(str(id)+"DU TOURNOI")
+    id = insert_tournoi(tournoi)
     return redirect(url_for("tournoi", id = int(id)))
 
 @app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
@@ -185,15 +187,12 @@ def modifierTournoi(id):
     tournoi['nbParticipantsMax'] = request.form['nbParticipantsMax']
     tournoi['logoT']             = request.form['logoT']
     tournoi['stream']            = request.form['stream']
+    tournoi['nbTours']           = request.form['nbTours']
+    tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
 
-    regle            = {}
-    regle['nomFic']  = request.files['reglement'].filename
-    regle['data']    = request.files['reglement'].read()
-
     update_tournoi(tournoi, id)
-    update_regle(regle, id)
 
     return redirect(url_for("tournoi", id = id))
 
@@ -279,6 +278,7 @@ def voirMatchs(tournoi):
     """
     return render_template(
         "voirMatchs.html",
+        listeMaps = get_All_Maps(tournoi),
         tournoi = get_Tournoi_by_id(tournoi),
         equipes = get_All_Equipes_Classe(tournoi),
         equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
@@ -559,7 +559,13 @@ def modifierEquipe(tournoi, equipe):
     l = []
     for part in liste:
         l.append(get_participant_by_id(part.idP))
-    c = get_chef_by_id_equipe(equipe)
+    # for i in range(len(l)):
+    #     l[i].nomP    = request.form["nom_membre"+str(i)]
+    #     l[i].prenomP = request.form["prenom_membre"+str(i)]
+    #     l[i].mailP   = request.form["mailP"+str(i)]
+    # c = get_chef_by_id_equipe(equipe)
+    # e.commandShell = request.form["commandShell"]
+    # update_Equipe(e,e.idEquipe)
     return render_template(
         "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
 
@@ -611,8 +617,12 @@ def valider_modification_equipe(tournoi, equipe):
         dico_participant['nomP'] = request.form['nom_membre'+str(i)]
         dico_participant['prenomP'] = request.form['prenom_membre'+str(i)]
         dico_participant['mailP'] = request.form['mail_membre'+str(i)]
+
+        e.commandShell = request.form["commandShell"]
+        update_Equipe(e,e.idE)
         update_participant(dico_participant, l[i].idP)
-    return redirect(url_for("membres_equipe", tournoi = tournoi, equipe = equipe))
+
+    return redirect(url_for("voirCompet_equipe", tournoi = tournoi))
 
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})
