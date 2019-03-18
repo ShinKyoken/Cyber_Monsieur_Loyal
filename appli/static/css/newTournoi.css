@@ -1,7 +1,3 @@
-@font-face {
-    font-family: Adrenaline;
-    src: url("../fonts/Adrenaline-Regular.woff2");
-}
 
 #main
 {
@@ -16,9 +12,9 @@
 }
 
 h1.title {
-  font-size: 6em;
+  font-size: 5em;
   margin-bottom: 1em;
-  font-family: Adrenaline;
+  /* font-family: Adrenaline; */
 }
 
 .sousTitre
