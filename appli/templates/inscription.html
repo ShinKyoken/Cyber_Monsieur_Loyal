@@ -14,13 +14,13 @@
     {{ form.username.label }}
   </label>
   <div class="">
-      {{ form.username(size=50, class_="form-control", placeholder = "Nom d'utilisateur") }}
+      {{ form.username(size=50, class_="form-control", placeholder = "Nom d'utilisateur", minlength="4", maxlength="20") }}
   </div>
 
 
   <label for="login-pass" class="sr-only">{{ form.password.label }}</label>
   <div class="">
-    {{ form.password(size=50, class_="form-control", placeholder = "Password") }}
+    {{ form.password(size=50, class_="form-control", placeholder = "Password", minlength="4", maxlength="20") }}
   </div>
 
   <button class="btn btn-lg btn-primary btn-block" type="submit" value="Log in">S'inscrire</button>
