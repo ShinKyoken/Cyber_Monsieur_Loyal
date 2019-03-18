@@ -238,6 +238,7 @@ def insert_tournoi(tournoi):
         logoT             = tournoi['logoT'],
         stream            = tournoi['stream'],
         nbTours           = tournoi['nbTours'],
+        cheminScript      = tournoi['cheminScript'],
         cheminMaps        = tournoi['cheminMaps']
     )
     db.session.add(newTournoi)
@@ -284,6 +285,7 @@ def update_tournoi(tournoi,id):
     tournoiUp.stream            = tournoi['stream']
     tournoiUp.nbTours           = tournoi['nbTours']
     tournoiUp.cheminMaps        = tournoi['cheminMaps']
+    tournoiUp.cheminScript        = tournoi['cheminScript']
     db.session.commit()
 
 def update_Equipe(equipe,id):
@@ -341,7 +343,7 @@ def insert_equipe(equipe):
     insert une equipe dans la BD
     """
     newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
-    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'], machineE = equipe['shell'])
+    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'], machineE = equipe['machineE'])
     db.session.add(newEquipe)
     db.session.commit()
     return newEquipe.idE
@@ -476,7 +478,7 @@ def lancer_match(idPartie, mapPartie):
         dico["equipes"][equipe.idE] = {"machine" : equipe.machineE}
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
-    os.system("python3 /pub/ConcoursProg/bin/lance_partie_concours.py < parametres.json > resultat.json")
+    os.system("python3 " + tournoi.cheminScript + "< parametres.json > resultat.json")
 
 def arreterMatch_setScore(idPartie):
     res_dico = {}
