@@ -108,13 +108,14 @@ def inscription():
 def confirmer_ajout_admin():
     f = LoginForm()
     if f.validate_on_submit():
-        m = sha256()
-        m.update(f.password.data.encode())
-        passwd = m.hexdigest()
-        newAdmin = ADMIN(nomAdmin = f.username.data, mdpAdmin = passwd)
-        db.session.add(newAdmin)
-        db.session.commit()
-        return redirect(url_for("connect"))
+        if(len(get_admin_by_username(f.username.data))==0):
+            m = sha256()
+            m.update(f.password.data.encode())
+            passwd = m.hexdigest()
+            newAdmin = ADMIN(nomAdmin = f.username.data, mdpAdmin = passwd)
+            db.session.add(newAdmin)
+            db.session.commit()
+            return redirect(url_for("connect"))
     return render_template(
         "inscription.html",form = f)
 
