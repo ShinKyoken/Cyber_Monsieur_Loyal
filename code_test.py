@@ -8,7 +8,7 @@ with open("parametres.json") as json_file:
     parametres = json.load(json_file)
 
 noms_equipes = list(parametres["equipes"].keys())
-idPartie = parametres["idPartie"]
+idPartie = parametres["parametres"]["idPartie"]
 
 random.seed()
 random.shuffle(noms_equipes)
