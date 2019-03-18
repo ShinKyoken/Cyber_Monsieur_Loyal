@@ -1,9 +1,12 @@
 .wCreerEquipe {
-  margin-left: 20vw;
-  margin-right: 20vw;
+  /* margin-left: 20vw;
+  margin-right: 20vw; */
+  width: 50vw;
+}
+.centered{
+    margin: 0 auto;
 }
 
 #nom_equipe {
-  text-align: center;
   padding-bottom: 2vh;
 }
