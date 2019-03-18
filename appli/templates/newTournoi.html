@@ -52,7 +52,7 @@
 
     </div>
     <div class="col-sm-6 col-md-2">
-      {% if tournoi.etatT == 0 %}
+      {% if tournoi.etatT == 0 and nbEquipe > 1 %}
         <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-success btn-lg " id="button">Lancer le tournoi</button></a>
       {% endif %}
 

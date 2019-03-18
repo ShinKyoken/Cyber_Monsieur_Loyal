@@ -267,6 +267,7 @@ def tournoi(id):
     return render_template(
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(id),
+	nbEquipe=count_equipe_by_tournoi(id),
         admin=get_admin_by_id(id),
         nbPartieTerminee=len(get_All_Parties_Terminees(id)),
         route="tableau")
