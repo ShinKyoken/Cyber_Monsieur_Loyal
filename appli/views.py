@@ -165,6 +165,7 @@ def confirmerTournoi():
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['cheminScript']      = request.form['cheminScript']
+    tournoi['cheminImages']      = request.form['cheminImages']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     id = insert_tournoi(tournoi)
@@ -192,6 +193,7 @@ def modifierTournoi(id):
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['cheminScript']      = request.form['cheminScript']
+    tournoi['cheminImages']      = request.form['cheminImages']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
 
@@ -320,16 +322,10 @@ def voirPhotos(tournoi):
 
     Redirige vers une page affichant les photo du tournoi
     """
-    photos = get_All_Photos(tournoi)
-    listeImages = []
-    for photo in photos:
-        image = base64.b64decode(photo.Photo)
-        listeImages.append(image)
     return render_template(
         "photo.html",
         tournoi=get_Tournoi_by_id(tournoi),
         photos=get_All_Photos(tournoi),
-        images = listeImages,
         route="tableau")
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes")
@@ -703,20 +699,19 @@ def supprime_equipe(equipe,tournoi):
     delete_equipe(equipe)
     return redirect(url_for("equipe",tournoi=tournoi))
 
-@app.route("/tableau_de_bord/<int:tournoi>/confirmer_photo", methods={"POST"})
+@app.route("/tableau_de_bord/<int:idT>/confirmer_photo", methods={"POST"})
 @login_required
-def confirmerPhoto(tournoi):
+def confirmerPhoto(idT):
     """
     Crée une photo et l'ajoute dans la BD.
     """
-    photo = {}
-    photo['idT']               = tournoi
-    photo['Photo']             = request.files['mon_fichier'].read()
-    photo['descPhoto']         = request.form['description']
-    photo['titrePhoto']        = request.form['titre']
+    photo = request.files['photo']
 
-    insert_photo(photo)
-    return redirect(url_for("voirPhotos",tournoi=tournoi))
+    insert_photo(photo, idT)
+    tournoi = get_Tournoi_by_id(idT)
+    photo.save(os.path.join(tournoi.cheminImages, photo.filename))
+
+    return redirect(url_for("voirPhotos",tournoi=idT))
 
 @app.route("/tableau_de_bord/<int:tournoi>/bilan")
 @login_required

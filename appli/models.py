@@ -31,6 +31,7 @@ class TOURNOI(db.Model):
     logoT             = db.Column(db.Text)
     cheminMaps        = db.Column(db.String(200))
     cheminScript      = db.Column(db.String(200))
+    cheminImages      = db.Column(db.String(200))
     nbTours           = db.Column(db.Integer, default = 0)
 
 class REGLE(db.Model):
@@ -57,8 +58,7 @@ class EQUIPE(db.Model):
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True, autoincrement=True)
     idT       = db.Column(db.Integer,db.ForeignKey("TOURNOI.idT"),primary_key = True, autoincrement=False)
-    Photo     = db.Column(db.LargeBinary(length=2**24-1))
-    titrePhoto= db.Column(db.String(60))
+    nomPhoto  = db.Column(db.String(60))
     descPhoto = db.Column(db.String(100))
     datePhoto = db.Column(db.DateTime, default = datetime.datetime.now())
 
@@ -239,7 +239,8 @@ def insert_tournoi(tournoi):
         stream            = tournoi['stream'],
         nbTours           = tournoi['nbTours'],
         cheminScript      = tournoi['cheminScript'],
-        cheminMaps        = tournoi['cheminMaps']
+        cheminMaps        = tournoi['cheminMaps'],
+        cheminImages      = tournoi['cheminImages'],
     )
     db.session.add(newTournoi)
     db.session.commit()
@@ -252,12 +253,10 @@ def insert_tournoi(tournoi):
     id=newTournoi.idT
     return id
 
-def insert_photo(photo):
+def insert_photo(photo, tournoi):
     newPhoto=PHOTO(
-        idT        = photo["idT"],
-        Photo      = photo["Photo"],
-        descPhoto  = photo["descPhoto"],
-        titrePhoto = photo["titrePhoto"]
+    idT = tournoi,
+    nomPhoto = photo.filename
     )
     db.session.add(newPhoto)
     db.session.commit()
@@ -285,7 +284,8 @@ def update_tournoi(tournoi,id):
     tournoiUp.stream            = tournoi['stream']
     tournoiUp.nbTours           = tournoi['nbTours']
     tournoiUp.cheminMaps        = tournoi['cheminMaps']
-    tournoiUp.cheminScript        = tournoi['cheminScript']
+    tournoiUp.cheminScript      = tournoi['cheminScript']
+    tournoiUp.cheminImages      = tournoi['cheminImages']
     db.session.commit()
 
 def update_Equipe(equipe,id):
