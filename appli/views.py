@@ -164,6 +164,7 @@ def confirmerTournoi():
     tournoi['stream']            = request.form['stream']
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
+    tournoi['cheminScript']      = request.form['cheminScript']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     id = insert_tournoi(tournoi)
@@ -190,6 +191,7 @@ def modifierTournoi(id):
     tournoi['stream']            = request.form['stream']
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
+    tournoi['cheminScript']      = request.form['cheminScript']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
 
@@ -569,13 +571,6 @@ def modifierEquipe(tournoi, equipe):
     l = []
     for part in liste:
         l.append(get_participant_by_id(part.idP))
-    # for i in range(len(l)):
-    #     l[i].nomP    = request.form["nom_membre"+str(i)]
-    #     l[i].prenomP = request.form["prenom_membre"+str(i)]
-    #     l[i].mailP   = request.form["mailP"+str(i)]
-    # c = get_chef_by_id_equipe(equipe)
-    # e.commandShell = request.form["commandShell"]
-    # update_Equipe(e,e.idEquipe)
     return render_template(
         "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
 
@@ -629,7 +624,7 @@ def valider_modification_equipe(tournoi, equipe):
         dico_participant['mailP'] = request.form['mail_membre'+str(i)]
 
         e.nomE = request.form["nomEquipe"]
-        e.commandShell = request.form["commandShell"]
+        e.machineE = request.form["machineE"]
         update_Equipe(e,e.idE)
         update_participant(dico_participant, l[i].idP)
 

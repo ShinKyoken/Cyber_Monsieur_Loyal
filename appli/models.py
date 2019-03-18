@@ -30,6 +30,7 @@ class TOURNOI(db.Model):
     lieuT             = db.Column(db.String(30))
     logoT             = db.Column(db.Text)
     cheminMaps        = db.Column(db.String(200))
+    cheminScript      = db.Column(db.String(200))
     nbTours           = db.Column(db.Integer, default = 0)
 
 class REGLE(db.Model):
@@ -51,7 +52,7 @@ class EQUIPE(db.Model):
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    commandShell  = db.Column(db.String(100))
+    machineE      = db.Column(db.String(100))
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True, autoincrement=True)
@@ -287,15 +288,15 @@ def update_tournoi(tournoi,id):
 
 def update_Equipe(equipe,id):
 
-    equipeUp                        = get_equipe_by_id(id)
-    equipeUp.idE                    = equipe.idE
-    equipeUp.idT                    = equipe.idT
-    equipeUp.etatE                  = equipe.etatE
-    equipeUp.points                 = equipe.points
-    equipeUp.nbParticipant          = equipe.nbParticipant
-    equipeUp.idChefE                = equipe.idChefE
-    equipeUp.nomE                   = equipe.nomE
-    equipeUp.commandShell           = equipe.commandShell
+    equipeUp               = get_equipe_by_id(id)
+    equipeUp.idE           = equipe.idE
+    equipeUp.idT           = equipe.idT
+    equipeUp.etatE         = equipe.etatE
+    equipeUp.points        = equipe.points
+    equipeUp.nbParticipant = equipe.nbParticipant
+    equipeUp.idChefE       = equipe.idChefE
+    equipeUp.nomE          = equipe.nomE
+    equipeUp.machineE      = equipe.machineE
     db.session.commit()
 
 
@@ -340,7 +341,7 @@ def insert_equipe(equipe):
     insert une equipe dans la BD
     """
     newEquipe = EQUIPE(etatE = 0, nbParticipant = equipe['tailleEquipe'], idChefE = equipe['capitaine'],
-    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'], commandShell = equipe['shell'])
+    nomE = equipe['nom_equipe'], idT = equipe['idTournoi'], machineE = equipe['shell'])
     db.session.add(newEquipe)
     db.session.commit()
     return newEquipe.idE
@@ -472,7 +473,7 @@ def lancer_match(idPartie, mapPartie):
                 }
             }
     for equipe in equipes:
-        dico["equipes"][equipe.idE] = {"machine" : equipe.commandShell}
+        dico["equipes"][equipe.idE] = {"machine" : equipe.machineE}
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
     os.system("python3 /pub/ConcoursProg/bin/lance_partie_concours.py < parametres.json > resultat.json")
