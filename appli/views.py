@@ -241,6 +241,7 @@ def voirCompet(tournoi):
     return render_template(
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(tournoi),
+	nbEquipe=count_equipe_by_tournoi(tournoi),
         admin = get_admin_by_id(tournoi),
         nbPartieTerminee=len(get_All_Parties_Terminees(tournoi)),
         route="voirCompet")
@@ -267,6 +268,7 @@ def tournoi(id):
     return render_template(
         "newTournoi.html",
         tournoi=get_Tournoi_by_id(id),
+	nbEquipe=count_equipe_by_tournoi(id),
         admin=get_admin_by_id(id),
         nbPartieTerminee=len(get_All_Parties_Terminees(id)),
         route="tableau")
@@ -510,7 +512,7 @@ def confirmerEquipe(tournoi):
     equipe['capitaine']    = idChef
     equipe['idTournoi']    = t.idT
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
-    equipe['machineE']        = request.form['machineE']
+    equipe['shell']        = request.form['shell']
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
     insert_constituer(idEquipe, idChef)
