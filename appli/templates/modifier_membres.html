@@ -9,6 +9,10 @@
     <h1 id="nom_equipe" > Modifier des participants à <b>{{ equipe.nomE }}</b></h1>
       <!-- Example row of columns -->
       <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipe.idE}}/valider_modification_equipe">
+        <div class="input-group wCreerEquipe" id="text_field_nom">
+          <span class="input-group-addon" id="">Nom équipe</span>
+          <input name="nomEquipe" class="form-control" type="text" value="{{equipe.nomE}}" required>
+        </div>
         <div class="row">
         {% for x in range(liste_membres|length) %}
         <div class="col-sm-6 col-md-6">

@@ -53,10 +53,11 @@ def lancerMatch(tournoi, partie):
 
 @app.route("/tableau_de_bord/<int:tournoi>/matchs/<int:partie>/resultat")
 def resultatMatch(tournoi, partie):
-    resultat = arreterMatch_setScore()
+    resultat = arreterMatch_setScore(partie)
     return render_template("resultatMatch.html",
                            dico_resultat = resultat,
                            partie = partie,
+                           equipes = get_equipe_by_partie(partie),
                            tournoi = tournoi)
 
 
@@ -276,12 +277,21 @@ def voirMatchs(tournoi):
 
     Redirige vers une page affichant les different matchs du tounoi ainsi qu'un classement.
     """
+    # d = {}
+    # equipes_parties_terminees = []
+    # partiesFinies = get_All_Parties_Terminees(tournoi),
+    # for (partie in partiesFinies):
+    #     d[partie] = []
+    #     for equipe in get_equipe_by_partie(partie):
+    #         d[partie].append(equipe)
+
     return render_template(
         "voirMatchs.html",
         listeMaps = get_All_Maps(tournoi),
         tournoi = get_Tournoi_by_id(tournoi),
         equipes = get_All_Equipes_Classe(tournoi),
         equipes2 = get_All_Equipe_by_partie(get_All_partie_by_tournoi(tournoi)),
+        # dico_PartieTerminees_Equipes = d,
         route="tableau"
         )
 
@@ -559,13 +569,13 @@ def modifierEquipe(tournoi, equipe):
     l = []
     for part in liste:
         l.append(get_participant_by_id(part.idP))
-    for i in range(len(l)):
-        l[i].nomP    = request.form["nom_membre"+str(i)]
-        l[i].prenomP = request.form["prenom_membre"+str(i)]
-        l[i].mailP   = request.form["mailP"+str(i)]
-    c = get_chef_by_id_equipe(equipe)
-    e.commandShell = request.form["commandShell"]
-    update_Equipe(e,e.idEquipe)
+    # for i in range(len(l)):
+    #     l[i].nomP    = request.form["nom_membre"+str(i)]
+    #     l[i].prenomP = request.form["prenom_membre"+str(i)]
+    #     l[i].mailP   = request.form["mailP"+str(i)]
+    # c = get_chef_by_id_equipe(equipe)
+    # e.commandShell = request.form["commandShell"]
+    # update_Equipe(e,e.idEquipe)
     return render_template(
         "modifier_membres.html", tournoi = t, equipe = e, liste_membres = l)
 
@@ -617,8 +627,13 @@ def valider_modification_equipe(tournoi, equipe):
         dico_participant['nomP'] = request.form['nom_membre'+str(i)]
         dico_participant['prenomP'] = request.form['prenom_membre'+str(i)]
         dico_participant['mailP'] = request.form['mail_membre'+str(i)]
+
+        e.nomE = request.form["nomEquipe"]
+        e.commandShell = request.form["commandShell"]
+        update_Equipe(e,e.idE)
         update_participant(dico_participant, l[i].idP)
-    return redirect(url_for("membres_equipe", tournoi = tournoi, equipe = equipe))
+
+    return redirect(url_for("voirCompet_equipe", tournoi = tournoi))
 
 
 @app.route("/tableau_de_bord/<int:tournoi>/ajouter_photo", methods={"GET","POST",})

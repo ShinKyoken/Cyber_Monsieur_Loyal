@@ -5,12 +5,23 @@
 {% endblock %}
 {% block main %}
 <div class="container">
-  <h1>Résultat de la partie {{ partie.idPartie }}</h1>
+  <h1>Résultat de la partie
+    {% set x = "" %}
+    {% for i in range((equipes|length)) %}
+      {% if i != (equipes|length)-1 %}
+        {% set x = x + (equipes[i].nomE + " / ") %}
+        {{ x }}
+      {% else %}
+        {% set x = x + (equipes[i].nomE) %}
+        {{ x }}
+      {% endif %}
+    {% endfor %}
+  </h1>
   {% for key, value in dico_resultat.items() %}
     <p>
       {{key.nomE}} : {{value}} points.
     </p>
   {% endfor %}
 </div>
-<a href='/tableau_de_bord/{{tournoi}}/matchs'><button class="bouton center-block">Retour vers les matchs</button></a>
+<a href='/tableau_de_bord/{{tournoi}}/matchs'><button class="btn btn-primary center-block">Retour vers les matchs</button></a>
 {% endblock %}

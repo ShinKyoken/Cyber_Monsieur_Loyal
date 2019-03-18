@@ -1,9 +1,0 @@
-Comment installer un venv :
-virtualvenv -p python3 venv
-
-Comment lancer le venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-Si jamais il manque des modules :
-refaire : pip install -r requirements.txt

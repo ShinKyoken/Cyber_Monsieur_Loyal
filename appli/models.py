@@ -466,7 +466,7 @@ def lancer_match(idPartie, mapPartie):
     tournoi = get_Tournoi_by_id(partie.idT)
     dico = {"equipes" : {},
             "parametres": {
-                "map" : partie.cartePartie,
+                "map" : tournoi.cheminMaps + partie.cartePartie,
                 "n_tours" : tournoi.nbTours,
                 "idPartie": idPartie
                 }
@@ -475,16 +475,16 @@ def lancer_match(idPartie, mapPartie):
         dico["equipes"][equipe.idE] = {"machine" : equipe.commandShell}
     with open("parametres.json","w") as json_file:
         json.dump(dico, json_file, indent=4)
-    # os.system("python3 code_test.py > resultat.json")
+    os.system("python3 /pub/ConcoursProg/bin/lance_partie_concours.py < parametres.json > resultat.json")
 
-def arreterMatch_setScore():
+def arreterMatch_setScore(idPartie):
     res_dico = {}
     with open("resultat.json","r") as json_res:
         resultat = json.load(json_res)
         for id,score in resultat["equipes"].items():
             setPointsbyIdEquipe(id,score)
             res_dico[get_equipe_by_id(id)] = score
-    set_Etat_Partie(resultat["idPartie"])
+    set_Etat_Partie(idPartie)
     return res_dico
 
 

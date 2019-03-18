@@ -1,0 +1,43 @@
+Comment installer un venv :
+virtualvenv -p python3 venv
+
+Comment lancer le venv :
+source venv/bin/activate
+pip install -r autres/requirements.txt
+
+Si jamais il manque des modules :
+refaire : pip install -r autres/requirements.txt
+
+Activer le venv :
+source /venv/bin/activate
+
+####
+Pour lancer l'application
+####
+
+Aller dans le dossier appli :
+cd appli/
+
+Lancer le serveur Flask :
+flask run
+
+Lancer un navigateur web et aller sur http://localhost:5000/
+
+####
+Pour charger la BD
+####
+
+Aller dans le dossier appli :
+cd appli/
+
+Lancer le commande :
+flask createbd
+
+####
+Pour reset la BD
+####
+
+Lancer la commande :
+flask reloadbd
+
+

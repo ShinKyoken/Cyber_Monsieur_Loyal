@@ -4,35 +4,34 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creerEquipe.css') }}">
 {% endblock %}
 {% block main %}
-<div class="container-fluid voirCompetition center-block" id="contmain">
-  <div class="container">
+<div class="container voirCompetition text-center center-block" id="contmain">
     <h1 id="nom_equipe" > Ajouter une équipe à "{{ tournoi.intituleT }}"</h1>
       <!-- Example row of columns -->
       <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/equipes/confirmer_equipe" onsubmit=" return confirmerValidation();">
-        <div class="input-group wCreerEquipe" id="text_field_nom">
+        <div class="input-group wCreerEquipe centered" id="text_field_nom">
           <span class="input-group-addon" id="">Nom de l'équipe</span>
           <input name="nom_equipe" type="text" class="form-control" id="" aria-describedby="basic-addon3">
         </div>
 
-          <div class="thumbnail wCreerEquipe">
+          <div class="thumbnail wCreerEquipe centered">
             <div class="caption">
               <h3>Capitaine</h3>
-                <div class="input-group" id="text_field_nom">
+                <div class="input-group centered" id="text_field_nom">
                   <span class="input-group-addon" id="">Nom</span>
                   <input name="nom_capitaine" type="text" class="form-control" id="" aria-describedby="basic-addon3" required>
                 </div>
-                <div class="input-group" id="text_field_nom">
+                <div class="input-group centered" id="text_field_nom">
                   <span class="input-group-addon" id="">Prenom</span>
                   <input name="prenom_capitaine" type="text" class="form-control" id="" aria-describedby="basic-addon3" required>
                 </div>
-                <div class="input-group" id="text_field_nom">
+                <div class="input-group centered" id="text_field_nom">
                   <span class="input-group-addon" id="">Email</span>
                   <input name="mail_capitaine" type="text" class="form-control" id="" aria-describedby="basic-addon3">
                 </div>
             </div>
           </div>
-
-          <div class="input-group wCreerEquipe" id="text_field_nom">
+          <br>
+          <div class="input-group wCreerEquipe centered" id="text_field_nom">
             <span class="input-group-addon" id="">Nombre de membre en plus</span>
             <input name="nbParticipant" class="form-control" id="" type="number" placeholder="Nombre membre" max="{{(tournoi.nbParticipantsMax)-1}}" required>
           </div>
@@ -47,7 +46,6 @@
         </div>
 
     </form>
-  </div>
 </div>
 <script>
   function confirmerValidation(){

@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipes.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
 <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipes.css') }}">
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/uikit.min.js"></script>
 <script src="/static/js/uikit-icons.min.js"></script>
 {% endblock %}
 {% block main %}
-<div class="voirCompetition container-fluid">
+<div class="container-fluid mainCont">
     <div class="container">
+      <h1 class="text-center">Voici les équipes inscrites!</h1>
       {% if route == "tableau" %}
       <a href="/tableau_de_bord/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
       {% endif %}
@@ -19,14 +20,12 @@
       {% if route == "voirCompet" %}
       <a href="/voir_competition/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
       {% endif %}
-      <form role="form" method="POST" action="voirCompetitionActives.html">
-        <h1 class="text-center">Voici les équipes inscrites!</h1>
-      </form>
       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe>nbEquipe %}
       <a disabled=true href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton" id="buttonAddEquipe">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
       {% elif tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe==nbEquipe %}
       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton" id="buttonAddEquipe" disabled=true>Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
       {% endif %}
+
     </div>
   <div class="container liste_equipes">
   <div class="container divCartes">
@@ -41,7 +40,10 @@
                     {{ equipes[0].nomE }}
                   </a>
                   <div class="uk-accordion-content">
-                    <table class="uk-table">
+                    <div class="">
+                      <3>Numéro : {{ equipes[0].commandShell }}</p>
+                    </div>
+                    <table class="uk-table uk-table-divider">
                       <thead>
                         <tr>
                           <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
@@ -58,9 +60,10 @@
                     {% endfor %}
                   </table>
                   {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                  <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[0].idE}}'><button class="btn btn-primary center-block" id="buttonDeleteEquipe">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                  <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[0].idE}}'><button class="btn btn-primary" id="dangernDeleteEquipe"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                   {% if (tournoi.nbParticipantsMax) > equipes[0].nbParticipant %}
-                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/ajouter_un_membre'><button class="btn btn-primary center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-search"></span></button></a>
                   {% endif %}
                   {% endif %}
                   </div>
@@ -72,7 +75,10 @@
                         {{ equipes[j].nomE }}
                       </a>
                       <div class="uk-accordion-content">
-                        <table class="uk-table">
+                        <div class="">
+                          <p>Numéro : {{ equipes[j].commandShell }}</p>
+                        </div>
+                        <table class="uk-table uk-table-divider">
                           <thead>
                             <tr>
                               <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
@@ -89,9 +95,10 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-primary center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-search"></span></button></a>
                         {% endif %}
                       {% endif %}
                       </div>
@@ -104,7 +111,10 @@
                       {{ equipes[-1].nomE }}
                     </a>
                     <div class="uk-accordion-content">
-                      <table class="uk-table">
+                      <div class="">
+                        <p>Numéro poste : {{ equipes[-1].commandShell }}</p>
+                      </div>
+                      <table class="uk-table uk-table-divider">
                         <thead>
                           <tr>
                             <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
@@ -121,9 +131,10 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}' onclick="return confirmerValidation()"><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[-1].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/ajouter_un_membre'><button class="btn btn-primary center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-search"></span></button></a>
                         {% endif %}
                       {% endif %}
                     </div>
@@ -144,7 +155,10 @@
                         {{ equipes[j].nomE }}
                       </a>
                       <div class="uk-accordion-content">
-                        <table class="uk-table">
+                        <div class="">
+                          <p>Numéro : {{ equipes[j].commandShell }}</p>
+                        </div>
+                        <table class="uk-table uk-table-divider">
                           <thead>
                             <tr>
                               <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
@@ -161,9 +175,10 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-primary center-block">Supprimer l'équipe</span></button></a>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-primary center-block">Ajouter membre</button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button></a>
                         {% endif %}
                       {% endif %}
                       </div>
@@ -175,7 +190,10 @@
                       {{ equipes[-2].nomE }}
                     </a>
                     <div class="uk-accordion-content">
-                      <table class="uk-table">
+                      <div class="">
+                        <p>Numéro poste : {{ equipes[-2].commandShell }}</p>
+                      </div>
+                      <table class="uk-table uk-table-divider">
                         <thead>
                           <tr>
                             <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
@@ -192,9 +210,10 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-2].idE}}' onclick="return confirmerValidation()"><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-2].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-2].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[-2].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-2].idE}}/ajouter_un_membre'><button class="btn btn-primary center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-2].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
                         {% endif %}
                       {% endif %}
                     </div>
@@ -203,8 +222,8 @@
             </ul>
          </div>
        </div><!-- /.col-lg-4 -->
+
         <div class="col-md-4 col-sm-6 ">
-          <div class="">
             <ul uk-accordion>
               {% for j in range(((equipes|length)//3)*2, ((equipes|length)//3)*3) %}
                   <li>
@@ -212,7 +231,10 @@
                         {{ equipes[j].nomE }}
                       </a>
                       <div class="uk-accordion-content">
-                        <table class="uk-table">
+                        <div class="">
+                          <p>Numéro poste :{{ equipes[j].commandShell }}</p>
+                        </div>
+                        <table class="uk-table uk-table-divider">
                           <thead>
                             <tr>
                               <th scope="col" class="uk-width-small uk-text-center uk-text-emphasis">Nom</th>
@@ -229,9 +251,10 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-primary center-block">Supprimer l'équipe <span class="glyphicon glyphicon-search"></span></button></a>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-primary center-block">Ajouter membre <span class="glyphicon glyphicon-search"></span></button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
                         {% endif %}
                       {% endif %}
                       </div>
@@ -241,6 +264,7 @@
          </div>
        </div><!-- /.col-lg-4 -->
        </div><!-- /.row -->
+
      </div>
    </div>
 </div>
