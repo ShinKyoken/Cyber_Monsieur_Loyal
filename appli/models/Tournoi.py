@@ -1,0 +1,20 @@
+from appli.app import db, login_manager
+
+class TOURNOI(db.Model):
+    idT               = db.Column(db.Integer, primary_key = True)
+    idAdmin           = db.Column(db.Integer, db.ForeignKey("ADMIN.idAdmin"))
+    dateT             = db.Column(db.Date)
+    dateFinT          = db.Column(db.Date)
+    intituleT         = db.Column(db.String(100))
+    descT             = db.Column(db.String(100))
+    etatT             = db.Column(db.Integer)
+    nbEquipe          = db.Column(db.Integer)
+    nbParticipantsMax = db.Column(db.Integer)
+    disciplineT       = db.Column(db.String(30))
+    stream            = db.Column(db.Text)
+    lieuT             = db.Column(db.String(30))
+    logoT             = db.Column(db.Text)
+    cheminMaps        = db.Column(db.String(200))
+    cheminScript      = db.Column(db.String(200))
+    cheminImages      = db.Column(db.String(200))
+    nbTours           = db.Column(db.Integer, default = 0)
