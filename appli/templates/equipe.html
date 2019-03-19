@@ -14,16 +14,16 @@
     <div class="container">
       <h1 class="text-center">Voici les équipes inscrites!</h1>
       {% if route == "tableau" %}
-      <a href="/tableau_de_bord/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
+      <a href="/tableau_de_bord/{{tournoi.idT}}"><button class="btn btn-lg btn-primary">Retour</button></a>
       {% endif %}
 
       {% if route == "voirCompet" %}
-      <a href="/voir_competition/{{tournoi.idT}}"><button class="bouton">Retour</button></a>
+      <a href="/voir_competition/{{tournoi.idT}}"><button class="btn btn-lg btn-primary">Retour</button></a>
       {% endif %}
       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe>nbEquipe %}
-      <a disabled=true href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton" id="buttonAddEquipe">Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
+      <a disabled=true href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn  btn-lg btn-primary" id="buttonAddEquipe">Ajouter équipe</button></a>
       {% elif tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe==nbEquipe %}
-      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="bouton" id="buttonAddEquipe" disabled=true>Ajouter équipe <span class="glyphicon glyphicon-search"></span></button></a>
+      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn btn-lg btn-primary" id="buttonAddEquipe" disabled=true>Ajouter équipe</button></a>
       {% endif %}
 
     </div>
@@ -41,7 +41,7 @@
                   </a>
                   <div class="uk-accordion-content">
                     <div class="">
-                      <3>Numéro : {{ equipes[0].machineE }}</p>
+                      <p>Numéro : {{ equipes[0].machineE }}</p>
                     </div>
                     <table class="uk-table uk-table-divider">
                       <thead>
@@ -63,7 +63,7 @@
                   <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[0].idE}}'><button class="btn btn-primary" id="dangernDeleteEquipe"> <span class="glyphicon glyphicon-remove"></span></button></a>
                   <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                   {% if (tournoi.nbParticipantsMax) > equipes[0].nbParticipant %}
-                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-search"></span></button></a>
+                  <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
                   {% endif %}
                   {% endif %}
                   </div>
@@ -98,7 +98,7 @@
                       <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-search"></span></button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
                         {% endif %}
                       {% endif %}
                       </div>
@@ -131,10 +131,10 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger text-center"> <span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[-1].nbParticipant %}
-                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-search"></span></button></a>
+                        <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
                         {% endif %}
                       {% endif %}
                     </div>

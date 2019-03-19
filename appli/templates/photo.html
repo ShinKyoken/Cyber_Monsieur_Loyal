@@ -25,10 +25,11 @@
     </div>
     <div class="container divCartes">
         <div class="row center-block">
-            {% for i in range(photos|length) %}
+            {% for photo in photos %}
                 <div class="col-md-4 col-sm-6 thumbnail cartes">
-                <img class="center-block" src="{{  images[i] }}" alt="Generic placeholder image" width="140" height="140">
-                <p class="text-center">{{ photos[i].descPhoto }}</p>
+                <img class="center-block" src="{{  tournoi.cheminImages }}{{ photo.nomPhoto }}" alt="Generic placeholder image" width="140" height="140">
+
+                <!-- <p class="text-center">{{ photo.descPhoto }}</p> -->
                 <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
                 </div><!-- /.col-lg-4 -->
             {% endfor %}
