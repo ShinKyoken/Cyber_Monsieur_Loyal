@@ -31,7 +31,7 @@ class TOURNOI(db.Model):
     logoT             = db.Column(db.Text)
     cheminMaps        = db.Column(db.String(200))
     cheminScript      = db.Column(db.String(200))
-    cheminImages      = db.Column(db.String(200))
+    dossierTournoi    = db.Column(db.String(200))
     nbTours           = db.Column(db.Integer, default = 0)
 
 class REGLE(db.Model):
@@ -202,6 +202,11 @@ def get_equipe_by_partie(idPartie):
 #def get_Match_A_Venir():
 #    return EQUIPE.query.order_by(points)
 
+def insert_chemin(chemin, idT):
+    tournoi = get_Tournoi_by_id(idT)
+    tournoi.dossierTournoi = chemin
+    db.session.commit()
+
 def get_nom_prenom_by_tournoi(etatT):
     """
     ???
@@ -240,7 +245,6 @@ def insert_tournoi(tournoi):
         nbTours           = tournoi['nbTours'],
         cheminScript      = tournoi['cheminScript'],
         cheminMaps        = tournoi['cheminMaps'],
-        cheminImages      = tournoi['cheminImages'],
     )
     db.session.add(newTournoi)
     db.session.commit()
@@ -285,7 +289,6 @@ def update_tournoi(tournoi,id):
     tournoiUp.nbTours           = tournoi['nbTours']
     tournoiUp.cheminMaps        = tournoi['cheminMaps']
     tournoiUp.cheminScript      = tournoi['cheminScript']
-    tournoiUp.cheminImages      = tournoi['cheminImages']
     db.session.commit()
 
 def update_Equipe(equipe,id):

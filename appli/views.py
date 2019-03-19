@@ -166,10 +166,12 @@ def confirmerTournoi():
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['cheminScript']      = request.form['cheminScript']
-    tournoi['cheminImages']      = request.form['cheminImages']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     id = insert_tournoi(tournoi)
+    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/")
+    chemin = "appli/static/tournoi_" + tournoi['intituleT']+"/"
+    insert_chemin(chemin,id)
     return redirect(url_for("tournoi", id = int(id)))
 
 @app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
@@ -710,7 +712,7 @@ def confirmerPhoto(idT):
 
     insert_photo(photo, idT)
     tournoi = get_Tournoi_by_id(idT)
-    photo.save(os.path.join(tournoi.cheminImages, photo.filename))
+    photo.save(os.path.join(tournoi.dossierTournoi, photo.filename))
 
     return redirect(url_for("voirPhotos",tournoi=idT))
 
