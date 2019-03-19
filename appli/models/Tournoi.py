@@ -17,7 +17,8 @@ class TOURNOI(db.Model):
     logoT             = db.Column(db.Text)
     cheminMaps        = db.Column(db.String(200))
     cheminScript      = db.Column(db.String(200))
-    dossierTournoi    = db.Column(db.String(200))
+    dossierPhotos     = db.Column(db.String(200))
+    dossierReglement  = db.Column(db.String(200))
     nbTours           = db.Column(db.Integer, default = 0)
 
 def insert_tournoi(tournoi):
@@ -100,9 +101,14 @@ def count_tournoi():
     """
     return TOURNOI.query.count()
 
-def insert_chemin(chemin, idT):
+def insert_cheminPhotos(cheminPhotos, idT):
     tournoi = get_Tournoi_by_id(idT)
-    tournoi.dossierTournoi = chemin
+    tournoi.dossierPhotos = cheminPhotos
+    db.session.commit()
+
+def insert_cheminReglement(cheminReglement, idT):
+    tournoi = get_Tournoi_by_id(idT)
+    tournoi.dossierReglement = cheminReglement
     db.session.commit()
 
 def get_All_Maps(idTournoi):

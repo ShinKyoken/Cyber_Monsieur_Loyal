@@ -133,7 +133,10 @@ def confirmerTournoi():
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
     id = insert_tournoi(tournoi)
-    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/")
-    chemin = "appli/static/tournoi_" + tournoi['intituleT']+"/"
-    insert_chemin(chemin,id)
+    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/photos/")
+    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/reglement/")
+    dossierPhotos = "appli/static/tournoi_" + tournoi['intituleT']+"/photos/"
+    dossierReglement = "appli/static/tournoi_" + tournoi['intituleT']+"/reglement/"
+    insert_cheminPhotos(dossierPhotos,id)
+    insert_cheminReglement(dossierReglement,id)
     return redirect(url_for("tournoi", id = int(id)))

@@ -422,7 +422,7 @@ def confirmerPhoto(idT):
 
     insert_photo(photo, idT)
     tournoi = get_Tournoi_by_id(idT)
-    photo.save(os.path.join(tournoi.dossierTournoi, photo.filename))
+    photo.save(os.path.join(tournoi.dossierPhotos, photo.filename))
 
     return redirect(url_for("voirPhotos",tournoi=idT))
 
