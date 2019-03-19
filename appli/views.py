@@ -7,32 +7,33 @@ from wtforms import StringField, HiddenField, validators, PasswordField
 from hashlib import sha256
 from io import BytesIO
 import io
+import os
 import base64
 
 class LoginForm(FlaskForm):
     """
     Le formulaire permettant de se connecter
     """
-        username = StringField('Username')
-        password = PasswordField('Password')
-        next = HiddenField()
+    username = StringField('Username')
+    password = PasswordField('Password')
+    next = HiddenField()
 
-        def get_authenticated_user(self):
+    def get_authenticated_user(self):
 
-            """
-            param:
+        """
+        param:
 
-            return: (a remplir)
-            """
-            user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
-            if user is None :
-                return None
-            m = sha256()
-            m.update(self.password.data.encode())
-            passwd = m.hexdigest()
-            if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
-                return user
-                return None
+        return: (a remplir)
+        """
+        user = ADMIN.query.filter_by(nomAdmin = self.username.data).first()
+        if user is None :
+            return None
+        m = sha256()
+        m.update(self.password.data.encode())
+        passwd = m.hexdigest()
+        if passwd == user.mdpAdmin or self.password.data == user.mdpAdmin:
+            return user
+            return None
 
 
 
@@ -121,7 +122,7 @@ def inscription():
 @app.route("/confirmer_inscription",methods=["GET","POST"])
 def confirmer_ajout_admin():
     """
-    Permet de vérifier si le formulaire est validé. Si oui, l'utilisateur est inscrit et est redirigé 
+    Permet de vérifier si le formulaire est validé. Si oui, l'utilisateur est inscrit et est redirigé
     vers la page de connexion. Sinon, il n'est pas inscrit et reste sur la page d'inscription.
     """
     f = LoginForm()
@@ -218,7 +219,6 @@ def modifierTournoi(id):
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['cheminScript']      = request.form['cheminScript']
-    tournoi['cheminImages']      = request.form['cheminImages']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
 
@@ -234,8 +234,8 @@ def voirCompetitionsActives():
     Redirige vers la page des compétitions actives.
     """
     return render_template(
-        "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
-        dicoAdmin = get_nom_prenom_by_tournoi(1),
+        "voirCompetitionsActives.html",tournois = get_All_Tournois_by_Etat(1),
+        dicoAdmin = get_admin_by_tournoi(1),
         route="voirCompet")
 
 @app.route("/voir_competitions_inactives")
@@ -244,8 +244,8 @@ def voirCompetitionsInactives():
     Redirige vers la page des compétitions inactives.
     """
     return render_template(
-        "voirCompetitionsInactives.html",tournois = get_All_Tournois_Inactifs(),
-        dicoAdmin = get_nom_prenom_by_tournoi(0),
+        "voirCompetitionsInactives.html",tournois = get_All_Tournois_by_Etat(0),
+        dicoAdmin = get_admin_by_tournoi(0),
         route="voirCompet")
 
 @app.route("/voir_competitions_terminees")
@@ -254,8 +254,8 @@ def voirCompetitionsTerminees():
     Redirige vers la page des compétitions terminées.
     """
     return render_template(
-        "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
-        dicoAdmin = get_nom_prenom_by_tournoi(2),
+        "voirCompetitionsTerminees.html", tournois = get_All_Tournois_by_Etat(2),
+        dicoAdmin = get_admin_by_tournoi(2),
         route="voirCompet")
 
 @app.route("/voir_competition/<int:tournoi>")
@@ -388,9 +388,10 @@ def parametre(tournoi):
     L'utilisateur doit être connecté pour pouvoir y accéder.
     """
     t = get_Tournoi_by_id(tournoi)
-    regles = get_Regle_by_id(tournoi)
+    # regles = get_Regle_by_id(tournoi)
     return render_template(
-        "parametres.html", tournoi=t, regles = regles)
+        "parametres.html",
+        tournoi=t) #,   regles = regles)
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 @login_required
@@ -518,7 +519,7 @@ def confirmerEquipe(tournoi):
     equipe['capitaine']    = idChef
     equipe['idTournoi']    = t.idT
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
-    equipe['shell']        = request.form['shell']
+    equipe['machineE']        = request.form['machineE']
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
     insert_constituer(idEquipe, idChef)
@@ -636,7 +637,7 @@ def valider_modification_equipe(tournoi, equipe):
     """
     param: tournoi (int), identifiant d'un tournoi.
            equipe (int), identifiant d'une équipe.
-    
+
     Récupère les réponses au formulaire de la page modifier_membre.html et modifie l'équipe.
     Il faut être connecté pour pouvoir y accéder.
     """
@@ -773,7 +774,7 @@ def voirBilan(tournoi):
 
     Redirige vers la page de bilan d'un tournoi.
     """
-    
+
     dico = {}
     equipesT = get_All_Equipes_Classe(tournoi)
     print("bonjour")

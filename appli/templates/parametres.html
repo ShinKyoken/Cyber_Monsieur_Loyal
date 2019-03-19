@@ -110,6 +110,11 @@
             <textarea class="uk-textarea" name="descT" rows="5" placeholder="Description" required>{{tournoi.descT}}</textarea>
           </div> <!-- uk-margin -->
 
+          <div class="uk-margin"> <!-- uk-margin -->
+            <label class="uk-form-label" for="form-stacked-text uk-text-center">Chemin du script</label>
+            <input name="cheminScript"class="uk-input" id="form-stacked-text" type="text" placeholder="Chemin du script" value="{{tournoi.cheminScript}}" required>
+          </div> <!-- uk-margin -->
+
 
         <div class="form-group text-center uk-margin">
             <a href="/tableau_de_bord/{{tournoi.idT}}"><button type="button" class="btn btn-danger btn-lg inputStyle">Annuler</button></a>

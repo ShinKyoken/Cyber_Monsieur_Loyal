@@ -13,3 +13,4 @@ from .Photo import *
 from .Constituer import *
 from .Partie import *
 from .ParticiperPartie import *
+from .model import *

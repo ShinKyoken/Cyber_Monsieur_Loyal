@@ -16,3 +16,19 @@ def load_user(username):
     recherche un admin qui a le nom recherché
     """
     return ADMIN.query.get(username)
+
+def get_All_Admins():
+    """
+    retourne la liste des Admins
+    """
+    return ADMIN.query.all()
+
+def get_admin_by_username(username):
+    """
+    param : username(string), le nom d'un admin
+
+    Retourne un admin
+    """
+
+    a = ADMIN.query.filter_by(nomAdmin = username).all()
+    return a
