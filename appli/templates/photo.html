@@ -32,8 +32,8 @@
     <div class="uk-child-width-1-5@m" uk-grid uk-lightbox="animation: slide">
       {% for i in range(photos|length) %}
         <div>
-            <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '/' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
-                <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '/' + photos[i].nomPhoto) }}" alt=""/>
+            <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
+                <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" alt=""/>
             </a>
         </div>
       {% endfor %}
