@@ -1,4 +1,4 @@
-Si jamais le dossier models crash, le supprimer et remettre ce fichier en .py et tout décommenter.
+Si jamais le dossier views crash, supprimer le, décommenter ce fichier là et renommer le models.py
 
 
 from .app import db, login_manager
