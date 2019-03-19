@@ -48,16 +48,16 @@
 
     </div>
     <div class="col-sm-6 col-md-2">
-      <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-primary btn-lg col-md-11" id="button">Modifier tournoi</button></a>
+      <a href="/tableau_de_bord/{{tournoi.idT}}/parametres"><button class="btn btn-primary btn-lg col-md-11" id="buttonAdmin">Modifier tournoi</button></a>
 
     </div>
     <div class="col-sm-6 col-md-2">
       {% if tournoi.etatT == 0 and nbEquipe > 1 and route=="tableau" %}
-        <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-success btn-lg " id="button">Lancer le tournoi</button></a>
+        <a href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart"><button class="btn btn-success btn-lg " id="button">Lancer le tournoi</button></a>
       {% endif %}
 
       {% if tournoi.etatT == 1 %}
-        <a href="/tableau_de_bord/{{tournoi.idT}}/arreter_tournoi" onclick="return confirmerValidation()" id="buttonAdmin"><button class="btn btn-danger btn-lg " id="button">Arrêter le tournoi</button></a>
+        <a href="/tableau_de_bord/{{tournoi.idT}}/arreter_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart"><button class="btn btn-danger btn-lg " id="button">Arrêter le tournoi</button></a>
       {% endif %}
 
       {% if tournoi.etatT == 2 %}
@@ -125,10 +125,10 @@
 
 <script>
   function confirmerValidation(){
-    if(document.querySelector("#button").innerText == "Lancer le tournoi"){
+    if(document.querySelector("#buttonAdminStart").innerText == "Lancer le tournoi"){
       check=window.confirm("Voulez vous vraiment démarrer le tournoi ?");
     }
-    if(document.querySelector("#button").innerText == "Arrêter le tournoi"){
+    if(document.querySelector("#buttonAdminStart").innerText == "Arrêter le tournoi"){
       check=window.confirm("Voulez vous vraiment arreter le tournoi ?");
     }
     res=false;
