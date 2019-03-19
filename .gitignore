@@ -4,3 +4,4 @@ __pycache__/
 .vscode/
 parametres.json
 resultat.json
+tournoi_*

@@ -7,6 +7,7 @@ from wtforms import StringField, HiddenField, validators, PasswordField
 from hashlib import sha256
 from io import BytesIO
 import io
+import os
 import base64
 import os
 
@@ -219,7 +220,6 @@ def modifierTournoi(id):
     tournoi['nbTours']           = request.form['nbTours']
     tournoi['cheminMaps']        = request.form['cheminMaps']
     tournoi['cheminScript']      = request.form['cheminScript']
-    tournoi['cheminImages']      = request.form['cheminImages']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
 
@@ -235,8 +235,8 @@ def voirCompetitionsActives():
     Redirige vers la page des compétitions actives.
     """
     return render_template(
-        "voirCompetitionsActives.html",tournois = get_All_Tournois_Actifs(),
-        dicoAdmin = get_nom_prenom_by_tournoi(1),
+        "voirCompetitionsActives.html",tournois = get_All_Tournois_by_Etat(1),
+        dicoAdmin = get_admin_by_tournoi(1),
         route="voirCompet")
 
 @app.route("/voir_competitions_inactives")
@@ -245,8 +245,8 @@ def voirCompetitionsInactives():
     Redirige vers la page des compétitions inactives.
     """
     return render_template(
-        "voirCompetitionsInactives.html",tournois = get_All_Tournois_Inactifs(),
-        dicoAdmin = get_nom_prenom_by_tournoi(0),
+        "voirCompetitionsInactives.html",tournois = get_All_Tournois_by_Etat(0),
+        dicoAdmin = get_admin_by_tournoi(0),
         route="voirCompet")
 
 @app.route("/voir_competitions_terminees")
@@ -255,8 +255,8 @@ def voirCompetitionsTerminees():
     Redirige vers la page des compétitions terminées.
     """
     return render_template(
-        "voirCompetitionsTerminees.html", tournois = get_All_Tournois_Terminees(),
-        dicoAdmin = get_nom_prenom_by_tournoi(2),
+        "voirCompetitionsTerminees.html", tournois = get_All_Tournois_by_Etat(2),
+        dicoAdmin = get_admin_by_tournoi(2),
         route="voirCompet")
 
 @app.route("/voir_competition/<int:tournoi>")
@@ -391,7 +391,12 @@ def parametre(tournoi):
     t = get_Tournoi_by_id(tournoi)
     # regles = get_Regle_by_id(tournoi)
     return render_template(
+<<<<<<< HEAD
         "parametres.html", tournoi=t)#, regles = regles)
+=======
+        "parametres.html",
+        tournoi=t) #,   regles = regles)
+>>>>>>> 74179a8868e0fc7a8236da8c64ffb936bee2a901
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
 @login_required
@@ -519,7 +524,7 @@ def confirmerEquipe(tournoi):
     equipe['capitaine']    = idChef
     equipe['idTournoi']    = t.idT
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
-    equipe['shell']        = request.form['shell']
+    equipe['machineE']        = request.form['machineE']
     idEquipe = insert_equipe(equipe)
     e = get_equipe_by_id(idEquipe)
     insert_constituer(idEquipe, idChef)
