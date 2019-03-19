@@ -23,17 +23,20 @@
             </a>
             {% endif %}
     </div>
-    <div class="container divCartes">
-        <div class="row center-block">
-            {% for photo in photos %}
-                <div class="col-md-4 col-sm-6 thumbnail cartes">
-                <img class="center-block" src="{{  tournoi.cheminImages }}{{ photo.nomPhoto }}" alt="Generic placeholder image" width="140" height="140">
-
-                <!-- <p class="text-center">{{ photo.descPhoto }}</p> -->
-                <button class="bouton center-block" href="#">Voir les détails <span class="glyphicon glyphicon-search"></span></button>
-                </div><!-- /.col-lg-4 -->
-            {% endfor %}
-        </div><!-- /.row -->
+    <div class="uk-h3">Slide</div>
+    <div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+      {% for photo in photos %}
+        <div>
+            <a class="uk-inline" href="images/photo.jpg" data-caption="Caption 1">
+              {% set x %}
+              tournoi_{{ tournoi.intituleT }}/{{photo.nomPhoto}}
+              {% endset %}
+              {{x}}
+                <img src="{{ url_for('static', filename=)" alt="">
+                <!-- <img src="{{ tournoi.dossierTournoi }}{{ photo.nomPhoto }}" alt=""> -->
+            </a>
+        </div>
+      {% endfor %}
     </div>
 </div>
 <script type="text/javascript">
