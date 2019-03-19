@@ -136,7 +136,7 @@ def confirmer_ajout_admin():
             db.session.commit()
             return redirect(url_for("connect"))
     return render_template(
-        "inscription.html",form = f)
+        "inscription.html",form = f, adminExiste = 1)
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
