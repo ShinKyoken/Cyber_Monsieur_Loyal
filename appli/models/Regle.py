@@ -4,6 +4,13 @@ class REGLE(db.Model):
     idT     = db.Column(db.Integer, db.ForeignKey("TOURNOI.idT"), primary_key = True)
     nomFic  = db.Column(db.String(100))
 
+def insert_regle(regle, idTournoi):
+    newRegle = REGLE(idT = regle['idTournoi'],
+                     nomFic = regle['reglement'].filename
+                     )
+    db.session.add(newRegle)
+    db.session.commit()
+
 def update_regle(regle, idTournoi):
     """
     param: regle (dictionnaire), représente une règle .
@@ -13,7 +20,6 @@ def update_regle(regle, idTournoi):
     """
     regleUp        = get_Regle_by_id(idTournoi)
     regleUp.nomFic = regle['nomFic']
-    regleUp.data   = regle['data']
     db.session.commit()
 
 def get_Regle_by_id(idTournoi):

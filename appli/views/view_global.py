@@ -89,7 +89,7 @@ def confirmer_ajout_admin():
             db.session.commit()
             return redirect(url_for("connect"))
     return render_template(
-        "inscription.html",form = f,adminExiste=1)
+        "inscription.html",form = f)
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
@@ -132,11 +132,21 @@ def confirmerTournoi():
     tournoi['cheminScript']      = request.form['cheminScript']
     tournoi['etatT']             = 0
     tournoi['idAdmin']           = current_user.idAdmin
+
     id = insert_tournoi(tournoi)
+    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'])
     os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/photos/")
+    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'])
     os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/reglement/")
     dossierPhotos = "appli/static/tournoi_" + tournoi['intituleT']+"/photos/"
     dossierReglement = "appli/static/tournoi_" + tournoi['intituleT']+"/reglement/"
     insert_cheminPhotos(dossierPhotos,id)
     insert_cheminReglement(dossierReglement,id)
+
+    regle = {}
+    regle['idTournoi'] = id
+    regle['reglement'] = request.files['reglement']
+
+    insert_regle(regle)
+
     return redirect(url_for("tournoi", id = int(id)))
