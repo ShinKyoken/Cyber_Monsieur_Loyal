@@ -99,7 +99,7 @@ def get_All_Tournois_Actifs():
 
 def get_All_Tournois_Terminees():
     """
-    retourne la liste des tournois terminé
+    retourne la liste des tournois terminées
     """
     return TOURNOI.query.filter_by(etatT = 2)
 
@@ -132,6 +132,12 @@ def count_tournoi():
     return TOURNOI.query.count()
 
 def count_equipe_by_tournoi(idTournoi):
+    """
+    param : idTournoi (int), l'identifiant du tounoi.
+
+    Retourne le nombre d'équipe inscrites à un tournoi.
+    """
+
     return EQUIPE.query.filter_by(idT = idTournoi).count()
 
 def get_All_Photos(idTournoi):
@@ -177,6 +183,8 @@ def get_All_partie_by_tournoi(idTournoi):
 def get_All_Equipe_by_partie(parties):
     """
     param : liste parties
+
+    Retourne une liste contenant les équipes qui participent aux parties passés en paramètre.
     """
     listeFinale = []
     for partie in parties:
@@ -189,6 +197,11 @@ def get_All_Equipe_by_partie(parties):
     return listeFinale
 
 def get_equipe_by_partie(idPartie):
+    """
+    param : idPartie(int), l'identifiant d'une partie.
+
+    Retourne les équipes participant à la partie
+    """
     liste = []
     participants = PARTICIPERPARTIE.query.filter_by(idPartie = idPartie).all()
     for equipe in participants:
@@ -209,7 +222,9 @@ def insert_chemin(chemin, idT):
 
 def get_nom_prenom_by_tournoi(etatT):
     """
-    ???
+    param : etatT(int) , l'état d'un tournoi
+
+    Retourne un dictionnaire ayant pour clé l'id d'un tournoi et pour valeur l'id de l'admin et son nom.
     """
     dico = {}
     if etatT == 0:
@@ -225,7 +240,7 @@ def get_nom_prenom_by_tournoi(etatT):
 
 def insert_tournoi(tournoi):
     """
-    param: tournoi (dictionnaire), représante un tournoi
+    param: tournoi (dictionnaire), représente un tournoi
 
     insert un tournoi dans la BD
     """
@@ -258,6 +273,11 @@ def insert_tournoi(tournoi):
     return id
 
 def insert_photo(photo, tournoi):
+    """
+    param : photo(dictionnaire), une photo . tournoi, l'identifiant du tournoi.
+
+    Ajoute une photo dans la BD
+    """
     newPhoto=PHOTO(
     idT = tournoi,
     nomPhoto = photo.filename
@@ -269,7 +289,7 @@ def insert_photo(photo, tournoi):
 def update_tournoi(tournoi,id):
 
     """
-    param: tournoi (dictionnaire), représante un tournoi
+    param: tournoi (dictionnaire), représente un tournoi
            id (int), identifiant d'un tournoi
 
     modifie un tournoi dans la BD
@@ -292,6 +312,12 @@ def update_tournoi(tournoi,id):
     db.session.commit()
 
 def update_Equipe(equipe,id):
+    """
+    param: equipe (dictionnaire), représente une équipe .
+           id (int), identifiant d'un tournoi
+
+    modifie une équipe dans la BD
+    """
 
     equipeUp               = get_equipe_by_id(id)
     equipeUp.idE           = equipe.idE
@@ -306,6 +332,12 @@ def update_Equipe(equipe,id):
 
 
 def update_regle(regle, idTournoi):
+    """
+    param: regle (dictionnaire), représente une règle .
+           idTournoi (int), identifiant d'un tournoi
+
+    modifie une règle dans la BD
+    """
     regleUp        = get_Regle_by_id(idTournoi)
     regleUp.nomFic = regle['nomFic']
     regleUp.data   = regle['data']
@@ -316,7 +348,7 @@ def get_Regle_by_id(idTournoi):
 
 def insert_participant(participant):
     """
-    param: participant (dictionaire), représante un membre d'un groupe dans un tournoi
+    param: participant (dictionnaire), représente un membre d'une équipe dans un tournoi
 
     insert un membre dans la BD
     """
@@ -328,7 +360,7 @@ def insert_participant(participant):
 
 def update_participant(participant, idParticipant):
     """
-    param: participant (dictionaire), représante un membre d'un groupe dans un tournoi
+    param: participant (dictionnaire), représente un membre d'une équipe dans un tournoi
            idParticipant (int), identifiant d'un membre
 
     Modifie un membre dans la BD
@@ -341,7 +373,7 @@ def update_participant(participant, idParticipant):
 
 def insert_equipe(equipe):
     """
-    param: equipe (dictionaire), représante un groupe dans un tournoi
+    param: equipe (dictionnaire), représente une équipe dans un tournoi
 
     insert une equipe dans la BD
     """
@@ -445,6 +477,12 @@ def automatique_match(idTournoi,nbMatchs,nbParticipants):
     return res
 
 def delete_All_Parties_by_id_tournoi(idTournoi):
+    """
+    param : idTournoi(int), l'identifiant d'un tournoi.
+
+    supprime toutes les parties d'un tournoi.
+    """
+
     db.session.rollback()
     parties = get_All_partie_by_tournoi(idTournoi)
     allParticiper = get_All_ParticiperParties_by_id_tournoi(idTournoi)
@@ -456,16 +494,33 @@ def delete_All_Parties_by_id_tournoi(idTournoi):
         db.session.commit()
 
 def get_All_Maps(idTournoi):
+    """
+    param : idTournoi(int), l'identifiant d'un tournoi.
+
+    Retourne une liste de maps
+    """
+
     tournoi = get_Tournoi_by_id(idTournoi)
     listeMaps = os.listdir(tournoi.cheminMaps)
     return listeMaps
 
 def set_Map(idPartie, mapPartie):
+    """
+    param : idPartie(int), l'identifiant d'une partie . mapPartie, une map.
+
+    Ajoute une map à une partie
+    """
+
     partie = get_Partie_by_id(idPartie)
     partie.cartePartie = mapPartie
     db.session.commit()
 
 def lancer_match(idPartie, mapPartie):
+    """
+    param : idPartie(int), l'identifiant d'une partie. mapPartie, une map.
+
+    Lance une partie
+    """
     equipes = get_equipe_by_partie(idPartie)
     set_Map(idPartie, mapPartie)
     partie = get_Partie_by_id(idPartie)
@@ -484,6 +539,12 @@ def lancer_match(idPartie, mapPartie):
     os.system("python3 " + tournoi.cheminScript + "< parametres.json > resultat.json")
 
 def arreterMatch_setScore(idPartie):
+    """
+    param : idPartie(int), l'identifiant d'une partie.
+
+    Arrete la partie
+    """
+
     res_dico = {}
     with open("resultat.json","r") as json_res:
         resultat = json.load(json_res)
@@ -495,20 +556,50 @@ def arreterMatch_setScore(idPartie):
 
 
 def get_All_ParticiperParties_by_id_tournoi(idTournoi):
+    """
+    param : idTournoi(int), l'identifiant d'un tournoi.
+
+    Retourne les participerPartie correspondant au tournoi.
+    """
+
     return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
 
 def set_Etat_Partie(idPartie):
+    """
+    param : idPartie(int), l'identifiant d'une partie.
+
+    Change l'état de la partie
+    """
+
     partie = get_Partie_by_id(idPartie)
     partie.etatPartie = 1
     db.session.commit()
 
 def get_All_Parties_Terminees(idTournoi):
+    """
+    param : idTournoi(int), l'identifiant du tournoi.
+
+    Retourne les parties terminées du tournoi.
+    """
+
     return PARTIE.query.filter_by(idT = idTournoi, etatPartie = 1).all()
 
 def get_Partie_by_id(idPartie):
+    """
+    param : idPartie(int), l'identifiant d'une partie.
+
+    Retourne la partie
+    """
+
     return PARTIE.query.filter_by(idPartie = idPartie).one()
 
 def setPointsbyIdEquipe(idEquipe,score):
+    """
+    param : idEquipe(int), l'identifiant d'une partie. score(string), le score d'une équipe.
+
+    Ajoute ce score au score initial de l'équipe
+    """
+
     equipe = get_equipe_by_id(idEquipe)
     equipe.points += int(score)
     db.session.commit()
@@ -524,7 +615,7 @@ def getRechercheAllTournois(recherche):
 
 def getRechercheTournoisInactif(recherche):
     """
-    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+    param: recherche (str), ce que l'utilisateur a entré dans la bar de rechercheTournois
 
     recherche dans les tournois inactifs
     """
@@ -533,7 +624,7 @@ def getRechercheTournoisInactif(recherche):
 
 def getRechercheTournoisActif(recherche):
     """
-    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+    param: recherche (str), ce que l'utilisateur a entré dans la bar de rechercheTournois
 
     recherche dans les tournois actifs
     """
@@ -542,7 +633,7 @@ def getRechercheTournoisActif(recherche):
 
 def getRechercheTournoisTerminee(recherche):
     """
-    param: recherche (str), se que l'utilisateur a entré dans la bar de rechercheTournois
+    param: recherche (str), ce que l'utilisateur a entré dans la bar de rechercheTournoi
 
     recherche dans les tournois terminé
     """
@@ -553,11 +644,23 @@ def get_constituer(idP, idE):
     return CONSTITUER.query.filter_by(idP = idP, idE = idE)[0]
 
 def delete_chef(id):
+    """
+    param : id(int), l'identifiant d'un chef.
+
+    Supprime le chef d'équipe
+    """
+
     chef = PARTICIPANT.query.filter_by(idP = id)[0]
     db.session.delete(chef)
     db.session.commit()
 
 def delete_equipe(idEquipe):
+    """
+    param : idEquipe (int), l'identifiant d'une équipe.
+
+    Supprime l'équipe
+    """
+
     membres = get_participant_by_id_equipe(idEquipe)
     if len(membres) > 1 :
         membres = membres[1:]
@@ -578,7 +681,7 @@ def delete_equipe(idEquipe):
 
 def get_participant_by_id(idParticipant):
     """
-    param: idParticipant, identifiant d'un participant
+    param: idParticipant(int), identifiant d'un participant
 
     retourne un participant a partir de son identifiant
     """
@@ -608,7 +711,7 @@ def get_participant_by_id_equipe(idEquipe):
 def delete_membre(idEquipe, idParticipant):
     """
     param: idEquipe (int), identifiant d'une équipes
-           idParticipant, identifiant d'un participant
+           idParticipant(int), identifiant d'un participant
 
     supprime un membre d'une équipe
     """
@@ -622,7 +725,7 @@ def delete_membre(idEquipe, idParticipant):
 def get_chef_by_id_equipe(idEquipe):
     """
     param: idEquipe (int), identifiant d'une équipes
-db.session.commit()
+
     retourne le chef de l'équipe passé en paramètre
     """
     e = get_equipe_by_id(idEquipe)
@@ -631,14 +734,32 @@ db.session.commit()
     return participant_chef
 
 def get_admin_by_id(id):
+    """
+    param : id(int), l'identifiant d'un admin
+
+    retourne un admin
+    """
+
     t=get_Tournoi_by_id(id)
     admin = ADMIN.query.filter_by(idAdmin = t.idAdmin)[0]
     return admin
 
 def get_admin_by_username(username):
+    """
+    param : username(string), le nom d'un admin
+
+    Retourne un admin
+    """
+
     a=ADMIN.query.filter_by(nomAdmin = username).all()
     return a
 
 def ajouter_participant(participant,e):
+    """
+    param : participant (dictionnaire), un participant. e(dictionnaire), une équipe.
+
+    ajoute un participant
+    """
+
     p = insert_participant(participant)
     insert_constituer(e, p)
