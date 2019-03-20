@@ -81,6 +81,12 @@ def update_tournoi(tournoi,id):
     tournoiUp.cheminScript      = tournoi['cheminScript']
     db.session.commit()
 
+
+def get_All_Tournois():
+    """
+    retoure tous les tournois
+    """
+    return TOURNOI.query.all()
 def get_All_Tournois_by_Etat(etatTournoi):
     """
     retourne la liste des tournois inactifs
