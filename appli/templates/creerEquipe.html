@@ -2,6 +2,11 @@
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creerEquipe.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/uikit.min.js"></script>
+<script src="/static/js/uikit-icons.min.js"></script>
 {% endblock %}
 {% block main %}
 <div class="container voirCompetition text-center center-block" id="contmain">
@@ -40,6 +45,20 @@
             <span class="input-group-addon">Machine équipe</span>
             <input name="machineE" class="form-control" type="text" placeholder="Machine" required>
           </div>
+          
+          {% if machineExiste==1 %}
+          <div class="uk-alert-warning" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Cette machine est déjà utilisée !</p>
+          </div>
+          {% endif %}
+
+          {% if machineExiste==1 %}
+          <div class="uk-alert-warning" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Ce nom d'équipe est indisponible !</p>
+          </div>
+          {% endif %}
 
         <div class="text-center">
           <button type="submit" class="btn btn-success btn-lg">Ajouter équipe</button>

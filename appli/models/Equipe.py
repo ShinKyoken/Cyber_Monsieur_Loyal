@@ -84,3 +84,11 @@ def setPointsbyIdEquipe(idEquipe,score):
     equipe = get_equipe_by_id(idEquipe)
     equipe.points += int(score)
     db.session.commit()
+
+def nbEquipeByMachine(nomMachine,idTournoi):
+    a=EQUIPE.query.filter_by(machineE = nomMachine, idT=idTournoi).count()
+    return a
+
+def nbEquipeByNomEquipe(nom,idTournoi):
+    a=EQUIPE.query.filter_by(nomE = nom, idT=idTournoi).count()
+    return a

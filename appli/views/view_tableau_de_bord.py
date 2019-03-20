@@ -188,7 +188,7 @@ def resultatMatch(tournoi, partie):
                            equipes = get_equipe_by_partie(partie),
                            tournoi = tournoi)
 
-@app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"POST"})
+@app.route("/tableau_de_bord/<int:tournoi>/equipes/confirmer_equipe", methods={"GET","POST"})
 @login_required
 def confirmerEquipe(tournoi):
     """
@@ -210,14 +210,25 @@ def confirmerEquipe(tournoi):
     equipe['idTournoi']    = t.idT
     equipe['tailleEquipe'] = int(request.form['nbParticipant'])+1
     equipe['machineE']        = request.form['machineE']
-    idEquipe = insert_equipe(equipe)
-    e = get_equipe_by_id(idEquipe)
-    insert_constituer(idEquipe, idChef)
-    if int(request.form['nbParticipant']) == 0 :
-        return redirect(url_for("equipe",tournoi = tournoi))
+    # idEquipe = insert_equipe(equipe)
+    # e = get_equipe_by_id(idEquipe)
+    # insert_constituer(idEquipe, idChef)
+    print("hello")
+    print(nbEquipeByMachine(request.form['machineE'],t.idT))
+    if(nbEquipeByMachine(request.form['machineE'],t.idT)==0 ):
+        if(nbEquipeByNomEquipe(request.form['nom_equipe'],t.idT)==0):
+            idEquipe = insert_equipe(equipe)
+            e = get_equipe_by_id(idEquipe)
+            insert_constituer(idEquipe, idChef)
+            if int(request.form['nbParticipant']) == 0 :
+                return redirect(url_for("equipe",tournoi = tournoi))
+            else :
+                return redirect(url_for(
+                "ajout_membre", tournoi = tournoi, equipe = idEquipe))
+        else:
+            return render_template("creerEquipe.html",tournoi = t, nomExiste=1)
     else :
-        return redirect(url_for(
-        "ajout_membre", tournoi = tournoi, equipe = idEquipe))
+        return render_template("creerEquipe.html",tournoi = t, machineExiste=1)
 
 @app.route("/tableau_de_bord/<int:tournoi>/equipes/<int:equipe>/ajout_membre")
 @login_required
