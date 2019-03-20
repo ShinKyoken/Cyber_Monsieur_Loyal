@@ -9,7 +9,7 @@ $("#fb_btn").click(function(){
   FB.api(
     '/837221559947323/feed',
     'POST',
-    {"message":"Voici les résultats :" + resultat,"access_token":"EAAPku8CZCefQBABmhbf6hhaFDZC5i3MeaPZC7UtGhZAeMRGzoLJGp1Ps5f4x3xuZB0H3CN9OVNoRGLZCZAwHr3LcEuwilSRgNWZAXEcF6x34WKnZCOETbH6Uxt5rZB3U2JLzdRKKE4vXfLgcwaHiYcqYwoLmKeRUA7rTZC4NwVL1gxqtAd1SrmQmvLFALmPuYzsVmN3xGCttXZBL45fn1DzWTeZCI"},
+    {"message":"Voici les résultats :" + resultat,"access_token":"EAAPku8CZCefQBAIyZC8ujY2mIqK5fikNdVtoHyThaO5toZBeaFSWDLoKskpxumeGZBTR4A9M9P5Nz4pSiPQ0f6vBAmUcnQ5MjnZBtXkOmRXZBpdCF73md7KKtT60WHG3y7xDm3cLHOtPWcAjZCzEVYxQP9HWkz8knMMj25ZC3idXnFzTZCLfZAZAXijlSY8GSsvI2IZD"},
     function(response) {
       console.log(response);
     }
