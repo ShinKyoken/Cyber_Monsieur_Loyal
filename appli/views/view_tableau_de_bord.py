@@ -1,5 +1,6 @@
 from .config import *
 
+
 @app.route("/tableau_de_bord")
 @login_required
 def tableauDeBord():
