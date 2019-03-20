@@ -9,8 +9,8 @@ def tableauDeBord():
     """
     return render_template(
         "tableauDeBord.html",
-        tournois= get_All_Tournois_Admin(),
-        route="tableau")
+        tournois = get_All_Tournois_Admin(),
+        route = "tableau")
 
 @app.route("/tableau_de_bord/<int:id>")
 @login_required

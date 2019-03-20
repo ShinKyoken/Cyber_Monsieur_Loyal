@@ -91,6 +91,12 @@ def get_All_Tournois_by_Etat(etatTournoi):
     """
     retourne la liste des tournois inactifs
     """
+    return TOURNOI.query.filter_by(etatT = etatTournoi).all()
+
+def get_All_Tournois_by_Etat_Function(etatTournoi):
+    """
+    retourne la liste des tournois inactifs
+    """
     return TOURNOI.query.filter_by(etatT = etatTournoi)
 
 def get_Tournoi_by_id(id):
@@ -127,21 +133,3 @@ def get_All_Maps(idTournoi):
     tournoi = get_Tournoi_by_id(idTournoi)
     listeMaps = os.listdir(tournoi.cheminMaps)
     return listeMaps
-
-def getRechercheAllTournois(recherche):
-    """
-    param: recherche (str), ce que l'utilisateur a entré dans la barre de rechercheTournois
-
-    recherche dans les tournois
-    """
-    t=get_All_Tournois_Admin()
-    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
-
-def getRechercheTournois(recherche, etatTournoi):
-    """
-    param: recherche (str), ce que l'utilisateur a entré dans la bar de rechercheTournois
-
-    recherche dans les tournois inactifs
-    """
-    t = get_All_Tournois_by_Etat(etatTournoi)
-    return t.filter(TOURNOI.intituleT.like(recherche +"%"))

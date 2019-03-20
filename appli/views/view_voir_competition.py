@@ -39,11 +39,11 @@ def voirCompet(tournoi):
     """
     return render_template(
         "newTournoi.html",
-        tournoi=get_Tournoi_by_id(tournoi),
-	nbEquipe=count_equipe_by_tournoi(tournoi),
+        tournoi = get_Tournoi_by_id(tournoi),
+        nbEquipe = count_equipe_by_tournoi(tournoi),
         admin = get_admin_by_id(tournoi),
-        nbPartieTerminee=len(get_All_Parties_Terminees(tournoi)),
-        route="voirCompet")
+        nbPartieTerminee = len(get_All_Parties_Terminees(tournoi)),
+        route = "voirCompet")
 
 @app.route("/voir_competition/<int:tournoi>/matchs")
 def voirCompet_Matchs(tournoi):
@@ -110,8 +110,8 @@ def rechercheTournoisActif():
     a = request.form['search']
     return render_template(
         "voirCompetitionsActives.html",
-        tournois = getRechercheTournoisActif(a),
-        dicoAdmin = get_nom_prenom_by_tournoi(1),
+        tournois = getRechercheTournois(a,1),
+        dicoAdmin = get_admin_by_tournoi(1),
         route="voirCompet"
         )
 
@@ -123,8 +123,8 @@ def rechercheTournoisInactif():
     a = request.form['search']
     return render_template(
         "voirCompetitionsInactives.html",
-        tournois = getRechercheTournoisInactif(a),
-        dicoAdmin = get_nom_prenom_by_tournoi(0),
+        tournois = getRechercheTournois(a,0),
+        dicoAdmin = get_admin_by_tournoi(0),
         route="voirCompet")
 
 @app.route("/voir_competitions_terminees/recherche/", methods=("POST",))
@@ -135,8 +135,8 @@ def rechercheTournoisTerminee():
     a = request.form['search']
     return render_template(
         "voirCompetitionsTerminees.html",
-        tournois = getRechercheTournoisTerminee(a),
-        dicoAdmin = get_nom_prenom_by_tournoi(2),
+        tournois = getRechercheTournois(a,2),
+        dicoAdmin = get_admin_by_tournoi(2),
         route="voirCompet"
         )
 

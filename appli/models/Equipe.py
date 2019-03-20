@@ -8,7 +8,7 @@ class EQUIPE(db.Model):
     nbParticipant = db.Column(db.Integer)
     idChefE       = db.Column(db.Integer, db.ForeignKey("PARTICIPANT.idP"))
     nomE          = db.Column(db.String(100))
-    machineE      = db.Column(db.String(100), unique = True)
+    machineE      = db.Column(db.String(100))
 
 def insert_equipe(equipe):
     """
