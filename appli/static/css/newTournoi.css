@@ -1,18 +1,6 @@
 
-#main
-{
-  /* padding-top: 0vh; */
-  /* background-image: None; */
-
-}
-
-.thumbnail
-{
-    background-color: rgba(255,255,255,0.4);
-}
-
 h1.title {
-  font-size: 5em;
+  font-size: 4em;
   margin-bottom: 1em;
   /* font-family: Adrenaline; */
 }
@@ -31,6 +19,31 @@ h1.title {
   color: #FFFFFF;
 }
 
+.carteInfos
+{
+  padding-left: 2vw;
+}
+
+.nav-tabs
+{
+  background-color: rgba(255,255,255,0.6);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.infos
+{
+    background-color: rgba(255,255,255,0.4);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.nav-tabs a
+{
+  color: black;
+  font-weight: bold;
+}
 
 body
 {

@@ -29,7 +29,7 @@
             {% endif %}
     </div>
     <div class="uk-h3">Slide</div>
-    <div class="uk-child-width-1-5@m" uk-grid uk-lightbox="animation: slide">
+    <div class="uk-child-width-1-5@m" uk-grid>
       {% for i in range(photos|length) %}
         <div>
             <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
