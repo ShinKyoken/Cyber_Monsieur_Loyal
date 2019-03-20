@@ -30,3 +30,8 @@
   background-attachment: fixed;
   min-height: 100vh;
 }
+
+.uk-card{
+  opacity: 0.70;
+  border-radius: 3px;
+}
