@@ -1,21 +1,16 @@
 import click
 from .app import app, db, engine
 from .models import *
+import os
+import fnmatch
 import shutil
 
 @app.cli.command()
 def reloadbd() :
-
-    tournois = get_All_Tournois()
-
-    for tournoi in tournois:
-        try:
-            shutil.rmtree('./static/tournoi_' + tournoi.intituleT + "_" + str(tournoi.idT))
-            print("Delete")
-        except:
-            pass
-            print("Je peux pas")
     try:
+        for filename in os.listdir('appli/static/'):
+            if "tournoi_" in filename:
+                shutil.rmtree('appli/static/' + filename)
         PARTICIPERPARTIE.__table__.drop(engine)
         print("Table PARTICIPERPARTIE supprimée")
         CONSTITUER.__table__.drop(engine)
