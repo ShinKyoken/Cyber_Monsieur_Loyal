@@ -3,9 +3,26 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voirMatchs.css') }}">
 {% endblock %}
+{% block scripts %}
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/facebook_publishing.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '1095919973923316',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v3.2'
+    });
+  };
+
+</script>
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+{% endblock %}
 {% block main %}
 <div class="container">
   <h1>Résultat de la partie
+    <p class="hidden" id="cpt">{{equipes|length}}</p>
     {% set x = "" %}
     {% for i in range((equipes|length)) %}
       {% if i != (equipes|length)-1 %}
@@ -18,10 +35,13 @@
     {% endfor %}
   </h1>
   {% for key, value in dico_resultat.items() %}
+    <p class="hidden" id="equipe{{loop.index}}">{{key.nomE}}</p>
+    <p class="hidden" id="score_equipe{{loop.index}}">{{ value }}</p>
     <p>
       {{key.nomE}} : {{value}} points.
     </p>
   {% endfor %}
 </div>
+<a href="#" class="btn btn-success" id="fb_btn">Partager</a>
 <a href='/tableau_de_bord/{{tournoi}}/matchs'><button class="btn btn-primary center-block">Retour vers les matchs</button></a>
 {% endblock %}
