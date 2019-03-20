@@ -52,6 +52,12 @@ def get_All_Tournois_Admin():
     """
     retourne la liste des tournois de l'admin connecté
     """
+    return TOURNOI.query.filter_by(idAdmin = current_user.idAdmin).all()
+
+def get_All_Tournois_Admin_Function():
+    """
+    retourne la liste des tournois de l'admin connecté
+    """
     return TOURNOI.query.filter_by(idAdmin = current_user.idAdmin)
 
 def get_All_Equipes(idT):
@@ -266,3 +272,21 @@ def ajouter_participant(participant,e):
 
     p = insert_participant(participant)
     insert_constituer(e, p)
+
+def getRechercheAllTournois(recherche):
+    """
+    param: recherche (str), ce que l'utilisateur a entré dans la barre de rechercheTournois
+
+    recherche dans les tournois
+    """
+    t = get_All_Tournois_Admin_Function()
+    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
+
+def getRechercheTournois(recherche, etatTournoi):
+    """
+    param: recherche (str), ce que l'utilisateur a entré dans la bar de rechercheTournois
+
+    recherche dans les tournois inactifs
+    """
+    t = get_All_Tournois_by_Etat_Function(etatTournoi)
+    return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
