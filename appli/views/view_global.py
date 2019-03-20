@@ -134,19 +134,17 @@ def confirmerTournoi():
     tournoi['idAdmin']           = current_user.idAdmin
 
     id = insert_tournoi(tournoi)
-    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'])
-    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/photos/")
-    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'])
-    os.mkdir("appli/static/tournoi_" + tournoi['intituleT'] + "/reglement/")
-    dossierPhotos = "appli/static/tournoi_" + tournoi['intituleT']+"/photos/"
-    dossierReglement = "appli/static/tournoi_" + tournoi['intituleT']+"/reglement/"
+    os.mkdir("appli/static/tournoi_" + (tournoi['intituleT'] + '_' + str(id)))
+    os.mkdir("appli/static/tournoi_" + (tournoi['intituleT'] + '_' + str(id)) + "/photos/")
+    os.mkdir("appli/static/tournoi_" + (tournoi['intituleT'] + '_' + str(id)) + "/reglement/")
+    dossierPhotos = "appli/static/tournoi_" + tournoi['intituleT'] + '_' + str(id) + "/photos/"
+    dossierReglement = "appli/static/tournoi_" + tournoi['intituleT'] + '_' + str(id) + "/reglement/"
     insert_cheminPhotos(dossierPhotos,id)
     insert_cheminReglement(dossierReglement,id)
 
-    regle = {}
-    regle['idTournoi'] = id
-    regle['reglement'] = request.files['reglement']
-
-    insert_regle(regle)
+    tournoi = get_Tournoi_by_id(id)
+    regle = request.files['reglement']
+    regle.save(os.path.join(tournoi.dossierReglement, regle.filename))
+    insert_regle(regle, id)
 
     return redirect(url_for("tournoi", id = int(id)))

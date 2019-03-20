@@ -5,8 +5,8 @@ class REGLE(db.Model):
     nomFic  = db.Column(db.String(100))
 
 def insert_regle(regle, idTournoi):
-    newRegle = REGLE(idT = regle['idTournoi'],
-                     nomFic = regle['reglement'].filename
+    newRegle = REGLE(idT = idTournoi,
+                     nomFic = regle.filename
                      )
     db.session.add(newRegle)
     db.session.commit()
