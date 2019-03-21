@@ -439,9 +439,9 @@ def confirmerPhoto(idT):
     """
     photo = request.files['photo']
 
-    insert_photo(photo, idT)
+    p = insert_photo(photo, idT)
     tournoi = get_Tournoi_by_id(idT)
-    photo.save(os.path.join(tournoi.dossierPhotos, photo.filename))
+    photo.save(os.path.join(tournoi.dossierPhotos, str(p.idPhoto) + "_" + p.nomPhoto))
 
     return redirect(url_for("voirPhotos",tournoi=idT))
 
@@ -478,3 +478,11 @@ def supprime_equipe(equipe,tournoi):
     """
     delete_equipe(equipe)
     return redirect(url_for("equipe",tournoi=tournoi))
+
+@app.route("/tableau_de_bord/<int:tournoi>/supprimer_photo/<int:idPhoto>")
+@login_required
+def supprime_photo(tournoi, idPhoto):
+    """
+    """
+    delete_photo(idPhoto)
+    return redirect(url_for("voirPhotos", tournoi = tournoi))

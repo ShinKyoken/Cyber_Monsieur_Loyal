@@ -56,19 +56,18 @@
   </ul>
     {% if route == "voirCompet" and not(current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
     <ul class="nav nav-tabs nav-justified">
-      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/matchs"Voir les matchs</a>
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/matchs">Voir les matchs</a></li>
 
-      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/photos">Photos</a>
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/photos">Photos</a></li>
 
-      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/equipes">Equipes</a>
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/equipes">Equipes</a></li>
 
-      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/stream">Stream</a>
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/stream">Stream</a></li>
 
       {% if tournoi.etatT == 2 %}
-        <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/bilan"  onclick="return confirmerValidation()" id="buttonAdmin">Voir le bilan</a>
+        <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/bilan"  onclick="return confirmerValidation()" id="buttonAdmin">Voir le bilan</a></li>
       {% endif %}
-    </div>
-
+    </ul>
     {% endif %}
     <div class="infos">
       <br>
@@ -96,6 +95,7 @@
         </div>
         <br>
     </div>
+
   </div>
 
   <br>
