@@ -486,3 +486,17 @@ def supprime_photo(tournoi, idPhoto):
     """
     delete_photo(idPhoto)
     return redirect(url_for("voirPhotos", tournoi = tournoi))
+
+@app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
+def download_regles(idTournoi):
+    """
+    param: idTournoi (int), l'identifiant d'un tournoi.
+
+    Permet de telecharger les règles d'un tournoi.
+    """
+    regle = get_Regle_by_id(idTournoi)
+    tournoi = get_Tournoi_by_id(idTournoi)
+    try:
+        return send_file(tournoi.dossierReglement + regle.nomFic, attachment_filename=regle.nomFic, as_attachment=True)
+    except:
+        return("Erreur lors du téléchargement du règlement ! ")

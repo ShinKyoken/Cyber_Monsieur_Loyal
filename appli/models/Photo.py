@@ -29,15 +29,14 @@ def insert_photo(photo, tournoi):
     )
     db.session.add(newPhoto)
     db.session.commit()
-<<<<<<< HEAD
+    return newPhoto
+
 
 def delete_All_Photos(idTournoi):
     photos = get_All_Photos(idTournoi)
     for photo in photos:
         db.session.delete(photo)
         db.session.commit()
-=======
-    return newPhoto
 
 def get_photo_by_id(idPhoto) :
     """
@@ -46,4 +45,3 @@ def get_photo_by_id(idPhoto) :
     """
 
     return PHOTO.query.filter_by(idPhoto = idPhoto).one()
->>>>>>> 4a512061ba1567f93a7505d2250abedbde64f4e3

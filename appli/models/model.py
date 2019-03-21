@@ -292,7 +292,6 @@ def getRechercheTournois(recherche, etatTournoi):
     t = get_All_Tournois_by_Etat_Function(etatTournoi)
     return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
 
-<<<<<<< HEAD
 def delete_tournoi(idTournoi):
     delete_All_Parties_by_id_tournoi(idTournoi)
     equipes = get_equipe_by_tournoi(idTournoi)
@@ -306,7 +305,7 @@ def delete_tournoi(idTournoi):
     except:
         pass
     try:
-        shutil.rmtree(tournoi.dossierReglement)
+        shutil.rmtree("appli/" + tournoi.dossierReglement)
     except:
         pass
     try:
@@ -315,7 +314,8 @@ def delete_tournoi(idTournoi):
         pass
 
     db.session.delete(tournoi)
-=======
+    db.session.commit()
+
 
 def delete_photo(idPhoto) :
     """
@@ -327,5 +327,4 @@ def delete_photo(idPhoto) :
     os.remove(tournoi.dossierPhotos + str(photo.idPhoto) + "_" + photo.nomPhoto)
 
     db.session.delete(photo)
->>>>>>> 4a512061ba1567f93a7505d2250abedbde64f4e3
     db.session.commit()
