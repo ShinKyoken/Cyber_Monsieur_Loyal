@@ -1,9 +1,12 @@
 {% extends "base.html" %}
-{% block main %}
-
+{% block styles %}
+{{ super() }}
 <!--pip install Flask-UIkit-->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/nouveauCreerCompetition.css') }}">
+{% endblock %}
+{% block main %}
+
 
 <div class="container-fluid" id="test"> <!-- container-fluid -->
   <h1 class="text-center"><strong>Modifier votre tournoi !</strong></h1>

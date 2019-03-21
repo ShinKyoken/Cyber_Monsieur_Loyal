@@ -21,13 +21,13 @@
   </div>
   <div class="container divCartes">
     <input type="hidden" id="cpt"  value="{{ tournois|length }}">
-    <div  class="uk-child-width-1-2@s uk-child-width-1-3@m" uk-grid>
+    <div  class="uk-child-width-1-2@s uk-child-width-1-3@m uk-grid">
     {% for i in range(tournois|length) %}
     <input type="hidden" id="date{{ i }}"  value="{{ tournois[i].dateT }}">
     <div>
-      <div class="uk-card uk-card-default uk-card-small">
+      <div class="uk-card uk-card-default uk-card-small uk-margin-top">
         <div class="uk-card-header">
-          <div class="uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-grid-small uk-flex-middle uk-grid">
               <div class="uk-width-auto uk-margin-left">
                   <img class="img_logo" src="{{ tournois[i].logoT }}">
               </div>

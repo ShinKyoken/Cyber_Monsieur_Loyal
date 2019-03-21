@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
 {% endblock %}
 {% block scripts %}
+{{ super() }}
 <script src="/static/js/uikit.min.js"></script>
 <script src="/static/js/uikit-icons.min.js"></script>
 {% endblock %}
@@ -45,7 +46,7 @@
             <span class="input-group-addon">Machine équipe</span>
             <input name="machineE" class="form-control" type="text" placeholder="Machine" required>
           </div>
-          
+
           {% if machineExiste==1 %}
           <div class="uk-alert-warning" uk-alert>
             <a class="uk-alert-close" uk-close></a>

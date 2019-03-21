@@ -1,6 +1,9 @@
-{% extends "base.html" %}{% block styles %} {{ super() }}
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creation_match.css') }}">
-{% endblock %} {% block main %}
+{% endblock %}
+{% block main %}
 <div class="container" id="contMain">
 <form method="post" action="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi/tournoi_lance" onsubmit=" return confirmerValidation();">
     <h1 class="text-center"><strong>Lancer le tournoi : {{tournoi.intituleT}} !</strong></h1>
