@@ -35,13 +35,17 @@
       {% endif %}
     {% endfor %}
   </h1>
+  {% set stringFinal = [] %}
   {% for key, value in dico_resultat.items() %}
+    {% set x  = "" %}
     <p class="hidden" id="equipe{{loop.index}}">{{key.nomE}}</p>
     <p class="hidden" id="score_equipe{{loop.index}}">{{ value }}</p>
     <p>
       {{key.nomE}} : {{value}} points.
+      {% do stringFinal.append((key.nomE, value)) %}
     </p>
   {% endfor %}
+  <p class="hidden" id="scoreFinal">{{stringFinal}}</p>
 </div>
 <div class="text-center">
 <!-- <a href="#" id="fb_btn"><button class="btn btn-lg btn-success"><span class="glyphicon glyphicon-share" aria-hidden="true"> Partager</a> -->

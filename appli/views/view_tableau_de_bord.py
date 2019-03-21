@@ -393,7 +393,7 @@ def lancer_tournoi(tournoi):
     automatique_match(tournoi,int(request.form['nbMatchs']),int(request.form['nbEquipe']))
     return render_template("versMatchs.html",tournoi = tournoi)
 
-@app.route("/tableau_de_bord/<int:id>/modifier_tournoi", methods={"POST"})
+@app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
 @login_required
 def modifierTournoi(id):
     """
