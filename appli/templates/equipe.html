@@ -14,19 +14,21 @@
     <div class="container">
       <h1 class="text-center">Voici les équipes inscrites!</h1>
       {% if route == "tableau" %}
-      <a href="/tableau_de_bord/{{tournoi.idT}}"><button class="btn btn-lg btn-primary">Retour</button></a>
+      <a href="/tableau_de_bord/{{tournoi.idT}}"><button class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Retour</button></a>
       {% endif %}
 
       {% if route == "voirCompet" %}
-      <a href="/voir_competition/{{tournoi.idT}}"><button class="btn btn-lg btn-primary">Retour</button></a>
+      <a href="/voir_competition/{{tournoi.idT}}"><button class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Retour</button></a>
       {% endif %}
       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe>nbEquipe %}
-      <a disabled=true href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn  btn-lg btn-primary" id="buttonAddEquipe">Ajouter équipe</button></a>
+      <a disabled=true href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn  btn-lg btn-success" id="buttonAddEquipe">Ajouter équipe <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
       {% elif tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe==nbEquipe %}
-      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn btn-lg btn-primary" id="buttonAddEquipe" disabled=true>Ajouter équipe</button></a>
+      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn btn-lg btn-success" id="buttonAddEquipe" disabled=true>Ajouter équipe<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
       {% endif %}
-
     </div>
+
+    <br>
+
   <div class="container liste_equipes">
   <div class="container divCartes">
     <div class="row center-block">

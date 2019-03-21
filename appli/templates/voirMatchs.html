@@ -14,11 +14,11 @@
 		<h2>Matchs du Tournoi</h2>
 	</div>
 	{% if route == "tableau" %}
-	<a href="/tableau_de_bord/{{tournoi.idT}}"><button class="btn btn-primary btn-lg">Retour</button></a>
+	<a href="/tableau_de_bord/{{tournoi.idT}}"><button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Retour</button></a>
 	{% endif %}
 
 	{% if route == "voirCompet" %}
-	<a href="/voir_competition/{{tournoi.idT}}"><button class="btn btn-primary btn-lg">Retour</button></a>
+	<a href="/voir_competition/{{tournoi.idT}}"><button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Retour</button></a>
 	{% endif %}
 	<div class="row">
 	<div class="col-md-6">

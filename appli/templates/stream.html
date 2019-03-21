@@ -5,12 +5,11 @@
 {% endblock %}
 {% block main %}
 <div class="container-fluid banner">
-    <h1>Stream</h1>
-    <h2>{{tournoi.intituleT}}</h2>
+    <h1>Stream {{tournoi.intituleT}}</h1>
     <div class="row retour">
         {% if route == "tableau" %}
         <a href="/tableau_de_bord/{{tournoi.idT}}">
-            <button class=" btn btn-success btn-lg inputStyle col-md-2" id="retourAdmin">Retour</button>
+            <button class=" btn btn-primary btn-lg" id="retourAdmin"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Retour</button>
         </a>
         {% endif %}
         {% if route == "voirCompet" %}
