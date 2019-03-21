@@ -34,7 +34,7 @@
             <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].idPhoto|string + '_' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
                 <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].idPhoto|string + '_' + photos[i].nomPhoto) }}" alt=""/>
             </a>
-            <a href="/tableau_de_bord/{{tournoi.idT}}/supprimer_photo/{{photos[i].idPhoto}}"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></a>
+            <a href="/tableau_de_bord/{{tournoi.idT}}/supprimer_photo/{{photos[i].idPhoto}}" onclick = "return supprimer_photo()"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></a>
         </div>
       {% endfor %}
     </div>
@@ -46,5 +46,15 @@
     else{
       document.querySelector('#dropdown').setAttribute("class","active");
     }
+
+    function supprimer_photo(){
+      check = window.confirm("Voulez vous vraiment supprimer cette photo ?")
+      res = false
+      if(check){
+        res = true
+      }
+      return res
+    }
+
 </script>
 {% endblock %}
