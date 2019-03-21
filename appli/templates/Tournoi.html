@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super()}}
+<link rel="stylesheet" href="/static/css/newTournoi.css">
+{% endblock %}
+{% block main %}
+
+  <div class="container center-block">
+    <div class="row text-center">
+      <div class="col-md-2">
+        <img class="" src="{{ tournoi.logoT }}" alt="Image du tournoi" width="160" height="160">
+      </div>
+      <h1 class="title text-center">{{ tournoi.intituleT }}</h1>
+    </div>
+    <div class="row text-center">
+      <p class="sousTitre col-md-3">Lieu : {{ tournoi.lieuT }}</p>
+      <p class="sousTitre col-md-3">Organisateur : {{ admin.nomAdmin }}</p>
+      <p class="sousTitre col-md-3">Début : {{ tournoi.dateT }}</p>
+      <p class="sousTitre col-md-3">Fin : {{ tournoi.dateFinT }}</p>
+    </div>
+  </div>
+
+
+  <div class="container">
+
+  <ul class="nav nav-tabs nav-justified">
+
+    {% if route == "tableau" or (current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
+      <li role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/matchs">Voir les matchs</a></li>
+
+      <li role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/equipes">Equipes</a></li>
+
+      <li role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/photos">Photos</a></li>
+
+      <li role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/stream">Stream</a></li>
+
+      <li role="presentation"><a id="buttonAdmin" href="/tableau_de_bord/{{tournoi.idT}}/modifier_tournoi">Modifier tournoi</a></li>
+
+      {% if tournoi.etatT == 0 and route=="tableau" %}
+        {% if nbEquipe > 1 %}
+          <li role="presentation"><a id="button" class="btn_lancer_tournoi" href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart">Lancer le tournoi</a></li>
+        {% endif %}
+        {% if nbEquipe < 2 %}
+          <li title="Ajouter des équipes" class="disabled btn_lancer_disable" role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart" >Lancer le tournoi</a></li>
+        {% endif %}
+      {% endif %}
+
+      {% if tournoi.etatT == 1 %}
+        <li role="presentation"><a id="button" class="btn_arreter" href="/tableau_de_bord/{{tournoi.idT}}/arreter_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart">Arrêter le tournoi</a></li>
+      {% endif %}
+
+      {% if tournoi.etatT == 2 %}
+        <li role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/bilan"  onclick="return confirmerValidation()" id="buttonAdmin">Voir le bilan</a></li>
+      {% endif %}
+    {% endif %}
+  </ul>
+    {% if route == "voirCompet" and not(current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin))%}
+    <ul class="nav nav-tabs nav-justified">
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/matchs"Voir les matchs</a>
+
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/photos">Photos</a>
+
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/equipes">Equipes</a>
+
+      <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/stream">Stream</a>
+
+      {% if tournoi.etatT == 2 %}
+        <li role="presentation"><a id="button" href="/voir_competition/{{tournoi.idT}}/bilan"  onclick="return confirmerValidation()" id="buttonAdmin">Voir le bilan</a>
+      {% endif %}
+    </div>
+
+    {% endif %}
+    <div class="infos">
+      <br>
+      <div class="row">
+          <div class="col-md-6">
+            <div class="carteInfos">
+              <div class="caption">
+                <h3>Description :</h3>
+                <p>{{ tournoi.descT }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="carteInfos">
+              <div class="caption">
+                <h3>Infos :</h3>
+                <p>Nombre d'équipes maximum : {{tournoi.nbEquipe}}</p>
+                <p>Nombre d'équipes actuelles : {{nbEquipe}}</p>
+                <p>Nombre de participants maximum par équipe : {{tournoi.nbParticipantsMax}} </p>
+                <p>Nombre de matchs terminés : {{nbPartieTerminee}}</p>
+                <a class="btn btn-warning" href="/tableau_de_bord/{{tournoi.idT}}/download_regles">Télécharger le règlement</a><br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="container">
+    <footer>
+      <p>&copy; 2016 Company, Inc.</p>
+    </footer>
+  </div>
+
+
+
+<script>
+  function confirmerValidation(){
+    if(document.querySelector("#buttonAdminStart").innerText == "Lancer le tournoi"){
+      check=window.confirm("Voulez vous vraiment démarrer le tournoi ?");
+    }
+    if(document.querySelector("#buttonAdminStart").innerText == "Arrêter le tournoi"){
+      check=window.confirm("Voulez vous vraiment arreter le tournoi ?");
+    }
+    res=false;
+    if (check){
+      res=true;
+    }
+    return res;
+  }
+
+  if(document.querySelector("#buttonAdmin")){
+    document.querySelector("#Tableau").setAttribute("class","active");
+  }
+  else{
+    document.querySelector("#dropdown").setAttribute("class","active");
+  }
+
+</script>
+{% endblock %}
