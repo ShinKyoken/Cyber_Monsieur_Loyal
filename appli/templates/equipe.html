@@ -23,7 +23,7 @@
       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe>nbEquipe %}
       <a disabled=true href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn  btn-lg btn-success" id="buttonAddEquipe">Ajouter équipe <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
       {% elif tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) and tournoi.nbEquipe==nbEquipe %}
-      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn btn-lg btn-success" id="buttonAddEquipe" disabled=true>Ajouter équipe<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
+      <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/creer_equipe'><button class="btn btn-lg btn-success" id="buttonAddEquipe" disabled=true>Ajouter équipe <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
       {% endif %}
     </div>
 
@@ -62,7 +62,7 @@
                     {% endfor %}
                   </table>
                   {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                  <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[0].idE}}'><button class="btn btn-primary" id="dangernDeleteEquipe"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                  <a href='/tableau_de_bord/{{tournoi.idT}}/supprimer_equipe/{{equipes[0].idE}}'><button class="btn btn-primary" id="dangernDeleteEquipe"> <span class="glyphicon glyphicon-remove"></span></button></a>
                   <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                   {% if (tournoi.nbParticipantsMax) > equipes[0].nbParticipant %}
                   <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[0].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
@@ -97,7 +97,7 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/supprimer_equipe/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
                         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
@@ -133,7 +133,7 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-1].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger text-center"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/supprimer_equipe/{{equipes[-1].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger text-center"> <span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[-1].nbParticipant %}
                         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-1].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
@@ -177,7 +177,7 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/supprimer_equipe/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
                         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button></a>
@@ -212,7 +212,7 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[-2].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/supprimer_equipe/{{equipes[-2].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-2].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[-2].nbParticipant %}
                         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[-2].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>
@@ -253,7 +253,7 @@
                         {% endfor %}
                       </table>
                       {% if tournoi.etatT==0 and current_user.is_authenticated and (current_user.idAdmin==tournoi.idAdmin) %}
-                      <a href='/supprimer_equipe/{{tournoi.idT}}/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
+                      <a href='/tableau_de_bord/{{tournoi.idT}}/supprimer_equipe/{{equipes[j].idE}}' onclick="return confirmerValidation()"><button class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button></a>
                       <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/modifier_equipe'><button class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></a>
                         {% if (tournoi.nbParticipantsMax) > equipes[j].nbParticipant %}
                         <a href='/tableau_de_bord/{{tournoi.idT}}/equipes/{{equipes[j].idE}}/ajouter_un_membre'><button class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></button></a>

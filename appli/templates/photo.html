@@ -10,12 +10,11 @@
 {% endblock %}
 {% block main %}
 <div class="voirCompetition container">
-    <h1 class="text-center">Photos</h1>
-    <h2 class="text-center">{{tournoi.intituleT}}</h2>
+    <h1 class="text-center">Photos <b>{{tournoi.intituleT}}<b></h1>
     <div class="row">
             {% if route == "tableau" %}
-            <a href="/tableau_de_bord/{{tournoi.idT}}">
-                <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> Retour</button>
+            <a href="/tableau_de_bord/{{tournoi.idT}}/ajouter_photo">
+                <button class="btn btn-primary btn-lg" id="addPhoto"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Retour</button>
             </a>
             <a href="/tableau_de_bord/{{tournoi.idT}}/ajouter_photo">
                 <button class="btn btn-success btn-lg" id="addPhoto">Ajouter une photo <span class="glyphicon glyphicon-plus" aria-hidden="true"></button>
@@ -28,7 +27,7 @@
             </a>
             {% endif %}
     </div>
-    <div class="uk-h3">Slide</div>
+    <div class="uk-h3">Galerie</div>
     <div class="uk-child-width-1-5@m" uk-grid>
       {% for i in range(photos|length) %}
         <div>
@@ -46,7 +45,5 @@
     else{
       document.querySelector('#dropdown').setAttribute("class","active");
     }
-
-    function = cacherNavbar()
 </script>
 {% endblock %}

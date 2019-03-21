@@ -36,8 +36,13 @@
 
       <li role="presentation"><a id="buttonAdmin" href="/tableau_de_bord/{{tournoi.idT}}/parametres">Modifier tournoi</a></li>
 
-      {% if tournoi.etatT == 0 and nbEquipe > 1 and route=="tableau" %}
-        <li role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart">Lancer le tournoi</a></li>
+      {% if tournoi.etatT == 0 and route=="tableau" %}
+        {% if nbEquipe > 1 %}
+          <li role="presentation"><a id="button" class="btn_lancer_tournoi" href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart">Lancer le tournoi</a></li>
+        {% endif %}
+        {% if nbEquipe < 2 %}
+          <li title="Ajouter des équipes" class="disabled btn_lancer_disable" role="presentation"><a id="button" href="/tableau_de_bord/{{tournoi.idT}}/lancer_tournoi" onclick="return confirmerValidation()" id="buttonAdminStart" >Lancer le tournoi</a></li>
+        {% endif %}
       {% endif %}
 
       {% if tournoi.etatT == 1 %}
