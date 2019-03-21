@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Paytone+One" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voirCompetitionsActives.css') }}">
+{% endblock %}
+{% block scripts %}
 <script src="{{ url_for('static',filename='js/uikit.min.js')}}"></script>
 {% endblock %}
 {% block main %}
@@ -21,105 +24,127 @@
     </form>
   </div>
   <div class="container divCartes">
+
     <input type="hidden" id="cpt"  value="{{ tournois|length }}">
     <h2>Vos compétitions inactives</h2>
-    <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
-      <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
-        {% for i in range(tournois|length) %}
-        {% if tournois[i].etatT == 0 %}
-        <input type="hidden" id="date{{ i }}"  value="{{ tournois[i].dateT }}">
-          <li>
-            <div>
-              <div class="uk-card uk-card-default uk-card-small">
-                <div class="uk-card-header">
-                  <div class="uk-grid-small uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto uk-margin-left">
-                        <img class="img_logo"  src="{{ tournois[i].logoT }}">
-                    </div>
-                    <div class="uk-width-expand">
-                      <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
-                      <p class="uk-text-meta uk-margin-remove-top text-center">Début du tournoi: <label id="FormatedDate{{ i }}"></label></p>
-                    </div>
-                </div>
-                <div class="uk-card-footer">
-                  <a href='/tableau_de_bord/{{ tournois[i].idT }}' class='uk-button uk-button-primary uk-align-center'>voir les details</a>
-                </div>
-              </div>
-            </div>
-           </div>
-          </li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-      <a class="uk-position-center-left" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-      <a class="uk-position-center-right" href="#" uk-slidenav-next uk-slider-item="next"></a>
-    </div>
 
-    <h2>Vos compétitions en cours</h2>
-    <div class="uk-margin-medium-top uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
-      <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
-        {% for i in range(tournois|length) %}
-        {% if tournois[i].etatT == 1 %}
-        <input type="hidden" id="date{{ i }}"  value="{{ tournois[i].dateFinT }}">
-          <li>
-            <div>
-              <div class="uk-card uk-card-default uk-card-small">
-                <div class="uk-card-header">
-                  <div class="uk-grid-small uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto uk-margin-left">
-                        <img width="80" height="80" src="{{ tournois[i].logoT }}">
-                    </div>
-                    <div class="uk-width-expand">
-                      <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
-                      <p class="uk-text-meta uk-margin-remove-top text-center">A commencé le: <label id="FormatedDate{{ i }}"></label></p>
-                    </div>
-                </div>
-                <div class="uk-card-footer">
-                  <a href='/tableau_de_bord/{{ tournois[i].idT }}' class='uk-button uk-button-primary uk-align-center'>voir les details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-      <a class="uk-position-center-left uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-      <a class="uk-position-center-right uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-    </div>
+  <div uk-slider>
 
-    <h2>Vos compétitions finies</h2>
-    <div class="uk-margin-medium-top uk-margin-medium-bottom uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
-      <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
-        {% for i in range(tournois|length) %}
-        {% if tournois[i].etatT == 2 %}
-        <input type="hidden" id="date{{ i }}"  value="{{ tournois[i].dateFinT }}">
-          <li>
-            <div>
-              <div class="uk-card uk-card-default uk-card-small">
-                <div class="uk-card-header">
-                  <div class="uk-grid-small uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto uk-margin-left">
-                        <img width="80" height="80" src="{{ tournois[i].logoT }}">
+      <div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+
+          <ul class="uk-slider-items uk-child-width-1-3@m uk-grid">
+            {% for i in range(tournois|length) %}
+            {% if tournois[i].etatT == 0 %}
+              <li>
+                  <div class="uk-card uk-card-default uk-card-small">
+                    <p class="hidden" id="date{{ i }}">{{ tournois[i].dateT }}</p>
+                    <div class="uk-card-header">
+                      <div class="uk-grid-small uk-flex-middle" uk-grid>
+                          <div class="uk-width-auto uk-margin-left">
+                              <img class="img_logo" src="{{ tournois[i].logoT }}">
+                          </div>
+                          <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top text-center">Début du tournoi: <label id="FormatedDate{{ i }}"></label></p>
+                          </div>
+                      </div>
                     </div>
-                    <div class="uk-width-expand">
-                      <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
-                      <p class="uk-text-meta uk-margin-remove-top text-center">C'est fini le : <label id="FormatedDate{{ i }}"></label></p>
+                    <div class="uk-card-footer">
+                      <a href='/tableau_de_bord/{{ tournois[i].idT }}' class='uk-button uk-button-primary uk-align-center'>voir les details</a>
                     </div>
-                </div>
-                <div class="uk-card-footer">
-                  <a href='/tableau_de_bord/{{ tournois[i].idT }}' class='uk-button uk-button-primary uk-align-center'>voir les details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-      <a class="uk-position-center-left" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-      <a class="uk-position-center-right" href="#" uk-slidenav-next uk-slider-item="next"></a>
-    </div>
+                  </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+          </ul>
+
+          <a class="uk-position-center-left" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+          <a class="uk-position-center-right" href="#" uk-slidenav-next uk-slider-item="next"></a>
+
+      </div>
+
+  </div>
+
+  <h2>Vos compétitions actives</h2>
+
+  <div uk-slider>
+
+      <div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+
+          <ul class="uk-slider-items uk-child-width-1-3@m uk-grid">
+            {% for i in range(tournois|length) %}
+            {% if tournois[i].etatT == 1 %}
+              <li>
+                  <div class="uk-card uk-card-default uk-card-small">
+                    <p class="hidden" id="date{{ i }}">{{ tournois[i].dateT }}</p>
+                    <div class="uk-card-header">
+                      <div class="uk-grid-small uk-flex-middle" uk-grid>
+                          <div class="uk-width-auto uk-margin-left">
+                              <img class="img_logo" src="{{ tournois[i].logoT }}">
+                          </div>
+                          <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top text-center">Début du tournoi: <label id="FormatedDate{{ i }}"></label></p>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="uk-card-footer">
+                      <a href='/tableau_de_bord/{{ tournois[i].idT }}' class='uk-button uk-button-primary uk-align-center'>voir les details</a>
+                    </div>
+                  </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+          </ul>
+
+          <a class="uk-position-center-left" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+          <a class="uk-position-center-right" href="#" uk-slidenav-next uk-slider-item="next"></a>
+
+      </div>
+
+  </div>
+
+  <h2>Vos compétitions terminées</h2>
+
+  <div uk-slider>
+
+      <div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+
+          <ul class="uk-slider-items uk-child-width-1-3@m uk-grid">
+            {% for i in range(tournois|length) %}
+            {% if tournois[i].etatT == 2 %}
+              <li>
+                  <div class="uk-card uk-card-default uk-card-small">
+                    <p class="hidden" id="date{{ i }}">{{ tournois[i].dateT }}</p>
+                    <div class="uk-card-header">
+                      <div class="uk-grid-small uk-flex-middle" uk-grid>
+                          <div class="uk-width-auto uk-margin-left">
+                              <img class="img_logo" src="{{ tournois[i].logoT }}">
+                          </div>
+                          <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top text-center">Début du tournoi: <label id="FormatedDate{{ i }}"></label></p>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="uk-card-footer">
+                      <a href='/tableau_de_bord/{{ tournois[i].idT }}' class='uk-button uk-button-primary uk-align-center'>voir les details</a>
+                    </div>
+                  </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+          </ul>
+
+          <a class="uk-position-center-left" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+          <a class="uk-position-center-right" href="#" uk-slidenav-next uk-slider-item="next"></a>
+
+      </div>
+
+  </div>
+
+<br>
+<br>
 
   </div>
 </div>
@@ -127,7 +152,7 @@
 <script type="text/javascript">
   function convertionDate(cpt){
     for (var i = 0; i < cpt; i++) {
-      date = document.getElementById("date" + i).value;
+      date = document.getElementById("date" + i).innerText;
       jour = date.charAt(8) + date.charAt(9);
       mois = date.charAt(5) + date.charAt(6);
       annee = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3)
