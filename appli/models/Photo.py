@@ -1,5 +1,6 @@
 from appli.app import db, login_manager
 import datetime
+import os
 
 class PHOTO(db.Model):
     idPhoto   = db.Column(db.Integer, primary_key = True, autoincrement=True)
@@ -28,3 +29,12 @@ def insert_photo(photo, tournoi):
     )
     db.session.add(newPhoto)
     db.session.commit()
+    return newPhoto
+
+def get_photo_by_id(idPhoto) :
+    """
+    param: idPhoto (int), identifiant d'une photo
+    Retourne une photo
+    """
+
+    return PHOTO.query.filter_by(idPhoto = idPhoto).one()
