@@ -290,3 +290,16 @@ def getRechercheTournois(recherche, etatTournoi):
     """
     t = get_All_Tournois_by_Etat_Function(etatTournoi)
     return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
+
+
+def delete_photo(idPhoto) :
+    """
+    param idPhoto (int), identifiant d'une photo
+    Supprime la photo dans la BD
+    """
+    photo = get_photo_by_id(idPhoto)
+    tournoi = get_Tournoi_by_id(photo.idT)
+    os.remove(tournoi.dossierPhotos + str(photo.idPhoto) + "_" + photo.nomPhoto)
+
+    db.session.delete(photo)
+    db.session.commit()
