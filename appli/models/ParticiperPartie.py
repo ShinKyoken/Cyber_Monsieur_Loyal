@@ -25,4 +25,4 @@ def get_All_ParticiperParties_by_id_tournoi(idTournoi):
     Retourne les participerPartie correspondant au tournoi.
     """
 
-    return PARTICIPERPARTIE.query.filter_by(idT = idTournoi)
+    return PARTICIPERPARTIE.query.filter_by(idT = idTournoi).all()

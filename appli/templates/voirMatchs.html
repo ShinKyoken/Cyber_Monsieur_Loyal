@@ -90,21 +90,6 @@
 			{% endif %}
 		</div>
 </div>
-
-<div class ="col-md-6">
-		<div class="block_matchs_inter">			<!-- Partie de droite, avec la liste des prochains matchs -->
-			<h3 class="text-center">Parties terminées</h3>
-			<ul uk-accordion="collapsible: false; multiple: false">
-			{% for partie in partiesFinies %}
-						<li>
-								<a class="uk-accordion-title" href="#">La partie {{ partie.idPartie }}</a>
-								<div class="uk-accordion-content">
-									<p class=""> Gagnant : {{ partie.gagnantPartie }} </p>
-								</div>
-						</li>
-				{% endfor %}
-			</ul>
-		</div>
 </div>
 </div>
 </div>

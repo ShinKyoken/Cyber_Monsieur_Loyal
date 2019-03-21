@@ -163,6 +163,7 @@ def delete_All_Parties_by_id_tournoi(idTournoi):
     for partie in parties:
         db.session.delete(partie)
         db.session.commit()
+    print("Parties supprimées")
 
 def lancer_match(idPartie, mapPartie):
     """
