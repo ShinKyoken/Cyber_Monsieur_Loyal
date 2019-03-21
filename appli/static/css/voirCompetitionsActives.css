@@ -9,8 +9,8 @@ h1{
 }
 
 .img_logo {
-  max-width: 20vh;
-  max-height: 20vh;
+  width: 10vh;
+  height: 10vh;
 }
 
 .thumbnail{

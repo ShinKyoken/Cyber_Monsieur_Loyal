@@ -33,7 +33,7 @@
       {% for i in range(photos|length) %}
         <div>
             <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
-                <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" alt=""/>
+                <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" alt="" id="photo"/>
             </a>
         </div>
       {% endfor %}
