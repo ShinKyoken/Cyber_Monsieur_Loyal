@@ -54,3 +54,13 @@ body
 {
   background-color: #ff5b5b;
 }
+
+.btn_lancer_disable
+{
+  pointer-events: none;
+}
+
+.btn_lancer_tournoi
+{
+  background-color: #56ce60;
+}
