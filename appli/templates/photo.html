@@ -28,12 +28,13 @@
             {% endif %}
     </div>
     <div class="uk-h3">Galerie</div>
-    <div class="uk-child-width-1-5@m" uk-grid>
+    <div class="uk-child-width-1-4@m" uk-grid>
       {% for i in range(photos|length) %}
         <div>
-            <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
-                <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].nomPhoto) }}" alt="" id="photo"/>
+            <a class="uk-inline" href="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].idPhoto|string + '_' + photos[i].nomPhoto) }}" data-caption="{{photos[i].nomPhoto}}">
+                <img src="{{ url_for('static', filename = 'tournoi_' + tournoi.intituleT + '_' + tournoi.idT|string + '/photos/' + photos[i].idPhoto|string + '_' + photos[i].nomPhoto) }}" alt=""/>
             </a>
+            <a href="/tableau_de_bord/{{tournoi.idT}}/supprimer_photo/{{photos[i].idPhoto}}"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></a>
         </div>
       {% endfor %}
     </div>
