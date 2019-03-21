@@ -28,3 +28,9 @@ def insert_photo(photo, tournoi):
     )
     db.session.add(newPhoto)
     db.session.commit()
+
+def delete_All_Photos(idTournoi):
+    photos = get_All_Photos(idTournoi)
+    for photo in photos:
+        db.session.delete(photo)
+        db.session.commit()

@@ -7,6 +7,7 @@ from .Photo import *
 from .Constituer import *
 from .Partie import *
 from .ParticiperPartie import *
+import shutil
 from sqlalchemy import exc
 import json
 import random
@@ -290,3 +291,27 @@ def getRechercheTournois(recherche, etatTournoi):
     """
     t = get_All_Tournois_by_Etat_Function(etatTournoi)
     return t.filter(TOURNOI.intituleT.like(recherche +"%")).all()
+
+def delete_tournoi(idTournoi):
+    delete_All_Parties_by_id_tournoi(idTournoi)
+    equipes = get_equipe_by_tournoi(idTournoi)
+    for equipe in equipes:
+        delete_equipe(equipe.idE)
+    delete_All_Photos(idTournoi)
+    delete_regle(idTournoi)
+    tournoi = get_Tournoi_by_id(idTournoi)
+    try:
+        shutil.rmtree(tournoi.dossierPhotos)
+    except:
+        pass
+    try:
+        shutil.rmtree(tournoi.dossierReglement)
+    except:
+        pass
+    try:
+        shutil.rmtree("tournoi_" + tournoi.intituleT + "_" + str(tournoi.idT))
+    except:
+        pass
+
+    db.session.delete(tournoi)
+    db.session.commit()
