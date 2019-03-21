@@ -24,3 +24,6 @@ def update_regle(regle, idTournoi):
 
 def get_Regle_by_id(idTournoi):
     return REGLE.query.filter_by(idT = idTournoi)[0]
+
+def delete_regle(idTournoi):
+    db.session.delete(get_Regle_by_id(idTournoi))

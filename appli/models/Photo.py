@@ -31,6 +31,13 @@ def insert_photo(photo, tournoi):
     db.session.commit()
     return newPhoto
 
+
+def delete_All_Photos(idTournoi):
+    photos = get_All_Photos(idTournoi)
+    for photo in photos:
+        db.session.delete(photo)
+        db.session.commit()
+
 def get_photo_by_id(idPhoto) :
     """
     param: idPhoto (int), identifiant d'une photo

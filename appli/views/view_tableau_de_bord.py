@@ -21,7 +21,7 @@ def tournoi(id):
     Redirige vers la page d'un tournoi pour un utilisateur connecté.
     """
     return render_template(
-        "newTournoi.html",
+        "Tournoi.html",
         tournoi=get_Tournoi_by_id(id),
 	    nbEquipe=count_equipe_by_tournoi(id),
         admin=get_admin_by_id(id),
@@ -98,9 +98,9 @@ def equipe(tournoi):
         route = "tableau",
         participants = dico)
 
-@app.route("/tableau_de_bord/<int:tournoi>/parametres")
+@app.route("/tableau_de_bord/<int:tournoi>/modifier_tournoi")
 @login_required
-def parametre(tournoi):
+def pageModif(tournoi):
     """
     param: tournoi (int), identifiant d'un tournoi.
 
@@ -110,7 +110,7 @@ def parametre(tournoi):
     t = get_Tournoi_by_id(tournoi)
     # regles = get_Regle_by_id(tournoi)
     return render_template(
-        "parametres.html", tournoi=t)#, regles = regles)
+        "modifierTournoi.html", tournoi=t)#, regles = regles)
 
 
 @app.route("/tableau_de_bord/<int:tournoi>/lancer_tournoi")
@@ -393,13 +393,13 @@ def lancer_tournoi(tournoi):
     automatique_match(tournoi,int(request.form['nbMatchs']),int(request.form['nbEquipe']))
     return render_template("versMatchs.html",tournoi = tournoi)
 
-@app.route("/tableau_de_bord/<int:id>/modifier_competition", methods={"POST"})
+@app.route("/tableau_de_bord/<int:id>/modifier_tournoi", methods={"POST"})
 @login_required
 def modifierTournoi(id):
     """
     param:id (int), identifiant d'un tournoi
 
-    Récupère les réponses au formulaire de la page "parametres.html" et modifie le tournoi correspondant
+    Récupère les réponses au formulaire de la page "modifierTournoi.html" et modifie le tournoi correspondant
     à l'id passé en paramètre.
     """
     tournoi = {}
@@ -422,6 +422,13 @@ def modifierTournoi(id):
     update_tournoi(tournoi, id)
 
     return redirect(url_for("tournoi", id = id))
+
+@app.route("/tableau_de_bord/<int:id>/supprimer_tournoi")
+@login_required
+def supprimerTournoi(id):
+    print("Oui Jérôme")
+    delete_tournoi(id)
+    return redirect(url_for("tableauDeBord"))
 
 @app.route("/tableau_de_bord/<int:idT>/confirmer_photo", methods={"POST"})
 @login_required
@@ -479,3 +486,17 @@ def supprime_photo(tournoi, idPhoto):
     """
     delete_photo(idPhoto)
     return redirect(url_for("voirPhotos", tournoi = tournoi))
+
+@app.route("/tableau_de_bord/<int:idTournoi>/download_regles")
+def download_regles(idTournoi):
+    """
+    param: idTournoi (int), l'identifiant d'un tournoi.
+
+    Permet de telecharger les règles d'un tournoi.
+    """
+    regle = get_Regle_by_id(idTournoi)
+    tournoi = get_Tournoi_by_id(idTournoi)
+    try:
+        return send_file(tournoi.dossierReglement + regle.nomFic, attachment_filename=regle.nomFic, as_attachment=True)
+    except:
+        return("Erreur lors du téléchargement du règlement ! ")

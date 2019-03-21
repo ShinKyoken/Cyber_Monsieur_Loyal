@@ -123,6 +123,11 @@
       </div> <!-- uk-container-->
     </fieldset>
   </form>
+  {% if tournoi.etatT != 1 %}
+    <div class="container">
+      <a onclick="return supprimerValidation()" href="/tableau_de_bord/{{tournoi.idT}}/supprimer_tournoi"><button class="btn btn-danger btn-lg inputStyle uk-align-center uk-margin-left uk-margin-top">Supprimer le tournoi</button></a>
+    </div>
+  {% endif %}
 </div> <!-- container-fluid -->
 <script>
   function confirmerValidation(){
@@ -130,6 +135,14 @@
     res=false;
     if (check){
       res=true;
+    }
+    return res;
+  }
+  function supprimerValidation(){
+    check = window.confirm("Voulez vous vraiment supprimer votre tournoi?\nCette action est irreversible ! ")
+    res = false;
+    if (check){
+      res = true;
     }
     return res;
   }
