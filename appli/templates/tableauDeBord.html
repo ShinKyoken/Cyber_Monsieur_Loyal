@@ -29,9 +29,9 @@
     <input type="hidden" id="cpt"  value="{{ tournois|length }}">
     <h2>Vos compétitions inactives</h2>
 
-  <div uk-slider>
+  <div tabindex="-1" uk-slider="autoplay: true; autoplay-interval:4000">
 
-      <div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+      <div class="uk-position-relative uk-visible-toggle">
 
           <ul class="uk-slider-items uk-child-width-1-3@m uk-grid">
             {% for i in range(tournois|length) %}
@@ -68,9 +68,9 @@
 
   <h2>Vos compétitions actives</h2>
 
-  <div uk-slider>
+  <div tabindex="-1" uk-slider="autoplay: true; autoplay-interval:4000">
 
-      <div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+      <div class="uk-position-relative uk-visible-toggle">
 
           <ul class="uk-slider-items uk-child-width-1-3@m uk-grid">
             {% for i in range(tournois|length) %}
@@ -107,9 +107,9 @@
 
   <h2>Vos compétitions terminées</h2>
 
-  <div uk-slider>
+  <div tabindex="1" uk-slider="autoplay: true; autoplay-interval:4000">
 
-      <div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+      <div class="uk-position-relative uk-visible-toggle" >
 
           <ul class="uk-slider-items uk-child-width-1-3@m uk-grid">
             {% for i in range(tournois|length) %}
