@@ -85,7 +85,7 @@
                           </div>
                           <div class="uk-width-expand">
                             <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
-                            <p class="uk-text-meta uk-margin-remove-top text-center">Début du tournoi: <label id="FormatedDate{{ i }}"></label></p>
+                            <p class="uk-text-meta uk-margin-remove-top text-center">A commencé le : <label id="FormatedDate{{ i }}"></label></p>
                           </div>
                       </div>
                     </div>
@@ -116,7 +116,7 @@
             {% if tournois[i].etatT == 2 %}
               <li>
                   <div class="uk-card uk-card-default uk-card-small">
-                    <p class="hidden" id="date{{ i }}">{{ tournois[i].dateT }}</p>
+                    <p class="hidden" id="date{{ i }}">{{ tournois[i].dateFinT }}</p>
                     <div class="uk-card-header">
                       <div class="uk-grid-small uk-flex-middle" uk-grid>
                           <div class="uk-width-auto uk-margin-left">
@@ -124,7 +124,7 @@
                           </div>
                           <div class="uk-width-expand">
                             <h3 class="uk-card-title uk-margin-remove-bottom text-center">{{ tournois[i].intituleT}}</h3>
-                            <p class="uk-text-meta uk-margin-remove-top text-center">Début du tournoi: <label id="FormatedDate{{ i }}"></label></p>
+                            <p class="uk-text-meta uk-margin-remove-top text-center">C'est fini le : <label id="FormatedDate{{ i }}"></label></p>
                           </div>
                       </div>
                     </div>
