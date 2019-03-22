@@ -2,24 +2,35 @@
 {% block styles %}
 {{ super()}}
 <link rel="stylesheet" href="/static/css/newTournoi.css">
+<link rel="stylesheet" href="/static/css/uikit.css">
 {% endblock %}
 {% block main %}
 
-  <div class="container center-block">
-    <div class="row text-center">
-      <div class="col-md-2">
+  <div class="container">
+    <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+      <div>
         <img class="" src="{{ tournoi.logoT }}" alt="Image du tournoi" width="160" height="160">
       </div>
-      <h1 class="title text-center">{{ tournoi.intituleT }}</h1>
+      <div>
+        <h1 class="title text-center">{{ tournoi.intituleT }}</h1>
+      </div>
     </div>
     <div class="row text-center">
-      <p class="sousTitre col-md-3">Lieu : {{ tournoi.lieuT }}</p>
-      <p class="sousTitre col-md-3">Organisateur : {{ admin.nomAdmin }}</p>
-      <p class="sousTitre col-md-3">Début : {{ tournoi.dateT }}</p>
-      <p class="sousTitre col-md-3">Fin : {{ tournoi.dateFinT }}</p>
+      <div class="col-md-3">
+        <p class="sousTitre">Lieu : {{ tournoi.lieuT }}</p>
+     </div>
+     <div class="col-md-3">
+       <p class="sousTitre">Organisateur : {{ admin.nomAdmin }}</p>
+     </div>
+     <div class="col-md-3">
+       <p class="sousTitre">Début : {{ tournoi.dateT }}</p>
+     </div>
+     <div class="col-md-3">
+       <p class="sousTitre">Fin : {{ tournoi.dateFinT }}</p>
+     </div>
+
     </div>
   </div>
-
 
   <div class="container">
 
@@ -99,12 +110,6 @@
   </div>
 
   <br>
-
-  <div class="container">
-    <footer>
-      <p>&copy; 2016 Company, Inc.</p>
-    </footer>
-  </div>
 
 
 
